@@ -1,6 +1,6 @@
 # Dabbr
 
-[Heroku link][https://dabbr.herokuapp.com]
+[Heroku link]: https://dabbr.herokuapp.com
 
 [heroku]: http://www.herokuapp.com
 
@@ -10,7 +10,6 @@ Dabbr is a web application inspired by Flickr that will be built using Ruby on R
 
 - [ ] Hosting on Heroku
 - [ ] New account creation, login, and guest/demo login
-- [ ] A production README, replacing this README (**NB**: check out the [sample production README](docs/production_readme.md) -- you'll write this later)
 - [ ] Photos
   - [ ] Smooth, bug-free navigation
   - [ ] Adequate seed data to demonstrate the site's features
