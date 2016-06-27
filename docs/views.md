@@ -1,22 +1,30 @@
 # View Wireframes
 
+## Splash Page
+![splash]
+
 ## New User
 ![new-user]
 
 ## New Session
 ![new-session]
 
-## NotesIndex / NoteIndexItem / NoteForm
-![notes]
+## Root upon log-in
+![root]
 
-## NotebooksIndex / NotebookIndexItem
-![notebooks]
+## PhotosIndex / PhotoIndexItem / PhotoForm
+![photos]
+![photos-index]
+![photo-form]
 
-## NotebookForm
-![notebook-form]
+## AlbumsIndex / AlbumIndexItem
+![albums]
 
+[splash]: ./wireframes/app.png
 [new-user]: ./wireframes/new_user.png
 [new-session]: ./wireframes/new_session.png
-[notes]: ./wireframes/root_notes.png
-[notebooks]: ./wireframes/root_notebooks.png
-[notebook-form]: ./wireframes/notebook_form.png
+[root]: ./wireframes/root.png
+[photos]: ./wireframes/root_photos.png
+[photos-index]: ./wireframes/photos_index.png
+[photo-form]: ./wireframes/photo_form.png
+[albums]: ./wireframes/root_albums.png

@@ -6,10 +6,11 @@
 
 ## Minimum Viable Product
 
-Dabbr is a web application inspired by Flickr that will be built using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
+dabbr is a web application inspired by Flickr that will be built using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
 
 - [ ] Hosting on Heroku
 - [ ] New account creation, login, and guest/demo login
+- [ ] A production README, replacing this README
 - [ ] Photos
   - [ ] Smooth, bug-free navigation
   - [ ] Adequate seed data to demonstrate the site's features

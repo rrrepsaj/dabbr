@@ -1,44 +1,44 @@
-# Phase 3: Notebooks and Tags (2 days)
+# Phase 3: Albums and Tags (2 days)
 
 ## Rails
 ### Models
-* Notebook
+* Album
 * Tag
 * Tagging
 
 ### Controllers
-* Api::NotebooksController (create, destroy, index, show, update)
+* Api::AlbumsController (create, destroy, index, show, update)
 
 ### Views
-* notebooks/index.json.jbuilder
-* notebooks/show.json.jbuilder
+* albums/index.json.jbuilder
+* albums/show.json.jbuilder
 * tags/show.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* NotebooksIndex
-  - NotebookIndexItem
-* NotebookForm
+* AlbumsIndex
+  - AlbumIndexItem
+* AlbumForm
 * SearchIndex
 
 ### Stores
-* Notebook
+* Album
 
 ### Actions
-* ApiActions.receiveAllNotebooks -> triggered by ApiUtil
-* ApiActions.receiveSingleNotebook
-* ApiActions.deleteNotebook
-* NotebookActions.fetchAllNotebooks -> triggers ApiUtil
-* NotebookActions.fetchSingleNotebook
-* NotebookActions.createNotebook
-* NotebookActions.editNotebook
-* NotebookActions.destroyNotebook
+* ApiActions.receiveAllAlbums -> triggered by ApiUtil
+* ApiActions.receiveSingleAlbum
+* ApiActions.deleteAlbum
+* AlbumActions.fetchAllAlbums -> triggers ApiUtil
+* AlbumActions.fetchSingleAlbum
+* AlbumActions.createAlbum
+* AlbumActions.editAlbum
+* AlbumActions.destroyAlbum
 
 ### ApiUtil
-* ApiUtil.fetchAllNotebooks
-* ApiUtil.fetchSingleNotebook
-* ApiUtil.createNotebook
-* ApiUtil.editNotebook
-* ApiUtil.destroyNotebook
+* ApiUtil.fetchAllAlbums
+* ApiUtil.fetchSingleAlbum
+* ApiUtil.createAlbum
+* ApiUtil.editAlbum
+* ApiUtil.destroyAlbum
 
 ## Gems/Libraries

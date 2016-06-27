@@ -1,4 +1,4 @@
-# Phase 2: Flux Architecture and Note CRUD (2 days)
+# Phase 2: Flux Architecture and Photo CRUD (2 days)
 
 ## Rails
 ### Models
@@ -9,29 +9,29 @@
 
 ## Flux
 ### Views (React Components)
-* NotesIndex
-  - NotesIndexItem
-* NoteForm
+* PhotosIndex
+  - PhotosIndexItem
+* PhotoForm
 
 ### Stores
-* Note
+* Photo
 
 ### Actions
-* ApiActions.receiveAllNotes -> triggered by ApiUtil
-* ApiActions.receiveSingleNote
-* ApiActions.deleteNote
-* NoteActions.fetchAllNotes -> triggers ApiUtil
-* NoteActions.fetchSingleNote 
-* NoteActions.createNote
-* NoteActions.editNote 
-* NoteActions.destroyNote
+* ApiActions.receiveAllPhotos -> triggered by ApiUtil
+* ApiActions.receiveSinglePhoto
+* ApiActions.deletePhoto
+* PhotoActions.fetchAllPhotos -> triggers ApiUtil
+* PhotoActions.fetchSinglePhoto 
+* PhotoActions.createPhoto
+* PhotoActions.editPhoto 
+* PhotoActions.destroyPhoto
 
 ### ApiUtil
-* ApiUtil.fetchAllNotes
-* ApiUtil.fetchSingleNote
-* ApiUtil.createNote
-* ApiUtil.editNote
-* ApiUtil.destroyNote
+* ApiUtil.fetchAllPhotos
+* ApiUtil.fetchSinglePhoto
+* ApiUtil.createPhoto
+* ApiUtil.editPhoto
+* ApiUtil.destroyPhoto
 
 ## Gems/Libraries
 * Flux Dispatcher (npm)
