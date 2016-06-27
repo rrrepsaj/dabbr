@@ -1,8 +1,8 @@
 # Dabbr
 
-[Heroku link]: https://dabbr.herokuapp.com
+[Heroku link](https://dabbr.herokuapp.com)
 
-[heroku]: http://www.herokuapp.com
+[heroku](http://www.herokuapp.com)
 
 ## Minimum Viable Product
 
