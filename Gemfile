@@ -26,6 +26,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'annotate'
 
+gem 'faker'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -35,9 +37,9 @@ gem 'annotate'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'capybara', '~> 2.4.4'
+  gem 'capybara'
   gem 'launchy'
-  gem 'rspec-rails', '~> 3.1.0'
+  gem 'rspec-rails'
   gem 'shoulda-matchers'
 end
 

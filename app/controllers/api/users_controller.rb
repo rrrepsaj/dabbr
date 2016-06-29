@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Api::UsersController < ApplicationController
   before_filter :find_user, only: [:show, :edit, :update, :destroy]
   before_action :require_current_user!, except: [:new, :create]
 
@@ -10,10 +10,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       sign_in(@user)
-      redirect_to links_url
+      render "api/users/show"
     else
-      flash.now[:errors] = @user.errors.full_messages
-      render :new
+      # flash.now[:errors] = @user.errors.full_messages
+      render json: { errors: @user.errors.full_messages }, status: 422
     end
   end
 
