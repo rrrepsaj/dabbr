@@ -1,11 +1,11 @@
 const React = require('react');
 const Link = require('react-router').Link;
 const SessionActions = require('../actions/session_actions');
+const ErrorStore = require('../stores/error_store');
 const SessionStore = require('../stores/session_store');
 const hashHistory = require('react-router').hashHistory;
 
 const SigninForm = React.createClass({
-
   getInitialState() {
     return {
       username: "",
@@ -36,11 +36,8 @@ const SigninForm = React.createClass({
       password: this.state.password
     };
     if (this.props.location.pathname === "/signin") {
-      debugger
-
       SessionActions.signIn(formData);
     } else {
-      debugger
       SessionActions.signUp(formData);
     }
   },
@@ -66,7 +63,6 @@ const SigninForm = React.createClass({
   },
 
   render() {
-    debugger
     let navLink;
     if (this.formType() === "signin") {
       navLink = <Link to="/signup">sign up instead</Link>;

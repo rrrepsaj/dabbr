@@ -42,4 +42,4 @@ SessionStore.isUserSignedIn = function() {
   return !!_currentUser.id;
 };
 
-module.exports = SessionStore;
+module.exports = window.SessionStore = SessionStore;

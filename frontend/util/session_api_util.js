@@ -1,14 +1,13 @@
 const SessionApiUtil = {
   signIn(user, success, error) {
-    debugger
     $.ajax({
       url: 'api/session',
       type: 'POST',
       data: { user },
-      success,
+      success: success,
       error(xhr) {
         const errors = xhr.responseJSON;
-        error("login", errors);
+        error("signin", errors);
       }
     });
   },
@@ -26,11 +25,11 @@ const SessionApiUtil = {
 
   signUp(user, success, error) {
     $.ajax({
-      url: 'api/user',
+      url: 'api/users',
       type: 'POST',
       dataType: 'json',
       data: { user },
-      success,
+      success: success,
       error(xhr) {
         const errors = xhr.responseJSON;
         error("signup", errors);

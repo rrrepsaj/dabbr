@@ -13,6 +13,7 @@ const hashHistory = ReactRouter.hashHistory;
 const App = require('./components/App');
 const PhotoIndex = require('./components/photo_index');
 const SigninForm = require('./components/signin_form');
+const SignupForm = require('./components/signup_form');
 //Auth
 const SessionStore = require('./stores/session_store');
 const SessionActions = require('./actions/session_actions');
@@ -24,8 +25,6 @@ const appRouter = (
     <Route path="/" component={ App }>
       <Route path="/signin" component={ SigninForm } />
       <Route path="/signup" component={ SignupForm } />
-      <Route path="/photos/new" component={ PhotoForm } onEnter={ _ensureSignedIn }/>
-      <Route path="/photos/:photoId" component={ PhotoShow } />
     </Route>
   </Router>
 );

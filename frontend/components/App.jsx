@@ -4,13 +4,8 @@ const SessionStore = require('../stores/session_store');
 const SessionActions = require('../actions/session_actions');
 
 const App = React.createClass({
-
-  componentDidMount() {
-    SessionStore.addListener(this.forceUpdate.bind(this));
-  },
-
   _handleSignout(){
-    SessionActions.signout();
+    SessionActions.signOut();
   },
 
   greeting() {
@@ -19,7 +14,7 @@ const App = React.createClass({
     	return (
     		<hgroup className="header-group">
     			<h2 className="header-name">Hi, {SessionStore.currentUser().username}!</h2>
-    			<input className="header-button" type="submit" value="signout" onClick={ this._handleSignOut } />
+    			<input className="header-button" type="submit" value="signout" onClick={ this._handleSignout } />
     		</hgroup>
     	);
     } else if ( !["/signin", "/signup"].includes(this.props.location.pathname) ) {
@@ -37,7 +32,7 @@ const App = React.createClass({
     return (
       <div>
         <header>
-          <Link to="/" className="header-link"><h1>dabbr&trade;</h1></Link>
+          <Link to="/" className="header-link"><h1>dabbr</h1></Link>
           { this.greeting() }
         </header>
         {this.props.children}

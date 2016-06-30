@@ -5,21 +5,21 @@ const hashHistory = require('react-router').hashHistory;
 const ErrorActions = require('./error_actions');
 
 const SessionActions = {
-  signup(formData) {
-    SessionApiUtil.signup(
+  signUp(formData) {
+    SessionApiUtil.signUp(
       formData,
       SessionActions.receiveCurrentUser,
       ErrorActions.setErrors);
   },
 
-  signin(formData) {
-    SessionApiUtil.signin(
+  signIn(formData) {
+    SessionApiUtil.signIn(
       formData,
       SessionActions.receiveCurrentUser,
       ErrorActions.setErrors);
   },
-  signout() {
-    SessionApiUtil.signout(SessionActions.removeCurrentUser);
+  signOut() {
+    SessionApiUtil.signOut(SessionActions.removeCurrentUser);
   },
   fetchCurrentUser(complete) {
     SessionApiUtil.fetchCurrentUser(
