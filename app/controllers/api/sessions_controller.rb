@@ -13,7 +13,7 @@ class Api::SessionsController < ApplicationController
       render "api/users/show"
     else
       # flash.now[:errors] = ["Invalid username or password"]
-      render json: { errors: ["Invalid username and/or password"] }, status: 401
+      render json: { base: ["Invalid username and/or password"] }, status: 401
     end
   end
 
@@ -23,7 +23,7 @@ class Api::SessionsController < ApplicationController
       sign_out
       render "api/users/show"
     else
-      render json: { errors: ["Nobody signed in"] }, status: 404
+      render json: { base: ["Nobody signed in"] }, status: 404
     end
   end
 end
