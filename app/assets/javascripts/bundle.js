@@ -33047,6 +33047,7 @@
 	var Link = __webpack_require__(168).Link;
 	var SessionActions = __webpack_require__(254);
 	var ErrorStore = __webpack_require__(260);
+	var ErrorActions = __webpack_require__(256);
 	var SessionStore = __webpack_require__(231);
 	var hashHistory = __webpack_require__(168).hashHistory;
 	
@@ -33082,6 +33083,7 @@
 	    } else {
 	      SessionActions.signUp(formData);
 	    }
+	    ErrorActions.clearErrors();
 	  },
 	  fieldErrors: function fieldErrors(field) {
 	    var _this = this;
@@ -33313,6 +33315,7 @@
 	    } else {
 	      SessionActions.signUp(formData);
 	    }
+	    ErrorActions.clearErrors();
 	  },
 	  fieldErrors: function fieldErrors(field) {
 	    var _this = this;

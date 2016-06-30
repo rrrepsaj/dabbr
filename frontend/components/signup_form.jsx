@@ -47,6 +47,7 @@ const SignupForm = React.createClass({
     } else {
       SessionActions.signUp(formData);
     }
+    ErrorActions.clearErrors();
   },
 
   fieldErrors(field) {

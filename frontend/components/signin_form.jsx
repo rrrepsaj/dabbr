@@ -2,6 +2,7 @@ const React = require('react');
 const Link = require('react-router').Link;
 const SessionActions = require('../actions/session_actions');
 const ErrorStore = require('../stores/error_store');
+const ErrorActions = require('../actions/error_actions');
 const SessionStore = require('../stores/session_store');
 const hashHistory = require('react-router').hashHistory;
 
@@ -40,6 +41,7 @@ const SigninForm = React.createClass({
     } else {
       SessionActions.signUp(formData);
     }
+    ErrorActions.clearErrors();
   },
 
   fieldErrors(field) {
