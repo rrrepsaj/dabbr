@@ -19,12 +19,9 @@ const SessionStore = require('./stores/session_store');
 const SessionActions = require('./actions/session_actions');
 
 
-
 const appRouter = (
   <Router history={ hashHistory }>
     <Route path="/" component={ App }>
-      <Route path="/signin" component={ SigninForm } />
-      <Route path="/signup" component={ SignupForm } />
     </Route>
   </Router>
 );
@@ -36,7 +33,7 @@ function _ensureSignedIn(nextState, replace) {
   // into the history (and the hashFragment), so the Router is forced
   // to re-route.
     if (!SessionStore.isUserSignedIn()) {
-      replace('/signin');
+      replace('/');
     }
 }
 

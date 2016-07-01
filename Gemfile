@@ -28,6 +28,8 @@ gem 'annotate'
 
 gem 'faker'
 
+gem 'compass-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

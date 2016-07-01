@@ -1,8 +1,12 @@
 const React = require('react');
 const Link = require('react-router').Link;
+// Actions
+const ErrorActions = require('../actions/error_actions');
 const SessionActions = require('../actions/session_actions');
+// Stores
 const ErrorStore = require('../stores/error_store');
 const SessionStore = require('../stores/session_store');
+
 const hashHistory = require('react-router').hashHistory;
 
 const SignupForm = React.createClass({
@@ -41,17 +45,13 @@ const SignupForm = React.createClass({
       username: this.state.username,
       password: this.state.password
     };
-    if (this.props.location.pathname === "/signin") {
 
-      SessionActions.signIn(formData);
-    } else {
-      SessionActions.signUp(formData);
-    }
+    SessionActions.signUp(formData);
     ErrorActions.clearErrors();
   },
 
   fieldErrors(field) {
-    const errors = ErrorStore.formErrors(this.formType());
+    const errors = ErrorStore.formErrors(this);
 
     if (!errors[field]) { return; }
 
@@ -62,77 +62,70 @@ const SignupForm = React.createClass({
     return <ul>{ messages }</ul>;
   },
 
-  formType() {
-    return this.props.location.pathname.slice(1);
-  },
-
   update(property) {
     return (e) => this.setState({[property]: e.target.value});
   },
 
   render() {
-    let navLink;
-    if (this.formType() === "signin") {
-      navLink = <Link to="/signup">sign up instead</Link>;
-    } else {
-      navLink = <Link to="/signin">sign in instead</Link>;
-    }
     return (
 			<div className="signup-form-container">
 				<form onSubmit={this.handleSubmit} className="signup-form-box">
-	        Welcome to dabbr!
-					<br/>
-					Please { this.formType() } or { navLink }
 
-          { this.fieldErrors("base") }
+          <h1>Sign Up</h1>
+
+          {/*Display errors*/}
+          <div>
+            <ul>
+              {
+                ErrorStore.errors().map(error => {
+                  return <li className="form-errors" key={error}>{error}</li>
+                })
+              }
+            </ul>
+          </div>
+
 					<div className="signup-form">
-		        <br />
-						<label> First Name:
-            { this.fieldErrors("first_name") }
+						<label>
 							<input type="text"
 		            value={this.state.first_name}
 		            onChange={this.update("first_name")}
-								className="signup-input" />
+								className="signup-input" required/>
+              <div className="label-text">First Name</div>
 						</label>
 
-		        <br />
-						<label> Last Name:
-            { this.fieldErrors("last_name") }
+						<label>
 							<input type="text"
 		            value={this.state.last_name}
 		            onChange={this.update("last_name")}
-								className="signup-input" />
+								className="signup-input" required/>
+              <div className="label-text">Last Name</div>
 						</label>
 
-		        <br />
-						<label> Email:
-            { this.fieldErrors("email") }
+						<label>
 							<input type="text"
 		            value={this.state.email}
 		            onChange={this.update("email")}
-								className="signup-input" />
+								className="signup-input" required/>
+              <div className="label-text">Email</div>
 						</label>
 
-		        <br />
-						<label> Username:
-            { this.fieldErrors("username") }
+						<label>
 							<input type="text"
 		            value={this.state.username}
 		            onChange={this.update("username")}
-								className="signup-input" />
+								className="signup-input" required/>
+              <div className="label-text">Username</div>
 						</label>
 
-		        <br />
-						<label> Password:
-              { this.fieldErrors("password") }
+						<label>
 		          <input type="password"
 		            value={this.state.password}
 		            onChange={this.update("password")}
-								className="signup-input" />
+								className="signup-input" required/>
+              <div className="label-text">Password</div>
 						</label>
 
-		        <br />
-						<input type="submit" value="Submit" />
+						<button type="submit" className="signin-signup">Sign up</button>
 					</div>
 				</form>
 			</div>

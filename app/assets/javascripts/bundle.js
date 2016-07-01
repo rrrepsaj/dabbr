@@ -70,15 +70,8 @@
 	  Router,
 	  { history: hashHistory, __self: undefined
 	  },
-	  React.createElement(
-	    Route,
-	    { path: '/', component: App, __self: undefined
-	    },
-	    React.createElement(Route, { path: '/signin', component: SigninForm, __self: undefined
-	    }),
-	    React.createElement(Route, { path: '/signup', component: SignupForm, __self: undefined
-	    })
-	  )
+	  React.createElement(Route, { path: '/', component: App, __self: undefined
+	  })
 	);
 	
 	function _ensureSignedIn(nextState, replace) {
@@ -88,7 +81,7 @@
 	  // into the history (and the hashFragment), so the Router is forced
 	  // to re-route.
 	  if (!SessionStore.isUserSignedIn()) {
-	    replace('/signin');
+	    replace('/');
 	  }
 	}
 	
@@ -25978,47 +25971,90 @@
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(260);
 	var SessionActions = __webpack_require__(233);
+	// Components
+	var SigninForm = __webpack_require__(232);
+	var SignupForm = __webpack_require__(261);
+	// Modals
+	var DropModal = __webpack_require__(271);
+	var OutlineModal = __webpack_require__(262);
+	var ScaleModal = __webpack_require__(272);
 	
 	var App = React.createClass({
 	  displayName: 'App',
+	  showSignin: function showSignin() {
+	    this.refs.signinModal.show();
+	  },
+	  showSignup: function showSignup() {
+	    this.refs.signupModal.show();
+	  },
 	  _handleSignout: function _handleSignout() {
 	    SessionActions.signOut();
 	  },
 	  greeting: function greeting() {
+	    var modalStyle = {
+	      "width": "500px"
+	    };
 	    if (SessionStore.isUserSignedIn()) {
-	
 	      return React.createElement(
 	        'hgroup',
 	        { className: 'header-group', __self: this
 	        },
 	        React.createElement(
-	          'h2',
-	          { className: 'header-name', __self: this
+	          'nav',
+	          { className: 'signin-signup', __self: this
 	          },
-	          'Hi, ',
-	          SessionStore.currentUser().username,
-	          '!'
-	        ),
-	        React.createElement('input', { className: 'header-button', type: 'submit', value: 'signout', onClick: this._handleSignout, __self: this
-	        })
+	          React.createElement(
+	            'ul',
+	            {
+	              __self: this
+	            },
+	            React.createElement(
+	              'li',
+	              { onClick: this._handleSignout, __self: this
+	              },
+	              'Sign out'
+	            )
+	          )
+	        )
 	      );
-	    } else if (!["/signin", "/signup"].includes(this.props.location.pathname)) {
+	    } else {
 	      return React.createElement(
 	        'nav',
 	        { className: 'signin-signup', __self: this
 	        },
 	        React.createElement(
-	          Link,
-	          { to: '/signin', activeClassName: 'current', __self: this
+	          'ul',
+	          {
+	            __self: this
 	          },
-	          'Sign in'
-	        ),
-	        ' or ',
-	        React.createElement(
-	          Link,
-	          { to: '/signup', activeClassName: 'current', __self: this
-	          },
-	          'Sign up!'
+	          React.createElement(
+	            'li',
+	            { onClick: this.showSignin, __self: this
+	            },
+	            'Sign in'
+	          ),
+	          React.createElement(
+	            ScaleModal,
+	            { ref: 'signinModal', modalStyle: modalStyle, __self: this
+	            },
+	            React.createElement(SigninForm, {
+	              __self: this
+	            })
+	          ),
+	          React.createElement(
+	            'li',
+	            { onClick: this.showSignup, __self: this
+	            },
+	            'Sign up'
+	          ),
+	          React.createElement(
+	            ScaleModal,
+	            { ref: 'signupModal', modalStyle: modalStyle, __self: this
+	            },
+	            React.createElement(SignupForm, {
+	              __self: this
+	            })
+	          )
 	        )
 	      );
 	    }
@@ -26030,25 +26066,35 @@
 	        __self: this
 	      },
 	      React.createElement(
-	        'header',
-	        {
-	          __self: this
+	        'nav',
+	        { className: 'fixed-nav-bar', __self: this
 	        },
 	        React.createElement(
-	          Link,
-	          { to: '/', className: 'header-link', __self: this
+	          'header',
+	          {
+	            __self: this
 	          },
 	          React.createElement(
-	            'h1',
-	            {
-	              __self: this
+	            Link,
+	            { to: '/', className: 'header-link', __self: this
 	            },
-	            'dabbr'
-	          )
-	        ),
-	        this.greeting()
+	            React.createElement(
+	              'h1',
+	              {
+	                __self: this
+	              },
+	              'dabbr'
+	            )
+	          ),
+	          this.greeting()
+	        )
 	      ),
-	      this.props.children
+	      React.createElement(
+	        'div',
+	        { className: 'main-content', __self: this
+	        },
+	        this.props.children
+	      )
 	    );
 	  }
 	});
@@ -26081,10 +26127,13 @@
 	
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var SessionActions = __webpack_require__(233);
-	var ErrorStore = __webpack_require__(242);
+	// Actions
 	var ErrorActions = __webpack_require__(240);
+	var SessionActions = __webpack_require__(233);
+	// Stores
+	var ErrorStore = __webpack_require__(242);
 	var SessionStore = __webpack_require__(260);
+	
 	var hashHistory = __webpack_require__(168).hashHistory;
 	
 	var SigninForm = React.createClass({
@@ -26114,17 +26163,14 @@
 	      username: this.state.username,
 	      password: this.state.password
 	    };
-	    if (this.props.location.pathname === "/signin") {
-	      SessionActions.signIn(formData);
-	    } else {
-	      SessionActions.signUp(formData);
-	    }
+	
+	    SessionActions.signIn(formData);
 	    ErrorActions.clearErrors();
 	  },
 	  fieldErrors: function fieldErrors(field) {
 	    var _this = this;
 	
-	    var errors = ErrorStore.formErrors(this.formType());
+	    var errors = ErrorStore.formErrors(this);
 	
 	    if (!errors[field]) {
 	      return;
@@ -26147,9 +26193,6 @@
 	      messages
 	    );
 	  },
-	  formType: function formType() {
-	    return this.props.location.pathname.slice(1);
-	  },
 	  update: function update(property) {
 	    var _this2 = this;
 	
@@ -26158,22 +26201,8 @@
 	    };
 	  },
 	  render: function render() {
-	    var navLink = void 0;
-	    if (this.formType() === "signin") {
-	      navLink = React.createElement(
-	        Link,
-	        { to: '/signup', __self: this
-	        },
-	        'sign up instead'
-	      );
-	    } else {
-	      navLink = React.createElement(
-	        Link,
-	        { to: '/signin', __self: this
-	        },
-	        'sign in instead'
-	      );
-	    }
+	    var _this3 = this;
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'signin-form-container', __self: this
@@ -26182,56 +26211,76 @@
 	        'form',
 	        { onSubmit: this.handleSubmit, className: 'signin-form-box', __self: this
 	        },
-	        'Welcome to dabbr!',
-	        React.createElement('br', {
-	          __self: this
-	        }),
-	        'Please ',
-	        this.formType(),
-	        ' or ',
-	        navLink,
-	        this.fieldErrors("base"),
+	        React.createElement(
+	          'h1',
+	          {
+	            __self: this
+	          },
+	          'Sign In'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'errors', __self: this
+	          },
+	          React.createElement(
+	            'ul',
+	            {
+	              __self: this
+	            },
+	            ErrorStore.errors().map(function (error) {
+	              return React.createElement(
+	                'li',
+	                { className: 'form-errors', key: error, __self: _this3
+	                },
+	                error
+	              );
+	            })
+	          )
+	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'signin-form', __self: this
 	          },
-	          React.createElement('br', {
-	            __self: this
-	          }),
 	          React.createElement(
 	            'label',
 	            {
 	              __self: this
 	            },
-	            ' Username:',
-	            this.fieldErrors("username"),
 	            React.createElement('input', { type: 'text',
 	              value: this.state.username,
 	              onChange: this.update("username"),
-	              className: 'signin-input', __self: this
-	            })
+	              className: 'signin-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Username'
+	            )
 	          ),
-	          React.createElement('br', {
-	            __self: this
-	          }),
 	          React.createElement(
 	            'label',
 	            {
 	              __self: this
 	            },
-	            ' Password:',
-	            this.fieldErrors("password"),
 	            React.createElement('input', { type: 'password',
 	              value: this.state.password,
 	              onChange: this.update("password"),
-	              className: 'signin-input', __self: this
-	            })
+	              className: 'signin-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Password'
+	            )
 	          ),
-	          React.createElement('br', {
-	            __self: this
-	          }),
-	          React.createElement('input', { type: 'submit', value: 'Submit', __self: this
-	          })
+	          React.createElement(
+	            'button',
+	            { type: 'submit', className: 'signin-signup-links', __self: this
+	            },
+	            'Sign in'
+	          )
 	        )
 	      )
 	    );
@@ -26275,7 +26324,8 @@
 	    AppDispatcher.dispatch({
 	      actionType: SessionConstants.SIGNOUT
 	    });
-	    hashHistory.push("/signin");
+	    // hashHistory.push("/signin");
+	    hashHistory.push("/");
 	  }
 	};
 	
@@ -26653,7 +26703,7 @@
 	      }
 	    });
 	  },
-	  fetchCurrentUser: function fetchCurrentUser(success, complete) {
+	  fetchCurrentUser: function fetchCurrentUser(success, _complete) {
 	    $.ajax({
 	      url: 'api/session',
 	      method: 'GET',
@@ -26662,7 +26712,7 @@
 	        console.log("Error in SessionApiUtil#fetchCurrentUser");
 	      },
 	      complete: function complete() {
-	        conplete();
+	        _complete();
 	      }
 	    });
 	  }
@@ -26721,17 +26771,17 @@
 	
 	var ErrorStore = new Store(AppDispatcher);
 	
-	var _errors = {};
+	var _errors = [];
 	var _form = "";
 	
 	function setErrors(payload) {
-	  _errors = payload.errors;
+	  _errors = payload.errors.errors;
 	  _form = payload.form;
 	  ErrorStore.__emitChange();
 	}
 	
 	function clearErrors() {
-	  _errors = {};
+	  _errors = [];
 	  _form = "";
 	  ErrorStore.__emitChange();
 	}
@@ -26749,19 +26799,18 @@
 	
 	ErrorStore.formErrors = function (form) {
 	  if (form !== _form) {
-	    return {};
+	    return [];
 	  }
 	
-	  var result = {};
-	  for (var field in _errors) {
-	    result[field] = Array.from(_errors[field]);
-	  }
-	
-	  return result;
+	  return _errors;
 	};
 	
 	ErrorStore.form = function () {
 	  return _form;
+	};
+	
+	ErrorStore.errors = function () {
+	  return _errors;
 	};
 	
 	module.exports = ErrorStore;
@@ -33271,9 +33320,13 @@
 	
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
+	// Actions
+	var ErrorActions = __webpack_require__(240);
 	var SessionActions = __webpack_require__(233);
+	// Stores
 	var ErrorStore = __webpack_require__(242);
 	var SessionStore = __webpack_require__(260);
+	
 	var hashHistory = __webpack_require__(168).hashHistory;
 	
 	var SignupForm = React.createClass({
@@ -33309,18 +33362,14 @@
 	      username: this.state.username,
 	      password: this.state.password
 	    };
-	    if (this.props.location.pathname === "/signin") {
 	
-	      SessionActions.signIn(formData);
-	    } else {
-	      SessionActions.signUp(formData);
-	    }
+	    SessionActions.signUp(formData);
 	    ErrorActions.clearErrors();
 	  },
 	  fieldErrors: function fieldErrors(field) {
 	    var _this = this;
 	
-	    var errors = ErrorStore.formErrors(this.formType());
+	    var errors = ErrorStore.formErrors(this);
 	
 	    if (!errors[field]) {
 	      return;
@@ -33343,9 +33392,6 @@
 	      messages
 	    );
 	  },
-	  formType: function formType() {
-	    return this.props.location.pathname.slice(1);
-	  },
 	  update: function update(property) {
 	    var _this2 = this;
 	
@@ -33354,22 +33400,8 @@
 	    };
 	  },
 	  render: function render() {
-	    var navLink = void 0;
-	    if (this.formType() === "signin") {
-	      navLink = React.createElement(
-	        Link,
-	        { to: '/signup', __self: this
-	        },
-	        'sign up instead'
-	      );
-	    } else {
-	      navLink = React.createElement(
-	        Link,
-	        { to: '/signin', __self: this
-	        },
-	        'sign in instead'
-	      );
-	    }
+	    var _this3 = this;
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'signup-form-container', __self: this
@@ -33378,104 +33410,128 @@
 	        'form',
 	        { onSubmit: this.handleSubmit, className: 'signup-form-box', __self: this
 	        },
-	        'Welcome to dabbr!',
-	        React.createElement('br', {
-	          __self: this
-	        }),
-	        'Please ',
-	        this.formType(),
-	        ' or ',
-	        navLink,
-	        this.fieldErrors("base"),
+	        React.createElement(
+	          'h1',
+	          {
+	            __self: this
+	          },
+	          'Sign Up'
+	        ),
+	        React.createElement(
+	          'div',
+	          {
+	            __self: this
+	          },
+	          React.createElement(
+	            'ul',
+	            {
+	              __self: this
+	            },
+	            ErrorStore.errors().map(function (error) {
+	              return React.createElement(
+	                'li',
+	                { className: 'form-errors', key: error, __self: _this3
+	                },
+	                error
+	              );
+	            })
+	          )
+	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'signup-form', __self: this
 	          },
-	          React.createElement('br', {
-	            __self: this
-	          }),
 	          React.createElement(
 	            'label',
 	            {
 	              __self: this
 	            },
-	            ' First Name:',
-	            this.fieldErrors("first_name"),
 	            React.createElement('input', { type: 'text',
 	              value: this.state.first_name,
 	              onChange: this.update("first_name"),
-	              className: 'signup-input', __self: this
-	            })
+	              className: 'signup-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'First Name'
+	            )
 	          ),
-	          React.createElement('br', {
-	            __self: this
-	          }),
 	          React.createElement(
 	            'label',
 	            {
 	              __self: this
 	            },
-	            ' Last Name:',
-	            this.fieldErrors("last_name"),
 	            React.createElement('input', { type: 'text',
 	              value: this.state.last_name,
 	              onChange: this.update("last_name"),
-	              className: 'signup-input', __self: this
-	            })
+	              className: 'signup-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Last Name'
+	            )
 	          ),
-	          React.createElement('br', {
-	            __self: this
-	          }),
 	          React.createElement(
 	            'label',
 	            {
 	              __self: this
 	            },
-	            ' Email:',
-	            this.fieldErrors("email"),
 	            React.createElement('input', { type: 'text',
 	              value: this.state.email,
 	              onChange: this.update("email"),
-	              className: 'signup-input', __self: this
-	            })
+	              className: 'signup-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Email'
+	            )
 	          ),
-	          React.createElement('br', {
-	            __self: this
-	          }),
 	          React.createElement(
 	            'label',
 	            {
 	              __self: this
 	            },
-	            ' Username:',
-	            this.fieldErrors("username"),
 	            React.createElement('input', { type: 'text',
 	              value: this.state.username,
 	              onChange: this.update("username"),
-	              className: 'signup-input', __self: this
-	            })
+	              className: 'signup-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Username'
+	            )
 	          ),
-	          React.createElement('br', {
-	            __self: this
-	          }),
 	          React.createElement(
 	            'label',
 	            {
 	              __self: this
 	            },
-	            ' Password:',
-	            this.fieldErrors("password"),
 	            React.createElement('input', { type: 'password',
 	              value: this.state.password,
 	              onChange: this.update("password"),
-	              className: 'signup-input', __self: this
-	            })
+	              className: 'signup-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Password'
+	            )
 	          ),
-	          React.createElement('br', {
-	            __self: this
-	          }),
-	          React.createElement('input', { type: 'submit', value: 'Submit', __self: this
-	          })
+	          React.createElement(
+	            'button',
+	            { type: 'submit', className: 'signin-signup', __self: this
+	            },
+	            'Sign up'
+	          )
 	        )
 	      )
 	    );
@@ -33483,6 +33539,856 @@
 	});
 	
 	module.exports = SignupForm;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var modalFactory = __webpack_require__(263);
+	var insertKeyframesRule = __webpack_require__(268);
+	var appendVendorPrefix = __webpack_require__(265);
+	
+	var animation = {
+	    show: {
+	        animationDuration: '0.8s',
+	        animationTimingFunction: 'cubic-bezier(0.6,0,0.4,1)'
+	    },
+	    hide: {
+	        animationDuration: '0.4s',
+	        animationTimingFunction: 'ease-out'
+	    },
+	    showContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0,
+	        },
+	        '40%':{
+	            opacity: 0
+	        },
+	        '100%': {
+	            opacity: 1,
+	        }
+	    }),
+	
+	    hideContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 1
+	        },
+	        '100%': {
+	            opacity: 0,
+	        }
+	    }),
+	
+	    showBackdropAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0
+	        },
+	        '100%': {
+	            opacity: 0.9
+	        },
+	    }),
+	
+	    hideBackdropAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0.9
+	        },
+	        '100%': {
+	            opacity: 0
+	        }
+	    })
+	};
+	
+	var showAnimation = animation.show;
+	var hideAnimation = animation.hide;
+	var showContentAnimation = animation.showContentAnimation;
+	var hideContentAnimation = animation.hideContentAnimation;
+	var showBackdropAnimation = animation.showBackdropAnimation;
+	var hideBackdropAnimation = animation.hideBackdropAnimation;
+	
+	module.exports = modalFactory({
+	    getRef: function(willHidden) {
+	        return 'content';
+	    },
+	    getSharp: function(willHidden) {
+	        var strokeDashLength = 1680;
+	
+	        var showSharpAnimation = insertKeyframesRule({
+	            '0%': {
+	                'stroke-dashoffset': strokeDashLength
+	            },
+	            '100%': {
+	                'stroke-dashoffset': 0
+	            },
+	        });
+	
+	
+	        var sharpStyle = {
+	            position: 'absolute',
+	            width: 'calc(100%)',
+	            height: 'calc(100%)',
+	            zIndex: '-1'
+	        };
+	
+	        var rectStyle = appendVendorPrefix({
+	            animationDuration: willHidden? '0.4s' :'0.8s',
+	            animationFillMode: 'forwards',
+	            animationName: willHidden? hideContentAnimation: showSharpAnimation,
+	            stroke: '#ffffff',
+	            strokeWidth: '2px',
+	            strokeDasharray: strokeDashLength
+	        });
+	
+	        return React.createElement("div", {style: sharpStyle}, 
+	            React.createElement("svg", {
+	                xmlns: "http://www.w3.org/2000/svg", 
+	                width: "100%", 
+	                height: "100%", 
+	                viewBox: "0 0 496 136", 
+	                preserveAspectRatio: "none"}, 
+	                React.createElement("rect", {style: rectStyle, 
+	                    x: "2", 
+	                    y: "2", 
+	                    fill: "none", 
+	                    width: "492", 
+	                    height: "132"})
+	            )
+	        )
+	    },
+	    getModalStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            zIndex: 1050,
+	            position: "fixed",
+	            width: "500px",
+	            transform: "translate3d(-50%, -50%, 0)",
+	            top: "50%",
+	            left: "50%"
+	        })
+	    },
+	    getBackdropStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            position: "fixed",
+	            top: 0,
+	            right: 0,
+	            bottom: 0,
+	            left: 0,
+	            zIndex: 1040,
+	            backgroundColor: "#373A47",
+	            animationFillMode: 'forwards',
+	            animationDuration: '0.4s',
+	            animationName: willHidden ? hideBackdropAnimation : showBackdropAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	        });
+	    },
+	    getContentStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            margin: 0,
+	            backgroundColor: "white",
+	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
+	            animationFillMode: 'forwards',
+	            animationName: willHidden ? hideContentAnimation : showContentAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	        })
+	    }
+	});
+
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var transitionEvents = __webpack_require__(264);
+	var appendVendorPrefix = __webpack_require__(265);
+	
+	module.exports = function(animation){
+	
+	    return React.createClass({
+	        propTypes: {
+	            className: React.PropTypes.string,
+	            // Close the modal when esc is pressed? Defaults to true.
+	            keyboard: React.PropTypes.bool,
+	            onShow: React.PropTypes.func,
+	            onHide: React.PropTypes.func,
+	            animation: React.PropTypes.object,
+	            backdrop: React.PropTypes.bool,
+	            closeOnClick: React.PropTypes.bool,
+	            modalStyle: React.PropTypes.object,
+	            backdropStyle: React.PropTypes.object,
+	            contentStyle: React.PropTypes.object,
+	        },
+	
+	        getDefaultProps: function() {
+	            return {
+	                className: "",
+	                onShow: function(){},
+	                onHide: function(){},
+	                animation: animation,
+	                keyboard: true,
+	                backdrop: true,
+	                closeOnClick: true,
+	                modalStyle: {},
+	                backdropStyle: {},
+	                contentStyle: {},
+	            };
+	        },
+	
+	        getInitialState: function(){
+	            return {
+	                willHidden: false,
+	                hidden: true
+	            }
+	        },
+	
+	        hasHidden: function(){
+	            return this.state.hidden;
+	        },
+	
+	        addTransitionListener: function(node, handle){
+	            if (node) {
+	              var endListener = function(e) {
+	                  if (e && e.target !== node) {
+	                      return;
+	                  }
+	                  transitionEvents.removeEndEventListener(node, endListener);
+	                  handle();
+	              };
+	              transitionEvents.addEndEventListener(node, endListener);
+	            }
+	        },
+	
+	        handleBackdropClick: function() {
+	            if (this.props.closeOnClick) {
+	                this.hide();
+	            }
+	        },
+	
+	        render: function() {
+	
+	            var hidden = this.hasHidden();
+	            if (hidden) return null;
+	
+	            var willHidden = this.state.willHidden;
+	            var animation = this.props.animation;
+	            var modalStyle = animation.getModalStyle(willHidden);
+	            var backdropStyle = animation.getBackdropStyle(willHidden);
+	            var contentStyle = animation.getContentStyle(willHidden);
+	            var ref = animation.getRef(willHidden);
+	            var sharp = animation.getSharp && animation.getSharp(willHidden);
+	
+	            // Apply custom style properties
+	            if (this.props.modalStyle) {
+	                var prefixedModalStyle = appendVendorPrefix(this.props.modalStyle);
+	                for (var style in prefixedModalStyle) {
+	                    modalStyle[style] = prefixedModalStyle[style];
+	                }
+	            }
+	
+	            if (this.props.backdropStyle) {
+	              var prefixedBackdropStyle = appendVendorPrefix(this.props.backdropStyle);
+	                for (var style in prefixedBackdropStyle) {
+	                    backdropStyle[style] = prefixedBackdropStyle[style];
+	                }
+	            }
+	
+	            if (this.props.contentStyle) {
+	              var prefixedContentStyle = appendVendorPrefix(this.props.contentStyle);
+	                for (var style in prefixedContentStyle) {
+	                    contentStyle[style] = prefixedContentStyle[style];
+	                }
+	            }
+	
+	            var backdrop = this.props.backdrop? React.createElement("div", {style: backdropStyle, onClick: this.props.closeOnClick? this.handleBackdropClick: null}): undefined;
+	
+	            if(willHidden) {
+	                var node = this.refs[ref];
+	                this.addTransitionListener(node, this.leave);
+	            }
+	
+	            return (React.createElement("span", null, 
+	                React.createElement("div", {ref: "modal", style: modalStyle, className: this.props.className}, 
+	                    sharp, 
+	                    React.createElement("div", {ref: "content", tabIndex: "-1", style: contentStyle}, 
+	                        this.props.children
+	                    )
+	                ), 
+	                backdrop
+	             ))
+	            ;
+	        },
+	
+	        leave: function(){
+	            this.setState({
+	                hidden: true
+	            });
+	            this.props.onHide();
+	        },
+	
+	        enter: function(){
+	            this.props.onShow();
+	        },
+	
+	        show: function(){
+	            if (!this.hasHidden()) return;
+	
+	            this.setState({
+	                willHidden: false,
+	                hidden: false
+	            });
+	
+	            setTimeout(function(){
+	              var ref = this.props.animation.getRef();
+	              var node = this.refs[ref];
+	              this.addTransitionListener(node, this.enter);
+	            }.bind(this), 0);
+	        },
+	
+	        hide: function(){
+	            if (this.hasHidden()) return;
+	
+	            this.setState({
+	                willHidden: true
+	            });
+	        },
+	
+	        toggle: function(){
+	            if (this.hasHidden())
+	                this.show();
+	            else
+	                this.hide();
+	        },
+	
+	        listenKeyboard: function(event) {
+	            if (this.props.keyboard &&
+	                    (event.key === "Escape" ||
+	                     event.keyCode === 27)) {
+	                this.hide();
+	            }
+	        },
+	
+	        componentDidMount: function(){
+	            window.addEventListener("keydown", this.listenKeyboard, true);
+	        },
+	
+	        componentWillUnmount: function() {
+	            window.removeEventListener("keydown", this.listenKeyboard, true);
+	        }
+	    });
+	}
+
+
+/***/ },
+/* 264 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * EVENT_NAME_MAP is used to determine which event fired when a
+	 * transition/animation ends, based on the style property used to
+	 * define that event.
+	 */
+	var EVENT_NAME_MAP = {
+	  transitionend: {
+	    'transition': 'transitionend',
+	    'WebkitTransition': 'webkitTransitionEnd',
+	    'MozTransition': 'mozTransitionEnd',
+	    'OTransition': 'oTransitionEnd',
+	    'msTransition': 'MSTransitionEnd'
+	  },
+	
+	  animationend: {
+	    'animation': 'animationend',
+	    'WebkitAnimation': 'webkitAnimationEnd',
+	    'MozAnimation': 'mozAnimationEnd',
+	    'OAnimation': 'oAnimationEnd',
+	    'msAnimation': 'MSAnimationEnd'
+	  }
+	};
+	
+	var endEvents = [];
+	
+	function detectEvents() {
+	  var testEl = document.createElement('div');
+	  var style = testEl.style;
+	
+	  // On some platforms, in particular some releases of Android 4.x,
+	  // the un-prefixed "animation" and "transition" properties are defined on the
+	  // style object but the events that fire will still be prefixed, so we need
+	  // to check if the un-prefixed events are useable, and if not remove them
+	  // from the map
+	  if (!('AnimationEvent' in window)) {
+	    delete EVENT_NAME_MAP.animationend.animation;
+	  }
+	
+	  if (!('TransitionEvent' in window)) {
+	    delete EVENT_NAME_MAP.transitionend.transition;
+	  }
+	
+	  for (var baseEventName in EVENT_NAME_MAP) {
+	    var baseEvents = EVENT_NAME_MAP[baseEventName];
+	    for (var styleName in baseEvents) {
+	      if (styleName in style) {
+	        endEvents.push(baseEvents[styleName]);
+	        break;
+	      }
+	    }
+	  }
+	}
+	
+	if (typeof window !== 'undefined') {
+	  detectEvents();
+	}
+	
+	
+	// We use the raw {add|remove}EventListener() call because EventListener
+	// does not know how to remove event listeners and we really should
+	// clean up. Also, these events are not triggered in older browsers
+	// so we should be A-OK here.
+	
+	function addEventListener(node, eventName, eventListener) {
+	  node.addEventListener(eventName, eventListener, false);
+	}
+	
+	function removeEventListener(node, eventName, eventListener) {
+	  node.removeEventListener(eventName, eventListener, false);
+	}
+	
+	module.exports = {
+	  addEndEventListener: function(node, eventListener) {
+	    if (endEvents.length === 0) {
+	      // If CSS transitions are not supported, trigger an "end animation"
+	      // event immediately.
+	      window.setTimeout(eventListener, 0);
+	      return;
+	    }
+	    endEvents.forEach(function(endEvent) {
+	      addEventListener(node, endEvent, eventListener);
+	    });
+	  },
+	
+	  removeEndEventListener: function(node, eventListener) {
+	    if (endEvents.length === 0) {
+	      return;
+	    }
+	    endEvents.forEach(function(endEvent) {
+	      removeEventListener(node, endEvent, eventListener);
+	    });
+	  }
+	};
+
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var getVendorPropertyName = __webpack_require__(266);
+	
+	module.exports = function(target, sources) {
+	  var to = Object(target);
+	  var hasOwnProperty = Object.prototype.hasOwnProperty;
+	
+	  for (var nextIndex = 1; nextIndex < arguments.length; nextIndex++) {
+	    var nextSource = arguments[nextIndex];
+	    if (nextSource == null) {
+	      continue;
+	    }
+	
+	    var from = Object(nextSource);
+	
+	    for (var key in from) {
+	      if (hasOwnProperty.call(from, key)) {
+	        to[key] = from[key];
+	      }
+	    }
+	  }
+	
+	  var prefixed = {};
+	  for (var key in to) {
+	    prefixed[getVendorPropertyName(key)] = to[key]
+	  }
+	
+	  return prefixed
+	}
+
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var builtinStyle = __webpack_require__(267);
+	var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
+	var domVendorPrefix;
+	
+	// Helper function to get the proper vendor property name. (transition => WebkitTransition)
+	module.exports = function(prop, isSupportTest) {
+	
+	  var vendorProp;
+	  if (prop in builtinStyle) return prop;
+	
+	  var UpperProp = prop.charAt(0).toUpperCase() + prop.substr(1);
+	
+	  if (domVendorPrefix) {
+	
+	    vendorProp = domVendorPrefix + UpperProp;
+	    if (vendorProp in builtinStyle) {
+	      return vendorProp;
+	    }
+	  } else {
+	
+	    for (var i = 0; i < prefixes.length; ++i) {
+	      vendorProp = prefixes[i] + UpperProp;
+	      if (vendorProp in builtinStyle) {
+	        domVendorPrefix = prefixes[i];
+	        return vendorProp;
+	      }
+	    }
+	  }
+	
+	  // if support test, not fallback to origin prop name
+	  if (!isSupportTest) {
+	    return prop;
+	  }
+	
+	}
+
+
+/***/ },
+/* 267 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	module.exports = document.createElement('div').style;
+
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var insertRule = __webpack_require__(269);
+	var vendorPrefix = __webpack_require__(270)();
+	var index = 0;
+	
+	module.exports = function(keyframes) {
+	  // random name
+	  var name = 'anim_' + (++index) + (+new Date);
+	  var css = "@" + vendorPrefix + "keyframes " + name + " {";
+	
+	  for (var key in keyframes) {
+	    css += key + " {";
+	
+	    for (var property in keyframes[key]) {
+	      var part = ":" + keyframes[key][property] + ";";
+	      // We do vendor prefix for every property
+	      css += vendorPrefix + property + part;
+	      css += property + part;
+	    }
+	
+	    css += "}";
+	  }
+	
+	  css += "}";
+	
+	  insertRule(css);
+	
+	  return name
+	}
+
+
+/***/ },
+/* 269 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var extraSheet;
+	
+	module.exports = function(css) {
+	
+	  if (!extraSheet) {
+	    // First time, create an extra stylesheet for adding rules
+	    extraSheet = document.createElement('style');
+	    document.getElementsByTagName('head')[0].appendChild(extraSheet);
+	    // Keep reference to actual StyleSheet object (`styleSheet` for IE < 9)
+	    extraSheet = extraSheet.sheet || extraSheet.styleSheet;
+	  }
+	
+	  var index = (extraSheet.cssRules || extraSheet.rules).length;
+	  extraSheet.insertRule(css, index);
+	
+	  return extraSheet;
+	}
+
+
+/***/ },
+/* 270 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var cssVendorPrefix;
+	
+	module.exports = function() {
+	
+	  if (cssVendorPrefix) return cssVendorPrefix;
+	
+	  var styles = window.getComputedStyle(document.documentElement, '');
+	  var pre = (Array.prototype.slice.call(styles).join('').match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o']))[1];
+	
+	  return cssVendorPrefix = '-' + pre + '-';
+	}
+
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var modalFactory = __webpack_require__(263);
+	var insertKeyframesRule = __webpack_require__(268);
+	var appendVendorPrefix = __webpack_require__(265);
+	
+	var animation = {
+	    show: {
+	        animationDuration: '0.4s',
+	        animationTimingFunction: 'cubic-bezier(0.7,0,0.3,1)'
+	    },
+	
+	    hide: {
+	        animationDuration: '0.4s',
+	        animationTimingFunction: 'cubic-bezier(0.7,0,0.3,1)'
+	    },
+	
+	    showModalAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0,
+	            transform: 'translate3d(-50%, -300px, 0)'
+	        },
+	        '100%': {
+	            opacity: 1,
+	            transform: 'translate3d(-50%, -50%, 0)'
+	        }
+	    }),
+	
+	    hideModalAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 1,
+	            transform: 'translate3d(-50%, -50%, 0)'
+	        },
+	        '100%': {
+	            opacity: 0,
+	            transform: 'translate3d(-50%, 100px, 0)'
+	        }
+	    }),
+	
+	    showBackdropAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0
+	        },
+	        '100%': {
+	            opacity: 0.9
+	        }
+	    }),
+	
+	    hideBackdropAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0.9
+	        },
+	        '100%': {
+	            opacity: 0
+	        }
+	    }),
+	
+	    showContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0,
+	            transform: 'translate3d(0, -20px, 0)'
+	        },
+	        '100%': {
+	            opacity: 1,
+	            transform: 'translate3d(0, 0, 0)'
+	        }
+	    }),
+	
+	    hideContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 1,
+	            transform: 'translate3d(0, 0, 0)'
+	        },
+	        '100%': {
+	            opacity: 0,
+	            transform: 'translate3d(0, 50px, 0)'
+	        }
+	    })
+	};
+	
+	var showAnimation = animation.show;
+	var hideAnimation = animation.hide;
+	var showModalAnimation = animation.showModalAnimation;
+	var hideModalAnimation = animation.hideModalAnimation;
+	var showBackdropAnimation = animation.showBackdropAnimation;
+	var hideBackdropAnimation = animation.hideBackdropAnimation;
+	var showContentAnimation = animation.showContentAnimation;
+	var hideContentAnimation = animation.hideContentAnimation;
+	
+	module.exports = modalFactory({
+	    getRef: function(willHidden) {
+	        return 'modal';
+	    },
+	    getModalStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            position: "fixed",
+	            width: "500px",
+	            transform: "translate3d(-50%, -50%, 0)",
+	            top: "50%",
+	            left: "50%",
+	            backgroundColor: "white",
+	            zIndex: 1050,
+	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
+	            animationFillMode: 'forwards',
+	            animationName: willHidden ? hideModalAnimation : showModalAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	        })
+	    },
+	    getBackdropStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            position: "fixed",
+	            top: 0,
+	            right: 0,
+	            bottom: 0,
+	            left: 0,
+	            zIndex: 1040,
+	            backgroundColor: "#373A47",
+	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
+	            animationFillMode: 'forwards',
+	            animationName: willHidden ? hideBackdropAnimation : showBackdropAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	        });
+	    },
+	    getContentStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            margin: 0,
+	            opacity: 0,
+	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
+	            animationFillMode: 'forwards',
+	            animationDelay: '0.25s',
+	            animationName: showContentAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	        })
+	    }
+	});
+
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var modalFactory = __webpack_require__(263);
+	var insertKeyframesRule = __webpack_require__(268);
+	var appendVendorPrefix = __webpack_require__(265);
+	
+	var animation = {
+	    show: {
+	        animationDuration: '0.4s',
+	        animationTimingFunction: 'cubic-bezier(0.6,0,0.4,1)'
+	    },
+	    hide: {
+	        animationDuration: '0.4s',
+	        animationTimingFunction: 'ease-out'
+	    },
+	    showContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0,
+	            transform: 'scale3d(0, 0, 1)'
+	        },
+	        '100%': {
+	            opacity: 1,
+	            transform: 'scale3d(1, 1, 1)'
+	        }
+	    }),
+	
+	    hideContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 1
+	        },
+	        '100%': {
+	            opacity: 0,
+	            transform: 'scale3d(0.5, 0.5, 1)'
+	        }
+	    }),
+	
+	    showBackdropAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0
+	        },
+	        '100%': {
+	            opacity: 0.9
+	        },
+	    }),
+	
+	    hideBackdropAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0.9
+	        },
+	        '100%': {
+	            opacity: 0
+	        }
+	    })
+	};
+	
+	var showAnimation = animation.show;
+	var hideAnimation = animation.hide;
+	var showContentAnimation = animation.showContentAnimation;
+	var hideContentAnimation = animation.hideContentAnimation;
+	var showBackdropAnimation = animation.showBackdropAnimation;
+	var hideBackdropAnimation = animation.hideBackdropAnimation;
+	
+	module.exports = modalFactory({
+	    getRef: function(willHidden) {
+	        return 'content';
+	    },
+	    getModalStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            zIndex: 1050,
+	            position: "fixed",
+	            width: "500px",
+	            transform: "translate3d(-50%, -50%, 0)",
+	            top: "50%",
+	            left: "50%"
+	        })
+	    },
+	    getBackdropStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            position: "fixed",
+	            top: 0,
+	            right: 0,
+	            bottom: 0,
+	            left: 0,
+	            zIndex: 1040,
+	            backgroundColor: "#373A47",
+	            animationFillMode: 'forwards',
+	            animationDuration: '0.4s',
+	            animationName: willHidden ? hideBackdropAnimation : showBackdropAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	        });
+	    },
+	    getContentStyle: function(willHidden) {
+	        return appendVendorPrefix({
+	            margin: 0,
+	            backgroundColor: "white",
+	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
+	            animationFillMode: 'forwards',
+	            animationName: willHidden ? hideContentAnimation : showContentAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	        })
+	    }
+	});
+
 
 /***/ }
 /******/ ]);

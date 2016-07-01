@@ -46,7 +46,7 @@ const SessionApiUtil = {
         console.log("Error in SessionApiUtil#fetchCurrentUser");
       },
       complete: function() {
-        conplete();
+        complete();
       }
     });
   }
