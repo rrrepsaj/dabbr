@@ -1,6 +1,7 @@
 const React = require('react');
 const Link = require('react-router').Link;
 const SessionStore = require('../stores/session_store');
+const ErrorActions = require('../actions/error_actions');
 const SessionActions = require('../actions/session_actions');
 // Components
 const SigninForm = require('./signin_form');
@@ -12,10 +13,12 @@ const ScaleModal = require('boron/ScaleModal');
 
 const App = React.createClass({
   showSignin() {
+    ErrorActions.clearErrors();
     this.refs.signinModal.show();
   },
 
   showSignup() {
+    ErrorActions.clearErrors();
     this.refs.signupModal.show();
   },
 

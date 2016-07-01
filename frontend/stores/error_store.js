@@ -46,4 +46,8 @@ ErrorStore.errors = function () {
   return _errors;
 }
 
+ErrorStore.clear = function() {
+  clearErrors();
+}
+
 module.exports = ErrorStore;

@@ -25970,6 +25970,7 @@
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(260);
+	var ErrorActions = __webpack_require__(240);
 	var SessionActions = __webpack_require__(233);
 	// Components
 	var SigninForm = __webpack_require__(232);
@@ -25982,9 +25983,11 @@
 	var App = React.createClass({
 	  displayName: 'App',
 	  showSignin: function showSignin() {
+	    ErrorActions.clearErrors();
 	    this.refs.signinModal.show();
 	  },
 	  showSignup: function showSignup() {
+	    ErrorActions.clearErrors();
 	    this.refs.signupModal.show();
 	  },
 	  _handleSignout: function _handleSignout() {
@@ -26811,6 +26814,10 @@
 	
 	ErrorStore.errors = function () {
 	  return _errors;
+	};
+	
+	ErrorStore.clear = function () {
+	  clearErrors();
 	};
 	
 	module.exports = ErrorStore;
