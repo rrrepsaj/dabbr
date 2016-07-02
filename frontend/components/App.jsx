@@ -68,12 +68,14 @@ const App = React.createClass({
           <header>
             <Link to="/" className="header-link"><h1>dabbr</h1></Link>
             { this.greeting() }
+            
             <div className="background-video">
               <video autoPlay loop>
                 <source src=""
                   type="video/mp4"/>
               </video>
             </div>
+            
           </header>
         </nav>
         <div className="main-content">
