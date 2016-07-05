@@ -14,17 +14,14 @@ module.exports = {
     loaders: [
       {
         test: [/\.jsx?$/, /\.js?$/],
-        exclude: /(node_modules|bower_components)/,
-        loaders: ['babel', 'react-hot'],
+        exclude: /node_modules/,
+        loaders: ['babel'],
         query: {
           presets: ['es2015', 'react']
         }
       }
     ]
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
   devtool: 'source-maps',
   resolve: {
     extensions: ["", ".js", ".jsx" ]
