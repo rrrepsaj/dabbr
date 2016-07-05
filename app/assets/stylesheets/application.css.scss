@@ -385,7 +385,7 @@ button.signup-btn {
   font-size: 14px;
 }
 
-.card .sub-photo-view .photo-details .title a {
+.card .sub-photo-view .photo-details .title span {
   color: #212124;
   padding: 0;
   text-align: left;
@@ -393,6 +393,7 @@ button.signup-btn {
   text-overflow: ellipsis;
   overflow: hidden;
   display: block;
+  cursor: pointer;
 }
 
 // Follow button
