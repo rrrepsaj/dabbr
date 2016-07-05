@@ -6,13 +6,15 @@
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+
     <script type="text/javascript">
      <% if signed_in? %>
          window.currentUser = <%= render("api/users/user.json.jbuilder",
              user: current_user).html_safe %>
      <% end %>
     </script>
-    
+
   </head>
   <body>
 

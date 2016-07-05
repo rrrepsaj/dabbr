@@ -1,4 +1,5 @@
 const React = require('react');
+const FontAwesome = require('react-fontawesome');
 const Link = require('react-router').Link;
 const SessionStore = require('../stores/session_store');
 const ErrorActions = require('../actions/error_actions');
@@ -33,8 +34,6 @@ const App = React.createClass({
     if (SessionStore.isUserSignedIn()) {
     	return (
     		<hgroup className="header-group">
-    			{/*<h2 className="header-name">Hi, {SessionStore.currentUser().username}!</h2>*/}
-    			{/*<button className="header-button signin-signup" type="submit" onClick={ this._handleSignout }>Sign out</button>*/}
           <nav className="signin-signup">
             <ul>
               <li onClick={this._handleSignout}>Sign out</li>
@@ -46,12 +45,15 @@ const App = React.createClass({
       return (
         <nav className="signin-signup">
           <ul>
+            <li>
+              <i className="fa fa-cloud-upload fa-2x" aria-hidden="true"></i>
+            </li>
             <li onClick={this.showSignin}>Sign in</li>
             <ScaleModal ref="signinModal" modalStyle={modalStyle}>
               <SigninForm />
             </ScaleModal>
 
-            <li onClick={this.showSignup}>Sign up</li>
+            <button className="signup-btn" onClick={this.showSignup}>Sign up</button>
             <ScaleModal ref="signupModal" modalStyle={modalStyle}>
               <SignupForm />
             </ScaleModal>
@@ -62,22 +64,23 @@ const App = React.createClass({
   },
 
   render() {
+    const logoRoute = SessionStore.isUserSignedIn() ? "/photos" : "/";
     return (
       <div>
         <nav className="fixed-nav-bar">
           <header>
-            <Link to="/" className="header-link"><h1>dabbr</h1></Link>
+            <Link to={logoRoute} className="header-link"><h1>dabbr</h1></Link>
             { this.greeting() }
-            
-            <div className="background-video">
-              <video autoPlay loop>
-                <source src=""
-                  type="video/mp4"/>
-              </video>
-            </div>
-            
           </header>
         </nav>
+
+        {/*<div className="background-video">
+          <video autoPlay loop>
+            <source src=""
+              type="video/mp4"/>
+          </video>
+        </div>*/}
+
         <div className="main-content">
           {this.props.children}
         </div>
