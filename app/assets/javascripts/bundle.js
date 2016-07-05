@@ -59,12 +59,12 @@
 	var hashHistory = ReactRouter.hashHistory;
 	//Components
 	var App = __webpack_require__(230);
-	var PhotoIndex = __webpack_require__(231);
-	var SigninForm = __webpack_require__(232);
-	var SignupForm = __webpack_require__(261);
+	var PhotoIndex = __webpack_require__(277);
+	var SigninForm = __webpack_require__(258);
+	var SignupForm = __webpack_require__(260);
 	//Auth
-	var SessionStore = __webpack_require__(260);
-	var SessionActions = __webpack_require__(233);
+	var SessionStore = __webpack_require__(231);
+	var SessionActions = __webpack_require__(256);
 	
 	var appRouter = React.createElement(
 	  Router,
@@ -25969,16 +25969,16 @@
 	
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var SessionStore = __webpack_require__(260);
-	var ErrorActions = __webpack_require__(240);
-	var SessionActions = __webpack_require__(233);
+	var SessionStore = __webpack_require__(231);
+	var ErrorActions = __webpack_require__(254);
+	var SessionActions = __webpack_require__(256);
 	// Components
-	var SigninForm = __webpack_require__(232);
-	var SignupForm = __webpack_require__(261);
+	var SigninForm = __webpack_require__(258);
+	var SignupForm = __webpack_require__(260);
 	// Modals
-	var DropModal = __webpack_require__(271);
-	var OutlineModal = __webpack_require__(262);
-	var ScaleModal = __webpack_require__(272);
+	var DropModal = __webpack_require__(261);
+	var OutlineModal = __webpack_require__(270);
+	var ScaleModal = __webpack_require__(271);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -26123,15 +26123,51 @@
 
 	'use strict';
 	
-	var React = __webpack_require__(1);
+	var AppDispatcher = __webpack_require__(232);
+	var Store = __webpack_require__(236).Store;
+	var SessionConstants = __webpack_require__(253);
 	
-	var PhotoIndex = React.createClass({
-	  displayName: 'PhotoIndex',
-	  getInitialState: function getInitialState() {
-	    return { photos: PhotoStore.all() };
-	  },
-	  render: function render() {}
-	});
+	var SessionStore = new Store(AppDispatcher);
+	
+	var _currentUser = {};
+	var _currentUserHasBeenFetched = false;
+	
+	var _signin = function _signin(currentUser) {
+	  _currentUser = currentUser;
+	  _currentUserHasBeenFetched = true;
+	};
+	
+	var _signout = function _signout() {
+	  _currentUser = {};
+	  _currentUserHasBeenFetched = true;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.SIGNIN:
+	      _signin(payload.currentUser);
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.SIGNOUT:
+	      _signout();
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	SessionStore.currentUser = function () {
+	  return Object.assign({}, _currentUser);
+	};
+	
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return !!_currentUserHasBeenFetched;
+	};
+	
+	SessionStore.isUserSignedIn = function () {
+	  return !!_currentUser.id;
+	};
+	
+	module.exports = window.SessionStore = SessionStore;
 
 /***/ },
 /* 232 */
@@ -26139,225 +26175,11 @@
 
 	'use strict';
 	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-	
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	// Actions
-	var ErrorActions = __webpack_require__(240);
-	var SessionActions = __webpack_require__(233);
-	// Stores
-	var ErrorStore = __webpack_require__(242);
-	var SessionStore = __webpack_require__(260);
-	
-	var hashHistory = __webpack_require__(168).hashHistory;
-	
-	var SigninForm = React.createClass({
-	  displayName: 'SigninForm',
-	  getInitialState: function getInitialState() {
-	    return {
-	      username: "",
-	      password: ""
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
-	    this.sessionListener = SessionStore.addListener(this.redirectIfSignedIn);
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.errorListener.remove();
-	    this.sessionListener.remove();
-	  },
-	  redirectIfSignedIn: function redirectIfSignedIn() {
-	    if (SessionStore.isUserSignedIn()) {
-	      hashHistory.push("/");
-	    }
-	  },
-	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault();
-	    var formData = {
-	      username: this.state.username,
-	      password: this.state.password
-	    };
-	
-	    SessionActions.signIn(formData);
-	    ErrorActions.clearErrors();
-	  },
-	  fieldErrors: function fieldErrors(field) {
-	    var _this = this;
-	
-	    var errors = ErrorStore.formErrors(this);
-	
-	    if (!errors[field]) {
-	      return;
-	    }
-	
-	    var messages = errors[field].map(function (errorMsg, i) {
-	      return React.createElement(
-	        'li',
-	        { key: i, __self: _this
-	        },
-	        errorMsg
-	      );
-	    });
-	
-	    return React.createElement(
-	      'ul',
-	      {
-	        __self: this
-	      },
-	      messages
-	    );
-	  },
-	  update: function update(property) {
-	    var _this2 = this;
-	
-	    return function (e) {
-	      return _this2.setState(_defineProperty({}, property, e.target.value));
-	    };
-	  },
-	  render: function render() {
-	    var _this3 = this;
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'signin-form-container', __self: this
-	      },
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit, className: 'signin-form-box', __self: this
-	        },
-	        React.createElement(
-	          'h1',
-	          {
-	            __self: this
-	          },
-	          'Sign In'
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'errors', __self: this
-	          },
-	          React.createElement(
-	            'ul',
-	            {
-	              __self: this
-	            },
-	            ErrorStore.errors().map(function (error) {
-	              return React.createElement(
-	                'li',
-	                { className: 'form-errors', key: error, __self: _this3
-	                },
-	                error
-	              );
-	            })
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'signin-form', __self: this
-	          },
-	          React.createElement(
-	            'label',
-	            {
-	              __self: this
-	            },
-	            React.createElement('input', { type: 'text',
-	              value: this.state.username,
-	              onChange: this.update("username"),
-	              className: 'signin-input', required: true, __self: this
-	            }),
-	            React.createElement(
-	              'div',
-	              { className: 'label-text', __self: this
-	              },
-	              'Username'
-	            )
-	          ),
-	          React.createElement(
-	            'label',
-	            {
-	              __self: this
-	            },
-	            React.createElement('input', { type: 'password',
-	              value: this.state.password,
-	              onChange: this.update("password"),
-	              className: 'signin-input', required: true, __self: this
-	            }),
-	            React.createElement(
-	              'div',
-	              { className: 'label-text', __self: this
-	              },
-	              'Password'
-	            )
-	          ),
-	          React.createElement(
-	            'button',
-	            { type: 'submit', className: 'signin-signup-links', __self: this
-	            },
-	            'Sign in'
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SigninForm;
-
-/***/ },
-/* 233 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AppDispatcher = __webpack_require__(234);
-	var SessionConstants = __webpack_require__(238);
-	var SessionApiUtil = __webpack_require__(239);
-	var hashHistory = __webpack_require__(168).hashHistory;
-	var ErrorActions = __webpack_require__(240);
-	
-	var SessionActions = {
-	  signUp: function signUp(formData) {
-	    SessionApiUtil.signUp(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors);
-	  },
-	  signIn: function signIn(formData) {
-	    SessionApiUtil.signIn(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors);
-	  },
-	  signOut: function signOut() {
-	    SessionApiUtil.signOut(SessionActions.removeCurrentUser);
-	  },
-	  fetchCurrentUser: function fetchCurrentUser(complete) {
-	    SessionApiUtil.fetchCurrentUser(SessionActions.receiveCurrentUser, complete);
-	  },
-	  receiveCurrentUser: function receiveCurrentUser(currentUser) {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.SIGNIN,
-	      currentUser: currentUser
-	    });
-	  },
-	  removeCurrentUser: function removeCurrentUser() {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.SIGNOUT
-	    });
-	    // hashHistory.push("/signin");
-	    hashHistory.push("/");
-	  }
-	};
-	
-	module.exports = SessionActions;
-
-/***/ },
-/* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Dispatcher = __webpack_require__(235).Dispatcher;
+	var Dispatcher = __webpack_require__(233).Dispatcher;
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 235 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26369,11 +26191,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(236);
+	module.exports.Dispatcher = __webpack_require__(234);
 
 
 /***/ },
-/* 236 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26395,7 +26217,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(237);
+	var invariant = __webpack_require__(235);
 	
 	var _prefix = 'ID_';
 	
@@ -26610,7 +26432,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 237 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26665,178 +26487,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 238 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var SessionConstants = {
-	  SIGNIN: "SIGNIN",
-	  SIGNOUT: "SIGNOUT"
-	};
-	
-	module.exports = SessionConstants;
-
-/***/ },
-/* 239 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var SessionApiUtil = {
-	  signIn: function signIn(user, success, _error) {
-	    $.ajax({
-	      url: 'api/session',
-	      type: 'POST',
-	      data: { user: user },
-	      success: success,
-	      error: function error(xhr) {
-	        var errors = xhr.responseJSON;
-	        _error("signin", errors);
-	      }
-	    });
-	  },
-	  signOut: function signOut(success) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'DELETE',
-	      success: success,
-	      error: function error() {
-	        console.log("Logout error in SessionApiUtil#logout");
-	      }
-	    });
-	  },
-	  signUp: function signUp(user, success, _error2) {
-	    $.ajax({
-	      url: 'api/users',
-	      type: 'POST',
-	      dataType: 'json',
-	      data: { user: user },
-	      success: success,
-	      error: function error(xhr) {
-	        var errors = xhr.responseJSON;
-	        _error2("signup", errors);
-	      }
-	    });
-	  },
-	  fetchCurrentUser: function fetchCurrentUser(success, _complete) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'GET',
-	      success: success,
-	      error: function error(xhr) {
-	        console.log("Error in SessionApiUtil#fetchCurrentUser");
-	      },
-	      complete: function complete() {
-	        _complete();
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = SessionApiUtil;
-
-/***/ },
-/* 240 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AppDispatcher = __webpack_require__(234);
-	var ErrorConstants = __webpack_require__(241);
-	
-	var ErrorActions = {
-	  setErrors: function setErrors(form, errors) {
-	    AppDispatcher.dispatch({
-	      actionType: ErrorConstants.SET_ERRORS,
-	      form: form,
-	      errors: errors
-	    });
-	  },
-	  clearErrors: function clearErrors() {
-	    AppDispatcher.dispatch({
-	      actionType: ErrorConstants.CLEAR_ERRORS
-	    });
-	  }
-	};
-	
-	module.exports = ErrorActions;
-
-/***/ },
-/* 241 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var ErrorConstants = {
-	  SET_ERRORS: "SET_ERRORS",
-	  CLEAR_ERRORS: "CLEAR_ERRORS"
-	};
-	
-	module.exports = ErrorConstants;
-
-/***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(243).Store;
-	var AppDispatcher = __webpack_require__(234);
-	var ErrorConstants = __webpack_require__(241);
-	
-	var ErrorStore = new Store(AppDispatcher);
-	
-	var _errors = [];
-	var _form = "";
-	
-	function setErrors(payload) {
-	  _errors = payload.errors.errors;
-	  _form = payload.form;
-	  ErrorStore.__emitChange();
-	}
-	
-	function clearErrors() {
-	  _errors = [];
-	  _form = "";
-	  ErrorStore.__emitChange();
-	}
-	
-	ErrorStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case ErrorConstants.SET_ERRORS:
-	      setErrors(payload);
-	      break;
-	    case ErrorConstants.CLEAR_ERRORS:
-	      clearErrors();
-	      break;
-	  }
-	};
-	
-	ErrorStore.formErrors = function (form) {
-	  if (form !== _form) {
-	    return [];
-	  }
-	
-	  return _errors;
-	};
-	
-	ErrorStore.form = function () {
-	  return _form;
-	};
-	
-	ErrorStore.errors = function () {
-	  return _errors;
-	};
-	
-	ErrorStore.clear = function () {
-	  clearErrors();
-	};
-	
-	module.exports = ErrorStore;
-
-/***/ },
-/* 243 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26848,15 +26499,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(244);
-	module.exports.MapStore = __webpack_require__(247);
-	module.exports.Mixin = __webpack_require__(259);
-	module.exports.ReduceStore = __webpack_require__(248);
-	module.exports.Store = __webpack_require__(249);
+	module.exports.Container = __webpack_require__(237);
+	module.exports.MapStore = __webpack_require__(240);
+	module.exports.Mixin = __webpack_require__(252);
+	module.exports.ReduceStore = __webpack_require__(241);
+	module.exports.Store = __webpack_require__(242);
 
 
 /***/ },
-/* 244 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26878,10 +26529,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(245);
+	var FluxStoreGroup = __webpack_require__(238);
 	
-	var invariant = __webpack_require__(237);
-	var shallowEqual = __webpack_require__(246);
+	var invariant = __webpack_require__(235);
+	var shallowEqual = __webpack_require__(239);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -27039,7 +26690,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 245 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27058,7 +26709,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(237);
+	var invariant = __webpack_require__(235);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -27120,7 +26771,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 246 */
+/* 239 */
 /***/ function(module, exports) {
 
 	/**
@@ -27175,7 +26826,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 247 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27196,10 +26847,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(248);
-	var Immutable = __webpack_require__(258);
+	var FluxReduceStore = __webpack_require__(241);
+	var Immutable = __webpack_require__(251);
 	
-	var invariant = __webpack_require__(237);
+	var invariant = __webpack_require__(235);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -27325,7 +26976,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 248 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27346,10 +26997,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(249);
+	var FluxStore = __webpack_require__(242);
 	
-	var abstractMethod = __webpack_require__(257);
-	var invariant = __webpack_require__(237);
+	var abstractMethod = __webpack_require__(250);
+	var invariant = __webpack_require__(235);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -27432,7 +27083,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 249 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27451,11 +27102,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(250);
+	var _require = __webpack_require__(243);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(237);
+	var invariant = __webpack_require__(235);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -27615,7 +27266,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 250 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27628,14 +27279,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(251)
+	  EventEmitter: __webpack_require__(244)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 251 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27654,11 +27305,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(252);
-	var EventSubscriptionVendor = __webpack_require__(254);
+	var EmitterSubscription = __webpack_require__(245);
+	var EventSubscriptionVendor = __webpack_require__(247);
 	
-	var emptyFunction = __webpack_require__(256);
-	var invariant = __webpack_require__(255);
+	var emptyFunction = __webpack_require__(249);
+	var invariant = __webpack_require__(248);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -27832,7 +27483,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 252 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27853,7 +27504,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(253);
+	var EventSubscription = __webpack_require__(246);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -27885,7 +27536,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 253 */
+/* 246 */
 /***/ function(module, exports) {
 
 	/**
@@ -27939,7 +27590,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 254 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27958,7 +27609,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(255);
+	var invariant = __webpack_require__(248);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -28048,7 +27699,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 255 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -28103,7 +27754,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 256 */
+/* 249 */
 /***/ function(module, exports) {
 
 	/**
@@ -28145,7 +27796,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 257 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -28162,7 +27813,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(237);
+	var invariant = __webpack_require__(235);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -28172,7 +27823,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 258 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33156,7 +32807,7 @@
 	}));
 
 /***/ },
-/* 259 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -33173,9 +32824,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(245);
+	var FluxStoreGroup = __webpack_require__(238);
 	
-	var invariant = __webpack_require__(237);
+	var invariant = __webpack_require__(235);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -33279,59 +32930,160 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 260 */
+/* 253 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var SessionConstants = {
+	  SIGNIN: "SIGNIN",
+	  SIGNOUT: "SIGNOUT"
+	};
+	
+	module.exports = SessionConstants;
+
+/***/ },
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var AppDispatcher = __webpack_require__(234);
-	var Store = __webpack_require__(243).Store;
-	var SessionConstants = __webpack_require__(238);
+	var AppDispatcher = __webpack_require__(232);
+	var ErrorConstants = __webpack_require__(255);
 	
-	var SessionStore = new Store(AppDispatcher);
-	
-	var _currentUser = {};
-	var _currentUserHasBeenFetched = false;
-	
-	var _signin = function _signin(currentUser) {
-	  _currentUser = currentUser;
-	  _currentUserHasBeenFetched = true;
-	};
-	
-	var _signout = function _signout() {
-	  _currentUser = {};
-	  _currentUserHasBeenFetched = true;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case SessionConstants.SIGNIN:
-	      _signin(payload.currentUser);
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.SIGNOUT:
-	      _signout();
-	      SessionStore.__emitChange();
-	      break;
+	var ErrorActions = {
+	  setErrors: function setErrors(form, errors) {
+	    AppDispatcher.dispatch({
+	      actionType: ErrorConstants.SET_ERRORS,
+	      form: form,
+	      errors: errors
+	    });
+	  },
+	  clearErrors: function clearErrors() {
+	    AppDispatcher.dispatch({
+	      actionType: ErrorConstants.CLEAR_ERRORS
+	    });
 	  }
 	};
 	
-	SessionStore.currentUser = function () {
-	  return Object.assign({}, _currentUser);
-	};
-	
-	SessionStore.currentUserHasBeenFetched = function () {
-	  return !!_currentUserHasBeenFetched;
-	};
-	
-	SessionStore.isUserSignedIn = function () {
-	  return !!_currentUser.id;
-	};
-	
-	module.exports = window.SessionStore = SessionStore;
+	module.exports = ErrorActions;
 
 /***/ },
-/* 261 */
+/* 255 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var ErrorConstants = {
+	  SET_ERRORS: "SET_ERRORS",
+	  CLEAR_ERRORS: "CLEAR_ERRORS"
+	};
+	
+	module.exports = ErrorConstants;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(232);
+	var SessionConstants = __webpack_require__(253);
+	var SessionApiUtil = __webpack_require__(257);
+	var hashHistory = __webpack_require__(168).hashHistory;
+	var ErrorActions = __webpack_require__(254);
+	
+	var SessionActions = {
+	  signUp: function signUp(formData) {
+	    SessionApiUtil.signUp(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors);
+	  },
+	  signIn: function signIn(formData) {
+	    SessionApiUtil.signIn(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors);
+	  },
+	  signOut: function signOut() {
+	    SessionApiUtil.signOut(SessionActions.removeCurrentUser);
+	  },
+	  fetchCurrentUser: function fetchCurrentUser(complete) {
+	    SessionApiUtil.fetchCurrentUser(SessionActions.receiveCurrentUser, complete);
+	  },
+	  receiveCurrentUser: function receiveCurrentUser(currentUser) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.SIGNIN,
+	      currentUser: currentUser
+	    });
+	  },
+	  removeCurrentUser: function removeCurrentUser() {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.SIGNOUT
+	    });
+	    // hashHistory.push("/signin");
+	    hashHistory.push("/");
+	  }
+	};
+	
+	module.exports = SessionActions;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var SessionApiUtil = {
+	  signIn: function signIn(user, success, _error) {
+	    $.ajax({
+	      url: 'api/session',
+	      type: 'POST',
+	      data: { user: user },
+	      success: success,
+	      error: function error(xhr) {
+	        var errors = xhr.responseJSON;
+	        _error("signin", errors);
+	      }
+	    });
+	  },
+	  signOut: function signOut(success) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'DELETE',
+	      success: success,
+	      error: function error() {
+	        console.log("Logout error in SessionApiUtil#logout");
+	      }
+	    });
+	  },
+	  signUp: function signUp(user, success, _error2) {
+	    $.ajax({
+	      url: 'api/users',
+	      type: 'POST',
+	      dataType: 'json',
+	      data: { user: user },
+	      success: success,
+	      error: function error(xhr) {
+	        var errors = xhr.responseJSON;
+	        _error2("signup", errors);
+	      }
+	    });
+	  },
+	  fetchCurrentUser: function fetchCurrentUser(success, _complete) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'GET',
+	      success: success,
+	      error: function error(xhr) {
+	        console.log("Error in SessionApiUtil#fetchCurrentUser");
+	      },
+	      complete: function complete() {
+	        _complete();
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = SessionApiUtil;
+
+/***/ },
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33341,11 +33093,243 @@
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	// Actions
-	var ErrorActions = __webpack_require__(240);
-	var SessionActions = __webpack_require__(233);
+	var ErrorActions = __webpack_require__(254);
+	var SessionActions = __webpack_require__(256);
 	// Stores
-	var ErrorStore = __webpack_require__(242);
-	var SessionStore = __webpack_require__(260);
+	var ErrorStore = __webpack_require__(259);
+	var SessionStore = __webpack_require__(231);
+	
+	var hashHistory = __webpack_require__(168).hashHistory;
+	
+	var SigninForm = React.createClass({
+	  displayName: 'SigninForm',
+	  getInitialState: function getInitialState() {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+	    this.sessionListener = SessionStore.addListener(this.redirectIfSignedIn);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.errorListener.remove();
+	    this.sessionListener.remove();
+	  },
+	  redirectIfSignedIn: function redirectIfSignedIn() {
+	    if (SessionStore.isUserSignedIn()) {
+	      hashHistory.push("/");
+	    }
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var formData = {
+	      username: this.state.username,
+	      password: this.state.password
+	    };
+	
+	    SessionActions.signIn(formData);
+	    ErrorActions.clearErrors();
+	  },
+	  fieldErrors: function fieldErrors(field) {
+	    var _this = this;
+	
+	    var errors = ErrorStore.formErrors(this);
+	
+	    if (!errors[field]) {
+	      return;
+	    }
+	
+	    var messages = errors[field].map(function (errorMsg, i) {
+	      return React.createElement(
+	        'li',
+	        { key: i, __self: _this
+	        },
+	        errorMsg
+	      );
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      {
+	        __self: this
+	      },
+	      messages
+	    );
+	  },
+	  update: function update(property) {
+	    var _this2 = this;
+	
+	    return function (e) {
+	      return _this2.setState(_defineProperty({}, property, e.target.value));
+	    };
+	  },
+	  render: function render() {
+	    var _this3 = this;
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'signin-form-container', __self: this
+	      },
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit, className: 'signin-form-box', __self: this
+	        },
+	        React.createElement(
+	          'h1',
+	          {
+	            __self: this
+	          },
+	          'Sign In'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'errors', __self: this
+	          },
+	          React.createElement(
+	            'ul',
+	            {
+	              __self: this
+	            },
+	            ErrorStore.errors().map(function (error) {
+	              return React.createElement(
+	                'li',
+	                { className: 'form-errors', key: error, __self: _this3
+	                },
+	                error
+	              );
+	            })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'signin-form', __self: this
+	          },
+	          React.createElement(
+	            'label',
+	            {
+	              __self: this
+	            },
+	            React.createElement('input', { type: 'text',
+	              value: this.state.username,
+	              onChange: this.update("username"),
+	              className: 'signin-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Username'
+	            )
+	          ),
+	          React.createElement(
+	            'label',
+	            {
+	              __self: this
+	            },
+	            React.createElement('input', { type: 'password',
+	              value: this.state.password,
+	              onChange: this.update("password"),
+	              className: 'signin-input', required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Password'
+	            )
+	          ),
+	          React.createElement(
+	            'button',
+	            { type: 'submit', className: 'signin-signup-links', __self: this
+	            },
+	            'Sign in'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SigninForm;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(236).Store;
+	var AppDispatcher = __webpack_require__(232);
+	var ErrorConstants = __webpack_require__(255);
+	
+	var ErrorStore = new Store(AppDispatcher);
+	
+	var _errors = [];
+	var _form = "";
+	
+	function setErrors(payload) {
+	  _errors = payload.errors.errors;
+	  _form = payload.form;
+	  ErrorStore.__emitChange();
+	}
+	
+	function clearErrors() {
+	  _errors = [];
+	  _form = "";
+	  ErrorStore.__emitChange();
+	}
+	
+	ErrorStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ErrorConstants.SET_ERRORS:
+	      setErrors(payload);
+	      break;
+	    case ErrorConstants.CLEAR_ERRORS:
+	      clearErrors();
+	      break;
+	  }
+	};
+	
+	ErrorStore.formErrors = function (form) {
+	  if (form !== _form) {
+	    return [];
+	  }
+	
+	  return _errors;
+	};
+	
+	ErrorStore.form = function () {
+	  return _form;
+	};
+	
+	ErrorStore.errors = function () {
+	  return _errors;
+	};
+	
+	ErrorStore.clear = function () {
+	  clearErrors();
+	};
+	
+	module.exports = ErrorStore;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	// Actions
+	var ErrorActions = __webpack_require__(254);
+	var SessionActions = __webpack_require__(256);
+	// Stores
+	var ErrorStore = __webpack_require__(259);
+	var SessionStore = __webpack_require__(231);
 	
 	var hashHistory = __webpack_require__(168).hashHistory;
 	
@@ -33561,41 +33545,43 @@
 	module.exports = SignupForm;
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(262);
+	var insertKeyframesRule = __webpack_require__(267);
+	var appendVendorPrefix = __webpack_require__(264);
 	
 	var animation = {
 	    show: {
-	        animationDuration: '0.8s',
-	        animationTimingFunction: 'cubic-bezier(0.6,0,0.4,1)'
+	        animationDuration: '0.4s',
+	        animationTimingFunction: 'cubic-bezier(0.7,0,0.3,1)'
 	    },
+	
 	    hide: {
 	        animationDuration: '0.4s',
-	        animationTimingFunction: 'ease-out'
+	        animationTimingFunction: 'cubic-bezier(0.7,0,0.3,1)'
 	    },
-	    showContentAnimation: insertKeyframesRule({
+	
+	    showModalAnimation: insertKeyframesRule({
 	        '0%': {
 	            opacity: 0,
-	        },
-	        '40%':{
-	            opacity: 0
+	            transform: 'translate3d(-50%, -300px, 0)'
 	        },
 	        '100%': {
 	            opacity: 1,
+	            transform: 'translate3d(-50%, -50%, 0)'
 	        }
 	    }),
 	
-	    hideContentAnimation: insertKeyframesRule({
+	    hideModalAnimation: insertKeyframesRule({
 	        '0%': {
-	            opacity: 1
+	            opacity: 1,
+	            transform: 'translate3d(-50%, -50%, 0)'
 	        },
 	        '100%': {
 	            opacity: 0,
+	            transform: 'translate3d(-50%, 100px, 0)'
 	        }
 	    }),
 	
@@ -33605,7 +33591,7 @@
 	        },
 	        '100%': {
 	            opacity: 0.9
-	        },
+	        }
 	    }),
 	
 	    hideBackdropAnimation: insertKeyframesRule({
@@ -33615,73 +33601,57 @@
 	        '100%': {
 	            opacity: 0
 	        }
+	    }),
+	
+	    showContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 0,
+	            transform: 'translate3d(0, -20px, 0)'
+	        },
+	        '100%': {
+	            opacity: 1,
+	            transform: 'translate3d(0, 0, 0)'
+	        }
+	    }),
+	
+	    hideContentAnimation: insertKeyframesRule({
+	        '0%': {
+	            opacity: 1,
+	            transform: 'translate3d(0, 0, 0)'
+	        },
+	        '100%': {
+	            opacity: 0,
+	            transform: 'translate3d(0, 50px, 0)'
+	        }
 	    })
 	};
 	
 	var showAnimation = animation.show;
 	var hideAnimation = animation.hide;
-	var showContentAnimation = animation.showContentAnimation;
-	var hideContentAnimation = animation.hideContentAnimation;
+	var showModalAnimation = animation.showModalAnimation;
+	var hideModalAnimation = animation.hideModalAnimation;
 	var showBackdropAnimation = animation.showBackdropAnimation;
 	var hideBackdropAnimation = animation.hideBackdropAnimation;
+	var showContentAnimation = animation.showContentAnimation;
+	var hideContentAnimation = animation.hideContentAnimation;
 	
 	module.exports = modalFactory({
 	    getRef: function(willHidden) {
-	        return 'content';
-	    },
-	    getSharp: function(willHidden) {
-	        var strokeDashLength = 1680;
-	
-	        var showSharpAnimation = insertKeyframesRule({
-	            '0%': {
-	                'stroke-dashoffset': strokeDashLength
-	            },
-	            '100%': {
-	                'stroke-dashoffset': 0
-	            },
-	        });
-	
-	
-	        var sharpStyle = {
-	            position: 'absolute',
-	            width: 'calc(100%)',
-	            height: 'calc(100%)',
-	            zIndex: '-1'
-	        };
-	
-	        var rectStyle = appendVendorPrefix({
-	            animationDuration: willHidden? '0.4s' :'0.8s',
-	            animationFillMode: 'forwards',
-	            animationName: willHidden? hideContentAnimation: showSharpAnimation,
-	            stroke: '#ffffff',
-	            strokeWidth: '2px',
-	            strokeDasharray: strokeDashLength
-	        });
-	
-	        return React.createElement("div", {style: sharpStyle}, 
-	            React.createElement("svg", {
-	                xmlns: "http://www.w3.org/2000/svg", 
-	                width: "100%", 
-	                height: "100%", 
-	                viewBox: "0 0 496 136", 
-	                preserveAspectRatio: "none"}, 
-	                React.createElement("rect", {style: rectStyle, 
-	                    x: "2", 
-	                    y: "2", 
-	                    fill: "none", 
-	                    width: "492", 
-	                    height: "132"})
-	            )
-	        )
+	        return 'modal';
 	    },
 	    getModalStyle: function(willHidden) {
 	        return appendVendorPrefix({
-	            zIndex: 1050,
 	            position: "fixed",
 	            width: "500px",
 	            transform: "translate3d(-50%, -50%, 0)",
 	            top: "50%",
-	            left: "50%"
+	            left: "50%",
+	            backgroundColor: "white",
+	            zIndex: 1050,
+	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
+	            animationFillMode: 'forwards',
+	            animationName: willHidden ? hideModalAnimation : showModalAnimation,
+	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
 	        })
 	    },
 	    getBackdropStyle: function(willHidden) {
@@ -33693,8 +33663,8 @@
 	            left: 0,
 	            zIndex: 1040,
 	            backgroundColor: "#373A47",
+	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
 	            animationFillMode: 'forwards',
-	            animationDuration: '0.4s',
 	            animationName: willHidden ? hideBackdropAnimation : showBackdropAnimation,
 	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
 	        });
@@ -33702,10 +33672,11 @@
 	    getContentStyle: function(willHidden) {
 	        return appendVendorPrefix({
 	            margin: 0,
-	            backgroundColor: "white",
+	            opacity: 0,
 	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
 	            animationFillMode: 'forwards',
-	            animationName: willHidden ? hideContentAnimation : showContentAnimation,
+	            animationDelay: '0.25s',
+	            animationName: showContentAnimation,
 	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
 	        })
 	    }
@@ -33713,12 +33684,12 @@
 
 
 /***/ },
-/* 263 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var transitionEvents = __webpack_require__(264);
-	var appendVendorPrefix = __webpack_require__(265);
+	var transitionEvents = __webpack_require__(263);
+	var appendVendorPrefix = __webpack_require__(264);
 	
 	module.exports = function(animation){
 	
@@ -33897,7 +33868,7 @@
 
 
 /***/ },
-/* 264 */
+/* 263 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33998,12 +33969,12 @@
 
 
 /***/ },
-/* 265 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var getVendorPropertyName = __webpack_require__(266);
+	var getVendorPropertyName = __webpack_require__(265);
 	
 	module.exports = function(target, sources) {
 	  var to = Object(target);
@@ -34034,12 +34005,12 @@
 
 
 /***/ },
-/* 266 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var builtinStyle = __webpack_require__(267);
+	var builtinStyle = __webpack_require__(266);
 	var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
 	var domVendorPrefix;
 	
@@ -34077,7 +34048,7 @@
 
 
 /***/ },
-/* 267 */
+/* 266 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34086,13 +34057,13 @@
 
 
 /***/ },
-/* 268 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var insertRule = __webpack_require__(269);
-	var vendorPrefix = __webpack_require__(270)();
+	var insertRule = __webpack_require__(268);
+	var vendorPrefix = __webpack_require__(269)();
 	var index = 0;
 	
 	module.exports = function(keyframes) {
@@ -34122,7 +34093,7 @@
 
 
 /***/ },
-/* 269 */
+/* 268 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34147,7 +34118,7 @@
 
 
 /***/ },
-/* 270 */
+/* 269 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34166,43 +34137,41 @@
 
 
 /***/ },
-/* 271 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var React = __webpack_require__(1);
+	var modalFactory = __webpack_require__(262);
+	var insertKeyframesRule = __webpack_require__(267);
+	var appendVendorPrefix = __webpack_require__(264);
 	
 	var animation = {
 	    show: {
-	        animationDuration: '0.4s',
-	        animationTimingFunction: 'cubic-bezier(0.7,0,0.3,1)'
+	        animationDuration: '0.8s',
+	        animationTimingFunction: 'cubic-bezier(0.6,0,0.4,1)'
 	    },
-	
 	    hide: {
 	        animationDuration: '0.4s',
-	        animationTimingFunction: 'cubic-bezier(0.7,0,0.3,1)'
+	        animationTimingFunction: 'ease-out'
 	    },
-	
-	    showModalAnimation: insertKeyframesRule({
+	    showContentAnimation: insertKeyframesRule({
 	        '0%': {
 	            opacity: 0,
-	            transform: 'translate3d(-50%, -300px, 0)'
+	        },
+	        '40%':{
+	            opacity: 0
 	        },
 	        '100%': {
 	            opacity: 1,
-	            transform: 'translate3d(-50%, -50%, 0)'
 	        }
 	    }),
 	
-	    hideModalAnimation: insertKeyframesRule({
+	    hideContentAnimation: insertKeyframesRule({
 	        '0%': {
-	            opacity: 1,
-	            transform: 'translate3d(-50%, -50%, 0)'
+	            opacity: 1
 	        },
 	        '100%': {
 	            opacity: 0,
-	            transform: 'translate3d(-50%, 100px, 0)'
 	        }
 	    }),
 	
@@ -34212,7 +34181,7 @@
 	        },
 	        '100%': {
 	            opacity: 0.9
-	        }
+	        },
 	    }),
 	
 	    hideBackdropAnimation: insertKeyframesRule({
@@ -34222,57 +34191,73 @@
 	        '100%': {
 	            opacity: 0
 	        }
-	    }),
-	
-	    showContentAnimation: insertKeyframesRule({
-	        '0%': {
-	            opacity: 0,
-	            transform: 'translate3d(0, -20px, 0)'
-	        },
-	        '100%': {
-	            opacity: 1,
-	            transform: 'translate3d(0, 0, 0)'
-	        }
-	    }),
-	
-	    hideContentAnimation: insertKeyframesRule({
-	        '0%': {
-	            opacity: 1,
-	            transform: 'translate3d(0, 0, 0)'
-	        },
-	        '100%': {
-	            opacity: 0,
-	            transform: 'translate3d(0, 50px, 0)'
-	        }
 	    })
 	};
 	
 	var showAnimation = animation.show;
 	var hideAnimation = animation.hide;
-	var showModalAnimation = animation.showModalAnimation;
-	var hideModalAnimation = animation.hideModalAnimation;
-	var showBackdropAnimation = animation.showBackdropAnimation;
-	var hideBackdropAnimation = animation.hideBackdropAnimation;
 	var showContentAnimation = animation.showContentAnimation;
 	var hideContentAnimation = animation.hideContentAnimation;
+	var showBackdropAnimation = animation.showBackdropAnimation;
+	var hideBackdropAnimation = animation.hideBackdropAnimation;
 	
 	module.exports = modalFactory({
 	    getRef: function(willHidden) {
-	        return 'modal';
+	        return 'content';
+	    },
+	    getSharp: function(willHidden) {
+	        var strokeDashLength = 1680;
+	
+	        var showSharpAnimation = insertKeyframesRule({
+	            '0%': {
+	                'stroke-dashoffset': strokeDashLength
+	            },
+	            '100%': {
+	                'stroke-dashoffset': 0
+	            },
+	        });
+	
+	
+	        var sharpStyle = {
+	            position: 'absolute',
+	            width: 'calc(100%)',
+	            height: 'calc(100%)',
+	            zIndex: '-1'
+	        };
+	
+	        var rectStyle = appendVendorPrefix({
+	            animationDuration: willHidden? '0.4s' :'0.8s',
+	            animationFillMode: 'forwards',
+	            animationName: willHidden? hideContentAnimation: showSharpAnimation,
+	            stroke: '#ffffff',
+	            strokeWidth: '2px',
+	            strokeDasharray: strokeDashLength
+	        });
+	
+	        return React.createElement("div", {style: sharpStyle}, 
+	            React.createElement("svg", {
+	                xmlns: "http://www.w3.org/2000/svg", 
+	                width: "100%", 
+	                height: "100%", 
+	                viewBox: "0 0 496 136", 
+	                preserveAspectRatio: "none"}, 
+	                React.createElement("rect", {style: rectStyle, 
+	                    x: "2", 
+	                    y: "2", 
+	                    fill: "none", 
+	                    width: "492", 
+	                    height: "132"})
+	            )
+	        )
 	    },
 	    getModalStyle: function(willHidden) {
 	        return appendVendorPrefix({
+	            zIndex: 1050,
 	            position: "fixed",
 	            width: "500px",
 	            transform: "translate3d(-50%, -50%, 0)",
 	            top: "50%",
-	            left: "50%",
-	            backgroundColor: "white",
-	            zIndex: 1050,
-	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
-	            animationFillMode: 'forwards',
-	            animationName: willHidden ? hideModalAnimation : showModalAnimation,
-	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
+	            left: "50%"
 	        })
 	    },
 	    getBackdropStyle: function(willHidden) {
@@ -34284,8 +34269,8 @@
 	            left: 0,
 	            zIndex: 1040,
 	            backgroundColor: "#373A47",
-	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
 	            animationFillMode: 'forwards',
+	            animationDuration: '0.4s',
 	            animationName: willHidden ? hideBackdropAnimation : showBackdropAnimation,
 	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
 	        });
@@ -34293,11 +34278,10 @@
 	    getContentStyle: function(willHidden) {
 	        return appendVendorPrefix({
 	            margin: 0,
-	            opacity: 0,
+	            backgroundColor: "white",
 	            animationDuration: (willHidden ? hideAnimation : showAnimation).animationDuration,
 	            animationFillMode: 'forwards',
-	            animationDelay: '0.25s',
-	            animationName: showContentAnimation,
+	            animationName: willHidden ? hideContentAnimation : showContentAnimation,
 	            animationTimingFunction: (willHidden ? hideAnimation : showAnimation).animationTimingFunction
 	        })
 	    }
@@ -34305,12 +34289,12 @@
 
 
 /***/ },
-/* 272 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(262);
+	var insertKeyframesRule = __webpack_require__(267);
+	var appendVendorPrefix = __webpack_require__(264);
 	
 	var animation = {
 	    show: {
@@ -34409,6 +34393,27 @@
 	    }
 	});
 
+
+/***/ },
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var PhotoIndex = React.createClass({
+	  displayName: 'PhotoIndex',
+	  getInitialState: function getInitialState() {
+	    return { photos: PhotoStore.all() };
+	  },
+	  render: function render() {}
+	});
 
 /***/ }
 /******/ ]);
