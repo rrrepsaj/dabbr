@@ -1,5 +1,4 @@
 var path = require("path");
-var webpack = require("webpack");
 
 module.exports = {
   context: __dirname,
@@ -14,8 +13,8 @@ module.exports = {
     loaders: [
       {
         test: [/\.jsx?$/, /\.js?$/],
-        exclude: /node_modules/,
-        loaders: ['babel'],
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel',
         query: {
           presets: ['es2015', 'react']
         }
