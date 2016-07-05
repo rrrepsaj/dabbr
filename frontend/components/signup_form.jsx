@@ -125,7 +125,7 @@ const SignupForm = React.createClass({
               <div className="label-text">Password</div>
 						</label>
 
-						<button type="submit" className="signin-signup">Sign up</button>
+						<button type="submit" className="signin-signup forms">Sign up</button>
 					</div>
 				</form>
 			</div>

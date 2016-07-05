@@ -11,19 +11,27 @@ PhotoStore.all = function() {
 };
 
 function resetAllPhotos (photos) {
-  // _photos = {};
-  // photos.forEach(photo => {
-  //   _photos[photo.id] = photo;
-  // });
-
   _photos = photos;
   PhotoStore.__emitChange();
 }
 
+function resetPhoto (photo) {
+  _photos[photo.id] = photo;
+  PhotoStore.__emitChange();
+}
+
+PhotoStore.find = function(photoId) {
+  return _photos[photoId];
+}
+
 PhotoStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
-    case PhotoConstants.PHOTOS_RECEIVED;
-      resetAllPhotos(payload.benches);
+    case PhotoConstants.PHOTOS_RECEIVED:
+      resetAllPhotos(payload.photos);
+      break;
+    case PhotoConstants.PHOTO_RECEIVED:
+      console.log("in photoStore");
+      resetPhoto(payload.photo);
       break;
   }
 };

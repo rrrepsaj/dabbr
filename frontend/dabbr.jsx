@@ -11,6 +11,7 @@ const IndexRoute = ReactRouter.IndexRoute;
 const hashHistory = ReactRouter.hashHistory;
 //Components
 const App = require('./components/App');
+const PhotoDetail = require('./components/photo_detail');
 const PhotoIndex = require('./components/photo_index');
 const SigninForm = require('./components/signin_form');
 const SignupForm = require('./components/signup_form');
@@ -22,6 +23,8 @@ const SessionActions = require('./actions/session_actions');
 const appRouter = (
   <Router history={ hashHistory }>
     <Route path="/" component={ App }>
+      <Route path="/photos" component={PhotoIndex} />
+      <Route path="/photos/:id" component={PhotoDetail} />
     </Route>
   </Router>
 );
