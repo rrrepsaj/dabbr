@@ -55,18 +55,6 @@ const SigninForm = React.createClass({
     this.redirectIfSignedIn();
   },
 
-  fieldErrors(field) {
-    const errors = ErrorStore.formErrors(this);
-
-    if (!errors[field]) { return; }
-
-    const messages = errors[field].map( (errorMsg, i) => {
-      return <li key={ i }>{ errorMsg }</li>;
-    });
-
-    return <ul>{ messages }</ul>;
-  },
-
   update(property) {
     return (e) => this.setState({[property]: e.target.value});
   },
@@ -103,7 +91,7 @@ const SigninForm = React.createClass({
 
           {/*Display errors*/}
           <div className="errors">
-            <ul>
+            <ul className="errors">
               {
                 ErrorStore.errors().map(error => {
                   return <li className="form-errors" key={error}>{error}</li>
@@ -129,8 +117,10 @@ const SigninForm = React.createClass({
               <div className="label-text">Password</div>
 						</label>
 
-						<button type="submit" className="signin-signup forms">Sign in</button>
-						<button type="submit" className="demo-signin forms" onClick={this._demoLogin}>Demo</button>
+						<div className="signin-buttons">
+              <button type="submit" className="signin-signup forms">Sign in</button>
+              <button type="submit" className="demo-signin forms" onClick={this._demoLogin}>Demo</button>
+            </div>
 					</div>
 				</form>
 			</div>

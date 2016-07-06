@@ -33266,41 +33266,15 @@
 	    ErrorActions.clearErrors();
 	    this.redirectIfSignedIn();
 	  },
-	  fieldErrors: function fieldErrors(field) {
+	  update: function update(property) {
 	    var _this = this;
 	
-	    var errors = ErrorStore.formErrors(this);
-	
-	    if (!errors[field]) {
-	      return;
-	    }
-	
-	    var messages = errors[field].map(function (errorMsg, i) {
-	      return React.createElement(
-	        'li',
-	        { key: i, __self: _this
-	        },
-	        errorMsg
-	      );
-	    });
-	
-	    return React.createElement(
-	      'ul',
-	      {
-	        __self: this
-	      },
-	      messages
-	    );
-	  },
-	  update: function update(property) {
-	    var _this2 = this;
-	
 	    return function (e) {
-	      return _this2.setState(_defineProperty({}, property, e.target.value));
+	      return _this.setState(_defineProperty({}, property, e.target.value));
 	    };
 	  },
 	  _demoLogin: function _demoLogin() {
-	    var _this3 = this;
+	    var _this2 = this;
 	
 	    this.setState({
 	      email: "",
@@ -33313,19 +33287,19 @@
 	    var passwordIndex = 0;
 	    var interval = setInterval(function () {
 	      if (emailIndex < 16) {
-	        _this3.setState({ email: '' + _this3.state.email + email[emailIndex] });
+	        _this2.setState({ email: '' + _this2.state.email + email[emailIndex] });
 	        emailIndex++;
 	      } else if (passwordIndex < 8) {
-	        _this3.setState({ password: '' + _this3.state.password + password[passwordIndex] });
+	        _this2.setState({ password: '' + _this2.state.password + password[passwordIndex] });
 	        passwordIndex++;
 	      } else {
-	        _this3._demoSubmit();
+	        _this2._demoSubmit();
 	        clearInterval(interval);
 	      }
 	    }, 75);
 	  },
 	  render: function render() {
-	    var _this4 = this;
+	    var _this3 = this;
 	
 	    return React.createElement(
 	      'div',
@@ -33348,13 +33322,12 @@
 	          },
 	          React.createElement(
 	            'ul',
-	            {
-	              __self: this
+	            { className: 'errors', __self: this
 	            },
 	            ErrorStore.errors().map(function (error) {
 	              return React.createElement(
 	                'li',
-	                { className: 'form-errors', key: error, __self: _this4
+	                { className: 'form-errors', key: error, __self: _this3
 	                },
 	                error
 	              );
@@ -33400,16 +33373,21 @@
 	            )
 	          ),
 	          React.createElement(
-	            'button',
-	            { type: 'submit', className: 'signin-signup forms', __self: this
+	            'div',
+	            { className: 'signin-buttons', __self: this
 	            },
-	            'Sign in'
-	          ),
-	          React.createElement(
-	            'button',
-	            { type: 'submit', className: 'demo-signin forms', onClick: this._demoLogin, __self: this
-	            },
-	            'Demo'
+	            React.createElement(
+	              'button',
+	              { type: 'submit', className: 'signin-signup forms', __self: this
+	              },
+	              'Sign in'
+	            ),
+	            React.createElement(
+	              'button',
+	              { type: 'submit', className: 'demo-signin forms', onClick: this._demoLogin, __self: this
+	              },
+	              'Demo'
+	            )
 	          )
 	        )
 	      )
@@ -33536,20 +33514,6 @@
 	    SessionActions.signUp(formData);
 	    ErrorActions.clearErrors();
 	  },
-	
-	
-	  // fieldErrors(field) {
-	  //   const errors = ErrorStore.formErrors(this);
-	  //
-	  //   if (!errors[field]) { return; }
-	  //
-	  //   const messages = errors[field].map( (errorMsg, i) => {
-	  //     return <li key={ i }>{ errorMsg }</li>;
-	  //   });
-	  //
-	  //   return <ul>{ messages }</ul>;
-	  // },
-	
 	  update: function update(property) {
 	    var _this = this;
 	
@@ -33577,13 +33541,11 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          {
-	            __self: this
+	          { className: 'errors', __self: this
 	          },
 	          React.createElement(
 	            'ul',
-	            {
-	              __self: this
+	            { className: 'errors', __self: this
 	            },
 	            ErrorStore.errors().map(function (error) {
 	              return React.createElement(
@@ -33685,10 +33647,15 @@
 	            )
 	          ),
 	          React.createElement(
-	            'button',
-	            { type: 'submit', className: 'signin-signup forms', __self: this
+	            'div',
+	            { className: 'signup-buttons', __self: this
 	            },
-	            'Sign up'
+	            React.createElement(
+	              'button',
+	              { type: 'submit', className: 'signin-signup forms', __self: this
+	              },
+	              'Sign up'
+	            )
 	          )
 	        )
 	      )

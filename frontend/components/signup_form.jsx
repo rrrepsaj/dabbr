@@ -50,18 +50,6 @@ const SignupForm = React.createClass({
     ErrorActions.clearErrors();
   },
 
-  // fieldErrors(field) {
-  //   const errors = ErrorStore.formErrors(this);
-  //
-  //   if (!errors[field]) { return; }
-  //
-  //   const messages = errors[field].map( (errorMsg, i) => {
-  //     return <li key={ i }>{ errorMsg }</li>;
-  //   });
-  //
-  //   return <ul>{ messages }</ul>;
-  // },
-
   update(property) {
     return (e) => this.setState({[property]: e.target.value});
   },
@@ -74,8 +62,8 @@ const SignupForm = React.createClass({
           <h1>Sign Up</h1>
 
           {/*Display errors*/}
-          <div>
-            <ul>
+          <div className="errors">
+            <ul className="errors">
               {
                 ErrorStore.errors().map(error => {
                   return <li className="form-errors" key={error}>{error}</li>
@@ -125,7 +113,9 @@ const SignupForm = React.createClass({
               <div className="label-text">Password</div>
 						</label>
 
-						<button type="submit" className="signin-signup forms">Sign up</button>
+						<div className="signup-buttons">
+              <button type="submit" className="signin-signup forms">Sign up</button>
+            </div>
 					</div>
 				</form>
 			</div>
