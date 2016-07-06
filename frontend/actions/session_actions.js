@@ -35,7 +35,6 @@ const SessionActions = {
     AppDispatcher.dispatch({
       actionType: SessionConstants.SIGNOUT
     });
-    // hashHistory.push("/signin");
     hashHistory.push("/");
   }
 };

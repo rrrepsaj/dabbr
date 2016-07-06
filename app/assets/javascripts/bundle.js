@@ -33141,7 +33141,6 @@
 	    AppDispatcher.dispatch({
 	      actionType: SessionConstants.SIGNOUT
 	    });
-	    // hashHistory.push("/signin");
 	    hashHistory.push("/");
 	  }
 	};
@@ -33179,7 +33178,7 @@
 	  },
 	  signUp: function signUp(user, success, _error2) {
 	    $.ajax({
-	      url: 'api/users',
+	      url: 'api/user',
 	      type: 'POST',
 	      dataType: 'json',
 	      data: { user: user },
@@ -33436,6 +33435,7 @@
 	var _form = "";
 	
 	function setErrors(payload) {
+	  // console.log(payload);
 	  _errors = payload.errors.errors;
 	  _form = payload.form;
 	  ErrorStore.__emitChange();
@@ -33536,41 +33536,29 @@
 	    SessionActions.signUp(formData);
 	    ErrorActions.clearErrors();
 	  },
-	  fieldErrors: function fieldErrors(field) {
+	
+	
+	  // fieldErrors(field) {
+	  //   const errors = ErrorStore.formErrors(this);
+	  //
+	  //   if (!errors[field]) { return; }
+	  //
+	  //   const messages = errors[field].map( (errorMsg, i) => {
+	  //     return <li key={ i }>{ errorMsg }</li>;
+	  //   });
+	  //
+	  //   return <ul>{ messages }</ul>;
+	  // },
+	
+	  update: function update(property) {
 	    var _this = this;
 	
-	    var errors = ErrorStore.formErrors(this);
-	
-	    if (!errors[field]) {
-	      return;
-	    }
-	
-	    var messages = errors[field].map(function (errorMsg, i) {
-	      return React.createElement(
-	        'li',
-	        { key: i, __self: _this
-	        },
-	        errorMsg
-	      );
-	    });
-	
-	    return React.createElement(
-	      'ul',
-	      {
-	        __self: this
-	      },
-	      messages
-	    );
-	  },
-	  update: function update(property) {
-	    var _this2 = this;
-	
 	    return function (e) {
-	      return _this2.setState(_defineProperty({}, property, e.target.value));
+	      return _this.setState(_defineProperty({}, property, e.target.value));
 	    };
 	  },
 	  render: function render() {
-	    var _this3 = this;
+	    var _this2 = this;
 	
 	    return React.createElement(
 	      'div',
@@ -33600,7 +33588,7 @@
 	            ErrorStore.errors().map(function (error) {
 	              return React.createElement(
 	                'li',
-	                { className: 'form-errors', key: error, __self: _this3
+	                { className: 'form-errors', key: error, __self: _this2
 	                },
 	                error
 	              );
@@ -39424,12 +39412,13 @@
 			this.refs.detailsModal.show();
 		},
 		redirectToShow: function redirectToShow() {
+			console.log(this);
+			// debugger
 			var photoId = this.props.photo.id;
 			hashHistory.push('/photos/' + photoId);
 		},
 		render: function render() {
 			var photo = this.props.photo;
-	
 			return React.createElement(
 				'div',
 				{ className: 'card clearfix', __self: this
@@ -39446,7 +39435,7 @@
 							'div',
 							{ className: 'session-photo-wrapper', __self: this
 							},
-							React.createElement('img', { className: 'main-session-photo', photo: photo, onClick: this.redirectToShow, src: photo.url, width: '750px', __self: this
+							React.createElement('img', { className: 'main-session-photo', photo: photo, src: photo.url, width: '750px', __self: this
 							})
 						),
 						React.createElement(
@@ -39506,7 +39495,7 @@
 								)
 							)
 						),
-						React.createElement('span', { className: 'thin-facade', __self: this
+						React.createElement('span', { className: 'thin-facade', onClick: this.redirectToShow, __self: this
 						})
 					)
 				)

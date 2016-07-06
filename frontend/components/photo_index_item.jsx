@@ -18,19 +18,23 @@ const PhotoIndexItem = React.createClass({
 	},
 
 	redirectToShow() {
+		console.log(this);
+		// debugger
 		const photoId = this.props.photo.id;
 		hashHistory.push(`/photos/${photoId}`);
 	},
 
   render () {
 		const photo = this.props.photo;
-
 		return (
+
+			// <div><img className="main-session-photo" photo={photo} onClick={this.redirectToShow} src={photo.url} width="750px" /></div>
+
 			<div className="card clearfix">
 				<div className="photo-container">
 					<div className="photo-wrapper">
 						<div className="session-photo-wrapper">
-							<img className="main-session-photo" photo={photo} onClick={this.redirectToShow} src={photo.url} width="750px" />
+							<img className="main-session-photo" photo={photo} src={photo.url} width="750px" />
 			      </div>
 						<div className="sub-photo-view">
 							<a className="buddy-icon" href="#">
@@ -51,7 +55,7 @@ const PhotoIndexItem = React.createClass({
 								</div>
 							</span>
 		        </div>
-						<span className="thin-facade" />
+						<span className="thin-facade" onClick={this.redirectToShow}/>
 			    </div>
 		    </div>
 		  </div>

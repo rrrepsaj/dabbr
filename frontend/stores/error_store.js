@@ -8,6 +8,7 @@ let _errors = [];
 let _form = "";
 
 function setErrors(payload) {
+  // console.log(payload);
   _errors = payload.errors.errors;
   _form = payload.form;
   ErrorStore.__emitChange();

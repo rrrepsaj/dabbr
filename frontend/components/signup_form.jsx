@@ -50,17 +50,17 @@ const SignupForm = React.createClass({
     ErrorActions.clearErrors();
   },
 
-  fieldErrors(field) {
-    const errors = ErrorStore.formErrors(this);
-
-    if (!errors[field]) { return; }
-
-    const messages = errors[field].map( (errorMsg, i) => {
-      return <li key={ i }>{ errorMsg }</li>;
-    });
-
-    return <ul>{ messages }</ul>;
-  },
+  // fieldErrors(field) {
+  //   const errors = ErrorStore.formErrors(this);
+  //
+  //   if (!errors[field]) { return; }
+  //
+  //   const messages = errors[field].map( (errorMsg, i) => {
+  //     return <li key={ i }>{ errorMsg }</li>;
+  //   });
+  //
+  //   return <ul>{ messages }</ul>;
+  // },
 
   update(property) {
     return (e) => this.setState({[property]: e.target.value});
