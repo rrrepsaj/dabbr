@@ -46,8 +46,6 @@
 
 	'use strict';
 	
-	// window.SessionApiUtil = require("./util/session_api_util");
-	
 	//React
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(38);
@@ -59,10 +57,16 @@
 	var hashHistory = ReactRouter.hashHistory;
 	//Components
 	var App = __webpack_require__(230);
-	var PhotoDetail = __webpack_require__(273);
-	var PhotoIndex = __webpack_require__(278);
-	var SigninForm = __webpack_require__(259);
-	var SignupForm = __webpack_require__(261);
+	var AlbumDetail = __webpack_require__(278);
+	var Explore = __webpack_require__(300);
+	var PhotoDetail = __webpack_require__(297);
+	var PhotoEditForm = __webpack_require__(306);
+	var PhotoForm = __webpack_require__(259);
+	var PhotoIndex = __webpack_require__(305);
+	var SigninForm = __webpack_require__(264);
+	var SignupForm = __webpack_require__(266);
+	var Splash = __webpack_require__(304);
+	var UserDetail = __webpack_require__(308);
 	//Auth
 	var SessionStore = __webpack_require__(232);
 	var SessionActions = __webpack_require__(257);
@@ -75,19 +79,24 @@
 	    Route,
 	    { path: '/', component: App, __self: undefined
 	    },
+	    React.createElement(IndexRoute, { component: Splash, __self: undefined
+	    }),
 	    React.createElement(Route, { path: '/photos', component: PhotoIndex, __self: undefined
 	    }),
-	    React.createElement(Route, { path: '/photos/:id', component: PhotoDetail, __self: undefined
+	    React.createElement(Route, { path: '/photos/:photoId', component: PhotoDetail, __self: undefined
+	    }),
+	    React.createElement(Route, { path: '/photos/:photoId/edit', component: PhotoEditForm, __self: undefined
+	    }),
+	    React.createElement(Route, { path: '/upload', component: PhotoForm, __self: undefined
+	    }),
+	    React.createElement(Route, { path: '/users/:userId', component: UserDetail, __self: undefined
+	    }),
+	    React.createElement(Route, { path: '/albums/:albumId', component: AlbumDetail, __self: undefined
 	    })
 	  )
 	);
 	
 	function _ensureSignedIn(nextState, replace) {
-	  // We don't want users to be able to visit our 'new' or 'review' routes
-	  // if they haven't already signed in/up. Let's redirect them!
-	  // `replace` is like a redirect. It replaces the current entry
-	  // into the history (and the hashFragment), so the Router is forced
-	  // to re-route.
 	  if (!SessionStore.isUserSignedIn()) {
 	    replace('/');
 	  }
@@ -25976,18 +25985,20 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(168).hashHistory;
 	var FontAwesome = __webpack_require__(231);
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(232);
 	var ErrorActions = __webpack_require__(255);
 	var SessionActions = __webpack_require__(257);
 	// Components
-	var SigninForm = __webpack_require__(259);
-	var SignupForm = __webpack_require__(261);
+	var PhotoForm = __webpack_require__(259);
+	var SigninForm = __webpack_require__(264);
+	var SignupForm = __webpack_require__(266);
 	// Modals
-	var DropModal = __webpack_require__(262);
-	var OutlineModal = __webpack_require__(271);
-	var ScaleModal = __webpack_require__(272);
+	var DropModal = __webpack_require__(267);
+	var OutlineModal = __webpack_require__(276);
+	var ScaleModal = __webpack_require__(277);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -25998,6 +26009,14 @@
 	  showSignup: function showSignup() {
 	    ErrorActions.clearErrors();
 	    this.refs.signupModal.show();
+	  },
+	  redirectToPhotos: function redirectToPhotos(e) {
+	    e.preventDefault();
+	    hashHistory.push('/photos');
+	  },
+	  redirectToUpload: function redirectToUpload(e) {
+	    e.preventDefault();
+	    hashHistory.push('/upload');
 	  },
 	  _handleSignout: function _handleSignout() {
 	    SessionActions.signOut();
@@ -26022,6 +26041,28 @@
 	            },
 	            React.createElement(
 	              'li',
+	              {
+	                __self: this
+	              },
+	              React.createElement(
+	                'span',
+	                { className: 'greeting-text', __self: this
+	                },
+	                'Hello, ',
+	                SessionStore.currentUser().username,
+	                '!'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              {
+	                __self: this
+	              },
+	              React.createElement('i', { className: 'fa fa-cloud-upload fa-2x', onClick: this.redirectToUpload, 'aria-hidden': 'true', __self: this
+	              })
+	            ),
+	            React.createElement(
+	              'li',
 	              { onClick: this._handleSignout, __self: this
 	              },
 	              'Sign out'
@@ -26044,7 +26085,7 @@
 	            {
 	              __self: this
 	            },
-	            React.createElement('i', { className: 'fa fa-cloud-upload fa-2x', 'aria-hidden': 'true', __self: this
+	            React.createElement('i', { className: 'fa fa-cloud-upload fa-2x', onClick: this.showSignin, 'aria-hidden': 'true', __self: this
 	            })
 	          ),
 	          React.createElement(
@@ -26292,7 +26333,7 @@
 	  return !!_currentUser.id;
 	};
 	
-	module.exports = window.SessionStore = SessionStore;
+	module.exports = SessionStore;
 
 /***/ },
 /* 233 */
@@ -33212,6 +33253,310 @@
 
 	'use strict';
 	
+	var React = __webpack_require__(1);
+	var PhotoActions = __webpack_require__(260);
+	var SessionStore = __webpack_require__(232);
+	var UploadButton = __webpack_require__(263);
+	
+	var PhotoForm = React.createClass({
+	  displayName: 'PhotoForm',
+	  getInitialState: function getInitialState() {
+	    var current = SessionStore.currentUser();
+	
+	    return {
+	      title: "",
+	      description: "",
+	      photo_url: "",
+	      user_id: current.id,
+	      album_id: ""
+	    };
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    //
+	    var photoData = {
+	      title: this.state.title,
+	      description: this.state.description,
+	      photo_url: this.state.photo_url,
+	      user_id: this.state.user_id,
+	      album_id: this.state.album_id
+	    };
+	    PhotoActions.createPhoto(photoData);
+	  },
+	  _uploadPhoto: function _uploadPhoto(e) {
+	    e.preventDefault();
+	    cloudinary.openUploadWidget(window.cloudinary_options, function (error, images) {
+	      if (error === null) {
+	        //
+	        var url = images[0].url;
+	        this.setState({ photo_url: url });
+	      }
+	    }.bind(this));
+	  },
+	  changeTitle: function changeTitle(e) {
+	    this.setState({ title: e.currentTarget.value });
+	  },
+	  changeDescription: function changeDescription(e) {
+	    this.setState({ description: e.currentTarget.value });
+	  },
+	  render: function render() {
+	    // check for state for default image
+	    var defaultAvatar = "http://res.cloudinary.com/deqbn35yx/image/upload/v1467871530/checked-background_npop0o.jpg";
+	
+	    if (this.state.photo_url !== "") {
+	      defaultAvatar = this.state.photo_url;
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'signin-form-container upload-form-container', __self: this
+	      },
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit, className: 'signin-form-box', __self: this
+	        },
+	        React.createElement(
+	          'h1',
+	          {
+	            __self: this
+	          },
+	          'Upload Photo'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'clearfix', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'photo-container', __self: this
+	            },
+	            React.createElement(
+	              'div',
+	              { className: 'photo-wrapper', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'session-photo-wrapper', __self: this
+	                },
+	                React.createElement(
+	                  'div',
+	                  { className: 'main-session-photo', __self: this
+	                  },
+	                  React.createElement('img', { className: 'updated-photo', src: defaultAvatar, onClick: this._uploadPhoto, __self: this
+	                  })
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'signin-form upload-fields', __self: this
+	          },
+	          React.createElement(
+	            'label',
+	            {
+	              __self: this
+	            },
+	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.changeTitle, required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Title'
+	            )
+	          ),
+	          React.createElement(
+	            'label',
+	            {
+	              __self: this
+	            },
+	            React.createElement('input', { type: 'text', value: this.state.description, onChange: this.changeDescription, required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Description'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'signin-buttons', __self: this
+	            },
+	            React.createElement(
+	              'button',
+	              { type: 'submit', className: 'forms', __self: this
+	              },
+	              'Submit'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = PhotoForm;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(233);
+	var PhotoConstants = __webpack_require__(261);
+	var PhotoApiUtil = __webpack_require__(262);
+	
+	var PhotoActions = {
+	  fetchAllPhotos: function fetchAllPhotos() {
+	    PhotoApiUtil.fetchAllPhotos(PhotoActions.receiveAllPhotos);
+	  },
+	  fetchPhoto: function fetchPhoto(id) {
+	    console.log("in fetchPhoto");
+	    // debugger
+	    PhotoApiUtil.fetchPhoto(id, PhotoActions.receivePhoto);
+	  },
+	  createPhoto: function createPhoto(data) {
+	    PhotoApiUtil.createPhoto(data, PhotoActions.receivePhoto);
+	  },
+	  editPhoto: function editPhoto(data) {
+	    PhotoApiUtil.editPhoto(data, PhotoActions.receivePhoto);
+	  },
+	  deletePhoto: function deletePhoto(id) {
+	    PhotoApiUtil.deletePhoto(id, PhotoActions.removePhoto);
+	  },
+	  receiveAllPhotos: function receiveAllPhotos(photos) {
+	    AppDispatcher.dispatch({
+	      actionType: "PHOTOS_RECEIVED",
+	      photos: photos
+	    });
+	  },
+	  receivePhoto: function receivePhoto(photo) {
+	    console.log("in receivePhoto");
+	    AppDispatcher.dispatch({
+	      actionType: "PHOTO_RECEIVED",
+	      photo: photo
+	    });
+	  },
+	  removePhoto: function removePhoto(photo) {
+	    AppDispatcher.dispatch({
+	      actionType: "PHOTO_REMOVED",
+	      photo: photo
+	    });
+	  }
+	};
+	
+	module.exports = PhotoActions;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var PhotoConstants = {
+	  PHOTOS_RECEIVED: "PHOTOS_RECEIVED",
+	  PHOTO_RECEIVED: "PHOTO_RECEIVED",
+	  PHOTO_REMOVED: "PHOTO_REMOVED"
+	};
+	
+	module.exports = PhotoConstants;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var PhotoApiUtil = {
+	  fetchAllPhotos: function fetchAllPhotos(callback) {
+	    $.ajax({
+	      url: "api/photos",
+	      success: function success(photos) {
+	        callback(photos);
+	      }
+	    });
+	  },
+	  fetchPhoto: function fetchPhoto(id, callback) {
+	    console.log("in photoApiUtil");
+	    // debugger
+	    $.ajax({
+	      url: "api/photos/" + id,
+	      success: function success(response) {
+	        console.log("in fetchPhoto success");
+	        callback(response.photo);
+	      }
+	    });
+	  },
+	  createPhoto: function createPhoto(data, callback) {
+	    $.ajax({
+	      url: "api/photos",
+	      method: 'post',
+	      data: { photo: data },
+	      success: function success(photo) {
+	        callback(photo);
+	      }
+	    });
+	  },
+	  editPhoto: function editPhoto(data, callback) {
+	    $.ajax({
+	      url: "api/photos/" + data.id,
+	      method: 'patch',
+	      data: { photo: { title: data.title, description: data.description } },
+	      success: function success(photo) {
+	        callback(photo);
+	      }
+	    });
+	  },
+	  deletePhoto: function deletePhoto(id, callback) {
+	    $.ajax({
+	      url: "api/photos/" + id,
+	      method: 'delete',
+	      success: function success(photo) {
+	        callback(photo);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = PhotoApiUtil;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var UploadButton = React.createClass({
+	  displayName: "UploadButton",
+	  uploadPhoto: function uploadPhoto(e) {
+	    e.preventDefault();
+	    cloudinary.openUploadWidget(window.cloudinary_options, function (error, images) {
+	      if (error === null) {
+	        var url = images[0].url;
+	        this.props.storePhotoUrl(url);
+	      }
+	    }.bind(this));
+	  },
+	  render: function render() {
+	    return React.createElement("i", { className: "fa fa-cloud-upload fa-2x", onClick: this.uploadPhoto, "aria-hidden": "true", __self: this
+	    });
+	  }
+	});
+	
+	module.exports = UploadButton;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	var React = __webpack_require__(1);
@@ -33220,7 +33565,7 @@
 	var ErrorActions = __webpack_require__(255);
 	var SessionActions = __webpack_require__(257);
 	// Stores
-	var ErrorStore = __webpack_require__(260);
+	var ErrorStore = __webpack_require__(265);
 	var SessionStore = __webpack_require__(232);
 	
 	var hashHistory = __webpack_require__(168).hashHistory;
@@ -33398,7 +33743,7 @@
 	module.exports = SigninForm;
 
 /***/ },
-/* 260 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33459,7 +33804,7 @@
 	module.exports = ErrorStore;
 
 /***/ },
-/* 261 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33472,7 +33817,7 @@
 	var ErrorActions = __webpack_require__(255);
 	var SessionActions = __webpack_require__(257);
 	// Stores
-	var ErrorStore = __webpack_require__(260);
+	var ErrorStore = __webpack_require__(265);
 	var SessionStore = __webpack_require__(232);
 	
 	var hashHistory = __webpack_require__(168).hashHistory;
@@ -33666,12 +34011,12 @@
 	module.exports = SignupForm;
 
 /***/ },
-/* 262 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -33805,12 +34150,12 @@
 
 
 /***/ },
-/* 263 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var transitionEvents = __webpack_require__(264);
-	var appendVendorPrefix = __webpack_require__(265);
+	var transitionEvents = __webpack_require__(269);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	module.exports = function(animation){
 	
@@ -33989,7 +34334,7 @@
 
 
 /***/ },
-/* 264 */
+/* 269 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34090,12 +34435,12 @@
 
 
 /***/ },
-/* 265 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var getVendorPropertyName = __webpack_require__(266);
+	var getVendorPropertyName = __webpack_require__(271);
 	
 	module.exports = function(target, sources) {
 	  var to = Object(target);
@@ -34126,12 +34471,12 @@
 
 
 /***/ },
-/* 266 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var builtinStyle = __webpack_require__(267);
+	var builtinStyle = __webpack_require__(272);
 	var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
 	var domVendorPrefix;
 	
@@ -34169,7 +34514,7 @@
 
 
 /***/ },
-/* 267 */
+/* 272 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34178,13 +34523,13 @@
 
 
 /***/ },
-/* 268 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var insertRule = __webpack_require__(269);
-	var vendorPrefix = __webpack_require__(270)();
+	var insertRule = __webpack_require__(274);
+	var vendorPrefix = __webpack_require__(275)();
 	var index = 0;
 	
 	module.exports = function(keyframes) {
@@ -34214,7 +34559,7 @@
 
 
 /***/ },
-/* 269 */
+/* 274 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34239,7 +34584,7 @@
 
 
 /***/ },
-/* 270 */
+/* 275 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34258,13 +34603,13 @@
 
 
 /***/ },
-/* 271 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -34410,12 +34755,12 @@
 
 
 /***/ },
-/* 272 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -34516,301 +34861,223 @@
 
 
 /***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var hashHistory = __webpack_require__(168).hashHistory;
-	var PhotoActions = __webpack_require__(274);
-	var PhotoStore = __webpack_require__(277);
-	// const cloudinary = require('cloudinary');
-	
-	var PhotoDetail = React.createClass({
-	  displayName: 'PhotoDetail',
-	  getInitialState: function getInitialState() {
-	    return {
-	      id: this.props.params.id,
-	      title: '',
-	      description: '',
-	      userId: null,
-	      url: '',
-	      user: { username: '' }
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.photoListener = PhotoStore.addListener(this._updateDetails);
-	    PhotoActions.fetchPhoto(this.props.params.id);
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.photoListener.remove();
-	  },
-	  _updateDetails: function _updateDetails() {
-	    var photo = PhotoStore.find(this.props.params.id);
-	    console.log(photo);
-	    this.setState({
-	      title: photo.title,
-	      description: photo.description,
-	      userId: photo.user_id,
-	      url: photo.photo_url,
-	      user: photo.user
-	    });
-	  },
-	  render: function render() {
-	    console.log(this.state.user);
-	    return React.createElement(
-	      'div',
-	      { className: 'photo-detail-main', __self: this
-	      },
-	      React.createElement(
-	        'div',
-	        { className: 'photo-container', __self: this
-	        },
-	        React.createElement('img', { className: 'detail-image', src: this.state.url, width: '600', height: '400', __self: this
-	        })
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'photo-details', __self: this
-	        },
-	        React.createElement(
-	          'h1',
-	          { className: 'photo-user', __self: this
-	          },
-	          this.state.user.username
-	        ),
-	        React.createElement(
-	          'h3',
-	          { className: 'photo-title', __self: this
-	          },
-	          this.state.title
-	        ),
-	        React.createElement(
-	          'p',
-	          { className: 'photo-description', __self: this
-	          },
-	          this.state.description
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = PhotoDetail;
-
-/***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AppDispatcher = __webpack_require__(233);
-	var PhotoConstants = __webpack_require__(275);
-	var PhotoApiUtil = __webpack_require__(276);
-	
-	var PhotoActions = {
-	  fetchAllPhotos: function fetchAllPhotos() {
-	    PhotoApiUtil.fetchAllPhotos(PhotoActions.receiveAllPhotos);
-	  },
-	  fetchPhoto: function fetchPhoto(photoId) {
-	    console.log("in fetchPhoto");
-	    PhotoApiUtil.fetchPhoto(photoId, PhotoActions.receivePhoto);
-	  },
-	  receiveAllPhotos: function receiveAllPhotos(photos) {
-	    AppDispatcher.dispatch({
-	      actionType: "PHOTOS_RECEIVED",
-	      photos: photos
-	    });
-	  },
-	  receivePhoto: function receivePhoto(photo) {
-	    console.log("in receivePhoto");
-	    AppDispatcher.dispatch({
-	      actionType: "PHOTO_RECEIVED",
-	      photo: photo
-	    });
-	  }
-	};
-	
-	module.exports = PhotoActions;
-
-/***/ },
-/* 275 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var PhotoConstants = {
-	  PHOTOS_RECEIVED: "PHOTOS_RECEIVED",
-	  PHOTO_RECEIVED: "PHOTO_RECEIVED"
-	};
-	
-	module.exports = PhotoConstants;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var PhotoApiUtil = {
-	  fetchAllPhotos: function fetchAllPhotos(callback) {
-	    $.ajax({
-	      url: "api/photos",
-	      success: function success(photos) {
-	        callback(photos);
-	      }
-	    });
-	  },
-	  fetchPhoto: function fetchPhoto(id, callback) {
-	    console.log("in photoApiUtil");
-	    $.ajax({
-	      url: "api/photos/" + id,
-	      success: function success(photo) {
-	        console.log("in fetchPhoto success");
-	        callback(photo);
-	      }
-	    });
-	  },
-	  createPhoto: function createPhoto(data, callback) {
-	    $.ajax({
-	      url: "api/photos",
-	      method: 'post',
-	      data: { photo: data },
-	      success: function success(photo) {
-	        callback(photo);
-	      }
-	    });
-	  },
-	  editPhoto: function editPhoto(data, callback) {
-	    $.ajax({
-	      url: "api/photos/" + data.id,
-	      method: 'patch',
-	      data: { photo: { title: data.title, description: data.description } },
-	      success: function success(photo) {
-	        callback(photo);
-	      }
-	    });
-	  },
-	  deletePhoto: function deletePhoto(id, callback) {
-	    $.ajax({
-	      url: "api/photos/" + id,
-	      method: 'delete',
-	      success: function success(photo) {
-	        callback(photo);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = PhotoApiUtil;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(237).Store;
-	var AppDispatcher = __webpack_require__(233);
-	var PhotoConstants = __webpack_require__(275);
-	var _photos = {};
-	var PhotoStore = new Store(AppDispatcher);
-	
-	PhotoStore.all = function () {
-	  return Object.keys(_photos).map(function (key) {
-	    return _photos[key];
-	  });
-	};
-	
-	function resetAllPhotos(photos) {
-	  _photos = photos;
-	  PhotoStore.__emitChange();
-	}
-	
-	function resetPhoto(photo) {
-	  _photos[photo.id] = photo;
-	  PhotoStore.__emitChange();
-	}
-	
-	PhotoStore.find = function (photoId) {
-	  return _photos[photoId];
-	};
-	
-	PhotoStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case PhotoConstants.PHOTOS_RECEIVED:
-	      resetAllPhotos(payload.photos);
-	      break;
-	    case PhotoConstants.PHOTO_RECEIVED:
-	      console.log("in photoStore");
-	      resetPhoto(payload.photo);
-	      break;
-	  }
-	};
-	
-	module.exports = PhotoStore;
-
-/***/ },
 /* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(168).hashHistory;
+	var Link = __webpack_require__(168).Link;
 	var Masonry = __webpack_require__(279);
-	var PhotoStore = __webpack_require__(277);
-	var PhotoActions = __webpack_require__(274);
-	var PhotoIndexItem = __webpack_require__(292);
+	var AlbumActions = __webpack_require__(292);
+	var AlbumStore = __webpack_require__(295);
+	var PhotoIndexItem = __webpack_require__(296);
+	var SessionStore = __webpack_require__(232);
 	
-	var masonryOptions = {
-	  isFitWidth: true,
-	  gutter: 10
-	};
-	
-	var PhotoIndex = React.createClass({
-	  displayName: 'PhotoIndex',
+	var AlbumDetail = React.createClass({
+	  displayName: 'AlbumDetail',
 	  getInitialState: function getInitialState() {
-	    return { photos: PhotoStore.all() };
+	    var id = parseInt(this.props.params.id);
+	    var album = AlbumStore.find(id);
+	    //
+	    return { album: album };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.photoListener = PhotoStore.addListener(this._onChange);
-	    PhotoActions.fetchAllPhotos();
+	    // $(document).ready(() => {
+	    //   $('html').animate({scrollTop: 0}, 1);
+	    //   $('body').animate({scrollTop: 0}, 1);
+	    // });
+	
+	    this.albumListener = AlbumStore.addListener(this._onChange);
+	    AlbumActions.fetchAlbum(parseInt(this.props.params.id));
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
-	    this.photoListener.remove();
+	    this.albumListener.remove();
+	  },
+	  redirectToAlbums: function redirectToAlbums(e) {
+	    e.preventDefault();
+	    hashHistory.push('/albums');
 	  },
 	  _onChange: function _onChange() {
-	    this.setState({ photos: PhotoStore.all() });
+	    var id = parseInt(this.props.params.id);
+	    var album = AlbumStore.find(id);
+	    this.setState({ album: album });
 	  },
 	  render: function render() {
 	    var _this = this;
 	
-	    var indexItems = [];
-	
-	    if (this.state.photos) {
-	      var photoKeys = Object.keys(this.state.photos);
-	      photoKeys.forEach(function (key) {
-	        var photo = _this.state.photos[key];
-	        var indexItem = React.createElement(PhotoIndexItem, { photo: photo, key: photo.id, size: '750', __self: _this
+	    if (this.state.album) {
+	      var associatedPhotos = this.state.album.photos.map(function (photo, index) {
+	        return React.createElement(PhotoIndexItem, { key: index, photo: photo, __self: _this
 	        });
-	        indexItems.push(indexItem);
-	        if (indexItems.length > 25) {
-	          return;
-	        }
+	        // return <
 	      });
-	    }
+	      var coverPhotoUrl = this.state.album.cover_photo_url;
+	      var albumTitle = this.state.album.title;
+	      var albumDescription = this.state.album.description;
+	      var userProfilePath = '/user/' + this.state.album.user_id;
 	
-	    return React.createElement(
-	      Masonry,
-	      { className: 'my-gallery-class', elementType: 'ul', options: masonryOptions, __self: this
-	      },
-	      indexItems
-	    );
+	      //
+	
+	      var masonryOptions = {
+	        isFitWidth: true
+	      };
+	
+	      var style = {
+	        backgroundImage: 'url(' + coverPhotoUrl + ')'
+	      };
+	
+	      //
+	
+	      return React.createElement(
+	        'div',
+	        { className: 'album-container fluid-centered', __self: this
+	        },
+	        React.createElement(
+	          'div',
+	          { className: 'view album-toolbar-view', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'album-toolbar-content', __self: this
+	            },
+	            React.createElement(
+	              'div',
+	              { className: 'back-to-albums', __self: this
+	              },
+	              React.createElement('span', { className: 'back-to-albums-icon', __self: this
+	              }),
+	              React.createElement(
+	                'span',
+	                { className: 'back-to-albums-text', onClick: this.redirectToAlbums, __self: this
+	                },
+	                '< Back to albums list'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'view album-header-view justified-transitions justified', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'album-header-content', style: style, __self: this
+	            },
+	            React.createElement('div', { className: 'dimming-shim', __self: this
+	            }),
+	            React.createElement('div', { className: 'flex-padding', __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'view album-title-desc-view', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'title-desc-block', __self: this
+	                },
+	                React.createElement(
+	                  'div',
+	                  { className: 'album-title', __self: this
+	                  },
+	                  this.state.album.title
+	                ),
+	                React.createElement('input', { type: 'text', className: 'meta-field edit-meta-field edit-album-title', wrap: 'on', __self: this
+	                }),
+	                React.createElement('div', { className: 'album-desc description-placeholder', __self: this
+	                }),
+	                React.createElement(
+	                  'div',
+	                  { className: 'description-show-more-hidden', __self: this
+	                  },
+	                  React.createElement('textarea', { className: 'metafield edit-meta-field edit-album-desc', wrap: 'on', __self: this
+	                  })
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'view album-stats-view justified', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'stats-container', __self: this
+	                },
+	                React.createElement(
+	                  'span',
+	                  { className: 'photo-counts', __self: this
+	                  },
+	                  associatedPhotos.length,
+	                  ' photos'
+	                ),
+	                ' '
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'view album-engagement-view justified', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'view fluid-share-album-view', __self: this
+	                },
+	                React.createElement(
+	                  'div',
+	                  { className: 'fluid-share-button', title: 'Share album', __self: this
+	                  },
+	                  React.createElement('span', { title: 'Share album', className: 'fluid-share-icon share-album-icon', __self: this
+	                  })
+	                )
+	              )
+	            ),
+	            React.createElement('div', { className: 'flex-padding', __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'view attribution-view album-attribution justified-album-details-page', __self: this
+	              },
+	              React.createElement('div', { className: 'avatar person medium', __self: this
+	              }),
+	              React.createElement(
+	                'div',
+	                { className: 'attribution-info', __self: this
+	                },
+	                React.createElement(Link, { to: userProfilePath, className: 'owner-name truncate', __self: this
+	                })
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          Masonry,
+	          { className: 'associated-photos',
+	            elementType: 'ul',
+	            options: masonryOptions,
+	            disabledImagesLoaded: false, __self: this
+	          },
+	          associatedPhotos
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        {
+	          __self: this
+	        },
+	        React.createElement(
+	          'p',
+	          {
+	            __self: this
+	          },
+	          'Loading'
+	        )
+	      );
+	    }
 	  }
 	});
 	
-	module.exports = PhotoIndex;
+	module.exports = AlbumDetail;
 
 /***/ },
 /* 279 */
@@ -39362,27 +39629,131 @@
 
 	'use strict';
 	
+	var AppDispatcher = __webpack_require__(233);
+	var AlbumConstants = __webpack_require__(293);
+	var AlbumApiUtil = __webpack_require__(294);
+	
+	var AlbumActions = {
+	  fetchAlbum: function fetchAlbum(id) {
+	    AlbumApiUtil.fetchAlbum(id, AlbumActions.receiveAlbum);
+	  },
+	  createAlbum: function createAlbum(data) {
+	    AlbumApiUtil.createAlbum(data, AlbumActions.receiveAlbum);
+	  },
+	  receiveAlbum: function receiveAlbum(album) {
+	    AppDispatcher.dispatch({
+	      actionType: AlbumConstants.RECEIVE_ALBUM,
+	      album: album
+	    });
+	  }
+	};
+	
+	module.exports = AlbumActions;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AlbumConstants = {
+	  RECEIVE_ALBUM: "RECEIVE_ALBUM"
+	};
+	
+	module.exports = AlbumConstants;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AlbumApiUtil = {
+	  fetchAlbum: function fetchAlbum(id, callback) {
+	    $.ajax({
+	      url: "api/albums/" + id,
+	      success: function success(album) {
+	        callback(album);
+	      },
+	      error: function error(d) {
+	        console.log("Error in AlbumApiUtil#fetchAlbum");
+	      }
+	    });
+	  },
+	  createAlbum: function createAlbum(data, callback) {
+	    $.ajax({
+	      url: "api/albums",
+	      method: 'post',
+	      data: { album: data },
+	      success: function success(album) {
+	        callback(album);
+	      },
+	      error: function error() {
+	        console.log("Error in AlbumApiUtil#createAlbum");
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = AlbumApiUtil;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(233);
+	var Store = __webpack_require__(237).Store;
+	var AlbumConstants = __webpack_require__(293);
+	
+	var AlbumStore = new Store(AppDispatcher);
+	
+	var _albums = {};
+	
+	AlbumStore.all = function () {
+	  return _albums;
+	};
+	
+	AlbumStore.find = function (id) {
+	  return _albums[id];
+	};
+	
+	function addAlbum(album) {
+	  _albums[album.album.id] = album;
+	  AlbumStore.__emitChange();
+	}
+	
+	AlbumStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case AlbumConstants.RECEIVE_ALBUM:
+	      addAlbum(payload.album);
+	      break;
+	  }
+	};
+	
+	module.exports = window.AlbumStore = AlbumStore;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
 	var React = __webpack_require__(1);
-	var PhotoDetail = __webpack_require__(273);
-	var FadeModal = __webpack_require__(293);
+	var PhotoDetail = __webpack_require__(297);
+	var FadeModal = __webpack_require__(299);
 	var hashHistory = __webpack_require__(168).hashHistory;
-	// const cloudinary = require('cloudinary');
 	
 	var PhotoIndexItem = React.createClass({
 		displayName: 'PhotoIndexItem',
-		getInitialState: function getInitialState() {
-			return {
-				photoUrl: this.props.photo.url
-			};
-		},
-		showDetails: function showDetails() {
-			this.refs.detailsModal.show();
-		},
 		redirectToShow: function redirectToShow() {
-			console.log(this);
-			// debugger
 			var photoId = this.props.photo.id;
 			hashHistory.push('/photos/' + photoId);
+		},
+		redirectToUserProfile: function redirectToUserProfile() {
+			var userId = this.props.photo.user.id;
+			hashHistory.push('/users/' + userId);
 		},
 		render: function render() {
 			var photo = this.props.photo;
@@ -39402,7 +39773,7 @@
 							'div',
 							{ className: 'session-photo-wrapper', __self: this
 							},
-							React.createElement('img', { className: 'main-session-photo', photo: photo, src: photo.url, width: '750px', __self: this
+							React.createElement('img', { className: 'main-session-photo', photo: photo, src: photo.photo_url, width: '750px', __self: this
 							})
 						),
 						React.createElement(
@@ -39410,8 +39781,8 @@
 							{ className: 'sub-photo-view', __self: this
 							},
 							React.createElement(
-								'a',
-								{ className: 'buddy-icon', href: '#', __self: this
+								'span',
+								{ className: 'buddy-icon', onClick: this.redirectToUserProfile, __self: this
 								},
 								React.createElement('img', { className: 'defer', src: photo.user.avatar_url, __self: this
 								})
@@ -39425,8 +39796,8 @@
 									{ className: 'name', __self: this
 									},
 									React.createElement(
-										'a',
-										{ href: '#', __self: this
+										'span',
+										{ onClick: this.redirectToUserProfile, __self: this
 										},
 										photo.user.username
 									),
@@ -39434,19 +39805,8 @@
 										'span',
 										{ className: 'activity-item-date', __self: this
 										},
-										'· 8 months ago',
-										React.createElement(
-											'span',
-											{ className: 'recommended', __self: this
-											},
-											' · Recommended '
-										),
-										React.createElement(
-											'button',
-											{ className: 'follow-button', __self: this
-											},
-											'♥'
-										)
+										React.createElement('span', { className: 'recommended', __self: this
+										})
 									)
 								),
 								React.createElement(
@@ -39473,12 +39833,175 @@
 	module.exports = PhotoIndexItem;
 
 /***/ },
-/* 293 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(168).hashHistory;
+	var Link = __webpack_require__(168).Link;
+	var PhotoActions = __webpack_require__(260);
+	var PhotoStore = __webpack_require__(298);
+	var AlbumStore = __webpack_require__(295);
+	
+	var PhotoDetail = React.createClass({
+	  displayName: 'PhotoDetail',
+	  getInitialState: function getInitialState() {
+	    return {
+	      id: this.props.params.photoId,
+	      title: '',
+	      description: '',
+	      userId: null,
+	      albumId: null,
+	      url: '',
+	      user: { username: '' },
+	      album: { title: '' }
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.photoListener = PhotoStore.addListener(this._updateDetails);
+	    // debugger
+	    PhotoActions.fetchPhoto(this.state.id);
+	    // debugger
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.photoListener.remove();
+	  },
+	  redirectToEdit: function redirectToEdit(e) {
+	    e.preventDefault();
+	    hashHistory.push('/photos/' + this.state.id + '/edit');
+	  },
+	  _updateDetails: function _updateDetails() {
+	    var photo = PhotoStore.find(this.props.params.photoId);
+	    console.log(photo);
+	    debugger;
+	    this.setState({
+	      title: photo.title,
+	      description: photo.description,
+	      userId: photo.user_id,
+	      albumId: photo.album_id,
+	      url: photo.photo_url,
+	      user: photo.user,
+	      album: photo.album
+	    });
+	  },
+	  render: function render() {
+	    // debugger
+	    console.log(this.state.user);
+	    console.log(this.state.albumId);
+	
+	    var albumTitle = this.state.album ? this.state.album.title : "";
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'photo-detail-main', __self: this
+	      },
+	      React.createElement(
+	        'div',
+	        { className: 'photo-container', __self: this
+	        },
+	        React.createElement('img', { className: 'detail-image', src: this.state.url, width: '600', height: '400', __self: this
+	        })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'photo-details', __self: this
+	        },
+	        React.createElement(
+	          'h1',
+	          { className: 'photo-user', __self: this
+	          },
+	          this.state.user.username
+	        ),
+	        React.createElement(
+	          'h3',
+	          { className: 'photo-title', __self: this
+	          },
+	          this.state.title
+	        ),
+	        ' ',
+	        React.createElement(
+	          'h4',
+	          { className: 'photo-album', __self: this
+	          },
+	          albumTitle
+	        ),
+	        React.createElement(
+	          'p',
+	          { onClick: this.redirectToEdit, __self: this
+	          },
+	          'Edit Photo'
+	        ),
+	        React.createElement(
+	          'p',
+	          { className: 'photo-description', __self: this
+	          },
+	          this.state.description
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = PhotoDetail;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(237).Store;
+	var AppDispatcher = __webpack_require__(233);
+	var PhotoConstants = __webpack_require__(261);
+	var PhotoStore = new Store(AppDispatcher);
+	
+	var _photos = {};
+	
+	PhotoStore.all = function () {
+	  return Object.keys(_photos).map(function (key) {
+	    return _photos[key];
+	  });
+	};
+	
+	function resetAllPhotos(photos) {
+	  photos.forEach(function (photo) {
+	    _photos[photo.id] = photo;
+	  });
+	  PhotoStore.__emitChange();
+	}
+	
+	function resetPhoto(photo) {
+	  _photos[photo.id] = photo;
+	  PhotoStore.__emitChange();
+	}
+	
+	PhotoStore.find = function (photoId) {
+	  return _photos[photoId];
+	};
+	
+	PhotoStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case PhotoConstants.PHOTOS_RECEIVED:
+	      resetAllPhotos(payload.photos);
+	      break;
+	    case PhotoConstants.PHOTO_RECEIVED:
+	      console.log("in photoStore");
+	      resetPhoto(payload.photo);
+	      break;
+	  }
+	};
+	
+	module.exports = PhotoStore;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -39574,6 +40097,767 @@
 	    }
 	});
 
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(232);
+	var UserActions = __webpack_require__(301);
+	var Splash = __webpack_require__(304);
+	var PhotoIndex = __webpack_require__(305);
+	
+	var Explore = React.createClass({
+	  displayName: 'Explore',
+	  getInitialState: function getInitialState() {
+	    return { currentUser: SessionStore.currentUser() };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.sessionListener = SessionStore.addListener(this._onChange);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.sessionListener.remove();
+	  },
+	  _onChange: function _onChange() {
+	    this.setState({ currentUser: SessionStore.currentUser() });
+	  },
+	  render: function render() {
+	    var feed = void 0;
+	    if (this.state.currentUser) {
+	      feed = React.createElement(PhotoIndex, {
+	        __self: this
+	      });
+	    } else {
+	      feed = React.createElement(Splash, {
+	        __self: this
+	      });
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'explore', __self: this
+	      },
+	      feed
+	    );
+	  }
+	});
+	
+	module.exports = Explore;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(233);
+	var UserApiUtil = __webpack_require__(302);
+	var UserConstants = __webpack_require__(303);
+	
+	var UserActions = {
+	  fetchUserProfile: function fetchUserProfile(id) {
+	    //
+	    UserApiUtil.fetchUserProfile(id, UserActions.receiveUserProfile);
+	  },
+	  editUserProfile: function editUserProfile(data) {
+	    UserApiUtil.editUserProfile(data, UserActions.receiveUserProfile);
+	  },
+	  receiveUserProfile: function receiveUserProfile(user) {
+	    //
+	    AppDispatcher.dispatch({
+	      actionType: UserConstants.RECEIVE_USER,
+	      user: user
+	    });
+	  }
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var UserApiUtil = {
+	  fetchUserProfile: function fetchUserProfile(id, callback) {
+	    $.ajax({
+	      url: 'api/users/' + id,
+	      success: function success(user) {
+	        callback(user);
+	      }
+	    });
+	  },
+	  editUserProfile: function editUserProfile(data, callback) {
+	    $.ajax({
+	      url: 'api/users/' + data.id,
+	      method: 'patch',
+	      data: { user: data },
+	      success: function success(user) {
+	        callback(user);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = UserApiUtil;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var UserConstants = {
+	  RECEIVE_USER: "RECEIVE_USER"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var Splash = React.createClass({
+	  displayName: "Splash",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "splash", __self: this
+	      },
+	      React.createElement(
+	        "video",
+	        { className: "background-video", autoPlay: true, loop: true, __self: this
+	        },
+	        React.createElement("source", { src: "http://res.cloudinary.com/deqbn35yx/video/upload/ac_none/v1467886396/VLT_Very_Large_Telescope_HD_Timelapse_Footage_z78wxh.mp4",
+	          type: "video/mp4", __self: this
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Splash;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Masonry = __webpack_require__(279);
+	var PhotoStore = __webpack_require__(298);
+	var PhotoActions = __webpack_require__(260);
+	var PhotoIndexItem = __webpack_require__(296);
+	
+	var masonryOptions = {
+	  isFitWidth: true,
+	  gutter: 10
+	};
+	
+	var PhotoIndex = React.createClass({
+	  displayName: 'PhotoIndex',
+	  getInitialState: function getInitialState() {
+	    return { photos: PhotoStore.all() };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.photoListener = PhotoStore.addListener(this._onChange);
+	    PhotoActions.fetchAllPhotos();
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.photoListener.remove();
+	  },
+	  _onChange: function _onChange() {
+	    this.setState({ photos: PhotoStore.all() });
+	  },
+	  render: function render() {
+	    var _this = this;
+	
+	    var indexItems = [];
+	
+	    if (this.state.photos) {
+	      this.state.photos.forEach(function (photo) {
+	        var indexItem = React.createElement(PhotoIndexItem, { photo: photo, key: photo.id, size: '750', __self: _this
+	        });
+	        indexItems.push(indexItem);
+	      });
+	    }
+	
+	    return React.createElement(
+	      Masonry,
+	      { className: 'my-gallery-class', elementType: 'ul', options: masonryOptions, __self: this
+	      },
+	      indexItems
+	    );
+	  }
+	});
+	
+	module.exports = PhotoIndex;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(168).hashHistory;
+	var Link = __webpack_require__(168).Link;
+	var PhotoStore = __webpack_require__(298);
+	var UserStore = __webpack_require__(307);
+	var PhotoActions = __webpack_require__(260);
+	var UserActions = __webpack_require__(301);
+	
+	var PhotoEditForm = React.createClass({
+	  displayName: 'PhotoEditForm',
+	  getInitialState: function getInitialState() {
+	    var potential = PhotoStore.find(this.props.params.photoId);
+	    var photo = potential ? potential : {};
+	    return {
+	      title: photo.title,
+	      description: photo.description,
+	      url: photo.photo_url,
+	      album: photo.album,
+	      user: photo.user
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.photoListener = PhotoStore.addListener(this.handleChange);
+	    PhotoActions.fetchPhoto(parseInt(this.props.params.photoId));
+	    debugger;
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.photoListener.remove();
+	  },
+	  changeTitle: function changeTitle(e) {
+	    this.setState({ title: e.target.value });
+	  },
+	  changeDescription: function changeDescription(e) {
+	    this.setState({ description: e.target.value });
+	  },
+	  handleChange: function handleChange() {
+	    var potential = PhotoStore.find(this.props.params.photoId);
+	    var photo = potential ? potential : {};
+	    this.setState({
+	      title: photo.title,
+	      description: photo.description,
+	      url: photo.photo_url
+	    });
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var id = parseInt(this.props.params.photoId);
+	    var photoData = {
+	      title: this.state.title,
+	      description: this.state.description,
+	      id: id
+	    };
+	  },
+	  redirectToPhoto: function redirectToPhoto(e) {
+	    var id = parseInt(this.props.params.photoId);
+	    hashHistory.push('/photos/' + id);
+	  },
+	  redirectToPhotos: function redirectToPhotos(e) {
+	    e.preventDefault();
+	    hashHistory.push('/photos');
+	  },
+	  render: function render() {
+	    if (this.state.url) {
+	      var url = this.state.url;
+	    }
+	    debugger;
+	
+	    var redirectPhoto = React.createElement(
+	      'a',
+	      { className: 'edit-nav', onClick: this.returnToPhoto, __self: this
+	      },
+	      'BACK TO PHOTO'
+	    );
+	    var redirectHome = React.createElement(
+	      'a',
+	      { className: 'edit-nav', onClick: this.redirectToPhotos, __self: this
+	      },
+	      'RETURN TO EXPLORE'
+	    );
+	    return React.createElement(
+	      'div',
+	      { className: 'signin-form-container upload-form-container', __self: this
+	      },
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit, className: 'signin-form-box', __self: this
+	        },
+	        React.createElement(
+	          'h1',
+	          {
+	            __self: this
+	          },
+	          'Edit Photo'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'clearfix', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'photo-container', __self: this
+	            },
+	            React.createElement(
+	              'div',
+	              { className: 'photo-wrapper', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'session-photo-wrapper', __self: this
+	                },
+	                React.createElement(
+	                  'div',
+	                  { className: 'main-session-photo', __self: this
+	                  },
+	                  React.createElement('img', { className: 'updated-photo', src: this.state.url, onClick: this._uploadPhoto, __self: this
+	                  })
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'signin-form upload-fields', __self: this
+	          },
+	          React.createElement(
+	            'label',
+	            {
+	              __self: this
+	            },
+	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.changeTitle, required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Title'
+	            )
+	          ),
+	          React.createElement(
+	            'label',
+	            {
+	              __self: this
+	            },
+	            React.createElement('input', { type: 'text', value: this.state.description, onChange: this.changeDescription, required: true, __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'label-text', __self: this
+	              },
+	              'Description'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'signin-buttons', __self: this
+	            },
+	            React.createElement(
+	              'button',
+	              { type: 'submit', className: 'forms', __self: this
+	              },
+	              'Submit'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = PhotoEditForm;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(233);
+	var Store = __webpack_require__(237).Store;
+	var UserConstants = __webpack_require__(303);
+	
+	var UserStore = new Store(AppDispatcher);
+	
+	var _user = void 0;
+	
+	UserStore.userProfile = function () {
+	  return _user;
+	};
+	
+	function addUser(user) {
+	  _user = undefined;
+	  _user = user;
+	  UserStore.__emitChange();
+	}
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.RECEIVE_USER:
+	      addUser(payload.user);
+	      break;
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Masonry = __webpack_require__(279);
+	
+	var SessionStore = __webpack_require__(232);
+	var UserStore = __webpack_require__(307);
+	
+	var UserActions = __webpack_require__(301);
+	
+	var PhotoIndexItem = __webpack_require__(296);
+	var AlbumDetail = __webpack_require__(278);
+	var UserPhotoIndex = __webpack_require__(309);
+	var UserAlbumIndex = __webpack_require__(310);
+	
+	var UserDetail = React.createClass({
+	  displayName: 'UserDetail',
+	  getInitialState: function getInitialState() {
+	    return {
+	      currentUser: SessionStore.currentUser(),
+	      userProfile: UserStore.userProfile()
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.userProfileListener = UserStore.addListener(this._onUserChange);
+	    this.currentUserListener = SessionStore.addListener(this._onSessionChange);
+	    UserActions.fetchUserProfile(parseInt(this.props.params.userId));
+	    // debugger
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.userProfileListener.remove();
+	    this.currentUserListener.remove();
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+	    UserActions.fetchUserProfile(parseInt(newProps.params.userId));
+	  },
+	  _onUserChange: function _onUserChange() {
+	    this.setState({ userProfile: UserStore.userProfile() });
+	  },
+	  _onSessionChange: function _onSessionChange() {
+	    this.setState({ currentUser: SessionStore.currentUser() });
+	  },
+	  showUserPhotos: function showUserPhotos() {},
+	  showUserAlbums: function showUserAlbums() {},
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      {
+	        __self: this
+	      },
+	      React.createElement(
+	        'div',
+	        { className: 'view fluid-photostream-coverphoto-view', __self: this
+	        },
+	        React.createElement(
+	          'div',
+	          { className: 'coverphoto', __self: this
+	          },
+	          React.createElement('div', { className: 'editor-controls', __self: this
+	          }),
+	          React.createElement('div', { className: 'coverphoto-gradient', __self: this
+	          }),
+	          React.createElement(
+	            'div',
+	            { className: 'coverphoto-content fluid-centered', __self: this
+	            },
+	            React.createElement('div', { className: 'cover-photo-edit', __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'avatar no-menu person large', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'edit', __self: this
+	                },
+	                React.createElement('span', { className: 'edit-icon', __self: this
+	                })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'loading-overlay', __self: this
+	                },
+	                React.createElement('div', { className: 'balls', __self: this
+	                })
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'title-block-content', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'title', __self: this
+	                },
+	                React.createElement('h1', { className: 'truncate', __self: this
+	                }),
+	                React.createElement('div', { className: 'view follow-view', __self: this
+	                }),
+	                React.createElement('div', { className: 'view follow-view', __self: this
+	                })
+	              ),
+	              React.createElement('p', { className: 'subtitle truncate', __self: this
+	              }),
+	              React.createElement('p', { className: 'followers truncate', __self: this
+	              })
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'metadata-content', __self: this
+	              },
+	              React.createElement(
+	                'p',
+	                { className: 'photo-count', __self: this
+	                },
+	                '3 photos'
+	              ),
+	              React.createElement(
+	                'p',
+	                {
+	                  __self: this
+	                },
+	                'Joined 2016'
+	              )
+	            )
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'view fluid-magic-subnav-view', __self: this
+	        },
+	        React.createElement(
+	          'div',
+	          { className: 'fluid-subnav-shim', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'fluid-subnav', __self: this
+	            },
+	            React.createElement(
+	              'div',
+	              { className: 'subnav-content fluid-centered', __self: this
+	              },
+	              React.createElement(
+	                'ul',
+	                { className: 'links', __self: this
+	                },
+	                React.createElement('li', { id: 'user-photos', 'class': 'link', onClick: this.showUserPhotos, __self: this
+	                }),
+	                React.createElement('li', { id: 'user-albums', 'class': 'link', onClick: this.showUserAlbums, __self: this
+	                })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'more-link', __self: this
+	                },
+	                '"More"',
+	                React.createElement('span', {
+	                  __self: this
+	                })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'fader', __self: this
+	                },
+	                React.createElement('span', {
+	                  __self: this
+	                })
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserDetail;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var UserPhotoIndex = React.createClass({
+	  displayName: "UserPhotoIndex",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "photolist-container fluid-centered", __self: this
+	      },
+	      React.createElement(
+	        "div",
+	        { className: "photolist-empty hidden", __self: this
+	        },
+	        React.createElement(
+	          "h4",
+	          {
+	            __self: this
+	          },
+	          "You have no photos"
+	        ),
+	        React.createElement("a", { "class": "butt medium", href: "/photos/upload", __self: this
+	        })
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "view photo-list-view photostream", __self: this
+	        },
+	        React.createElement("div", { className: "view photo-list-photo-view photostream awake", __self: this
+	        })
+	      ),
+	      React.createElement("div", { className: "view pagination-view photostream", __self: this
+	      })
+	    );
+	  }
+	});
+	
+	module.exports = UserPhotoIndex;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var UserAlbumIndex = React.createClass({
+	  displayName: "UserAlbumIndex",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      {
+	        __self: this
+	      },
+	      React.createElement(
+	        "div",
+	        { className: "view album-list-toolbar-view fluid-centered", __self: this
+	        },
+	        React.createElement(
+	          "div",
+	          { className: "album-toolbar-content", __self: this
+	          },
+	          React.createElement(
+	            "a",
+	            { "class": "create-album", href: "/albums/new", __self: this
+	            },
+	            React.createElement("i", {
+	              __self: this
+	            }),
+	            React.createElement(
+	              "span",
+	              {
+	                __self: this
+	              },
+	              "Create new album"
+	            )
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "albums-list-container fluid-centered", __self: this
+	        },
+	        React.createElement(
+	          "div",
+	          { className: "view photo-list-view", __self: this
+	          },
+	          React.createElement(
+	            "div",
+	            { className: "view photo-list-album-view awake", __self: this
+	            },
+	            React.createElement(
+	              "a",
+	              { className: "interaction-view avatar photo-list-album album ginormous", href: "#", __self: this
+	              },
+	              React.createElement(
+	                "div",
+	                { className: "photo-list-album-interaction dark has-actions", __self: this
+	                },
+	                React.createElement("a", { className: "overlay", href: "#", __self: this
+	                }),
+	                React.createElement(
+	                  "div",
+	                  { className: "interaction-bar", __self: this
+	                  },
+	                  React.createElement(
+	                    "div",
+	                    { className: "metadata", __self: this
+	                    },
+	                    React.createElement("h4", { "class": "album-title", __self: this
+	                    }),
+	                    React.createElement("span", { "class": "album-photo-count secondary", __self: this
+	                    })
+	                  ),
+	                  React.createElement(
+	                    "div",
+	                    { className: "actions", __self: this
+	                    },
+	                    React.createElement(
+	                      "a",
+	                      { className: "share cta", title: "Share this album", __self: this
+	                      },
+	                      React.createElement("span", {
+	                        __self: this
+	                      })
+	                    ),
+	                    React.createElement(
+	                      "a",
+	                      { className: "download cta", title: "Download", __self: this
+	                      },
+	                      React.createElement("span", {
+	                        __self: this
+	                      })
+	                    ),
+	                    React.createElement(
+	                      "a",
+	                      { className: "trash cta", title: "Delete this album", __self: this
+	                      },
+	                      React.createElement("span", {
+	                        __self: this
+	                      })
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserAlbumIndex;
 
 /***/ }
 /******/ ]);

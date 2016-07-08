@@ -1,0 +1,374 @@
+// Place all the styles related to the albums controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.fluid-centered {
+  min-width: 800px;
+  max-width: calc(100% - 20%);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 130px;
+  padding-right: 130px;
+}
+
+/* Toolbar */
+
+.album-page-view .album-toolbar-view>.album-toolbar-content {
+  margin: 20px 0 20px 0;
+  font-weight: 600;
+  position: relative;
+}
+
+.album-page-view .album-toolbar-view>.album-toolbar-content>.back-to-albums {
+  text-decoration: none;
+  color: #212124;
+}
+
+/* Album header */
+
+.album-header-view {
+  position: relative;
+}
+
+.album-header-content {
+  height: 300px;
+}
+
+.album-header-view.justified-transitions>.album-header-content {
+  transition: height 500ms ease-out;
+}
+
+.album-header-view>.album-header-content {
+  background-color: black;
+  background-size: cover;
+  background-position: center center;
+  position :white;
+  text-shadow: 0 1px 1px black;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: vertical;
+  flex-direction: column;
+}
+
+.album-header-view>.album-header-content>.dimming-shim {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 300;
+}
+
+.album-header-view>.album-header-content>.flex-padding {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  min-height: 20px;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view {
+  width: 79%;
+}
+
+.album-header-view>.album-header-content>.view {
+  z-index: 400;
+}
+
+.album-title-desc-view {
+  text-align: center;
+  position: relative;
+}
+
+.album-header-view.justified-transitions>.album-header-content>.album-title-desc-view.title-desc-block {
+  transition: background-color 20ms, padding 500ms easeout;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view>.title-desc-block {
+  padding: 0 10px 5px 10px;
+}
+
+.album-title-desc-view>.title-desc-block {
+  position: relative;
+}
+
+.album-header-view.justified-transitions>.album-header-content>.album-title-desc-view>.title-desc-block>.album-title {
+  transition: font-size 500ms ease-out;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view.title-desc-block>.album-title {
+  font-size: 60px;
+}
+
+.album-title-desc-view>.title-desc-block>.album-title {
+  font-weight: 300;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view>.title-desc-block>.edit-meta-field.edit-album-title {
+  font-size: 60px;
+}
+
+.album-title-desc-view>.title-desc-block>.edit-meta-field.edit-album-title {
+  font-weight: 300;
+  text-align: center;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view>.title-desc-block>.album-desc.description-placeholder {
+  font-size: 18px;
+}
+
+.album-header-view.justified-transitions>.album-header-content>.album-title-desc-view>.title-desc-block>.album-desc {
+  transition: font-size 500ms ease-out;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view>.title-desc-block>.album-desc {
+  overflow: hidden;
+  max-height: 29px;
+  word-wrap: break-word;
+  margin-top: 13px;
+}
+
+.album-title-desc-view>.title-desc-block>.album-desc.description-placeholder {
+  opacity: .8;
+}
+
+.album-title-desc-view>.title-desc-block>.album-desc {
+  text-align: center;
+  font-family: "Open Sans", serif;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 29px;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view>.title-desc-block>.description-show-more {
+    bottom: 0;
+    position: relative;
+    left: auto;
+    margin-left: 0;
+    width: auto;
+}
+.album-title-desc-view>.title-desc-block>.description-show-more {
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    width: 126px;
+    margin-left: -63px;
+}
+.album-title-desc-view .hidden {
+    display: none;
+}
+
+
+.album-title-desc-view>.title-desc-block>.description-show-more>.description-show-more-link {
+    font-size: 14px;
+    color: #898989;
+}
+
+.album-header-view.justified>.album-header-content>.album-title-desc-view>.title-desc-block>.edit-meta-field.edit-album-desc {
+  font-size: 24px;
+  margin: 13px 0 0 0;
+}
+
+.album-title-desc-view>.title-desc-block>.edit-meta-field.edit-album-desc {
+  text-align: center;
+  font-family: "Open Sans", serif;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 29px;
+  overflow-y: auto;
+}
+
+.album-title-desc-view>.title-desc-block>.edit-meta-field {
+  background: transparent;
+  color: #fff;
+  border: 0;
+  display: none;
+  outline: 0;
+  resize: none;
+  overflow: hidden;
+  padding: 0;
+  text-shadow: 0 1px 1px black;
+}
+
+.album-header-view.justified-transitions>.album-header-content>.album-stats-view {
+  transition: margin-top 500ms ease-out;
+}
+
+.album-header-view.justified>.album-header-content>.album-stats-view {
+  margin-top: 25px;
+}
+
+.album-header-view>.album-header-content>.view {
+  z-index: 400;
+}
+
+.album-header-view>.album-header-content>.album-stats-view>.stats-container {
+  font-size: 14px;
+}
+
+.album-header-view.justified-transitions>.album-header-content>.album-engagement-view {
+    transition: margin-top 500ms ease-out,margin-bottom 500ms ease-out;
+}
+.album-header-view.justified>.album-header-content>.album-engagement-view {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.album-header-view>.album-header-content>.album-engagement-view {
+  margin-left: -40px;
+}
+
+.album-header-view>.album-header-content>.view {
+  z-index: 400;
+}
+
+.album-header-view>.album-header-content>.album-engagement-view>.fluid-share-album-view {
+    margin-left: 40px;
+    margin-top: 1px;
+}
+.album-header-view>.album-header-content>.album-engagement-view>.create-book-container, .album-header-view>.album-header-content>.album-engagement-view>.download-album-container, .album-header-view>.album-header-content>.album-engagement-view>.fluid-share-album-view {
+    display: block;
+    float: left;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+
+.associated-photos {
+  top: 30px;
+  list-style-type: none;
+  padding: 45px 20px 45px 20px;
+  min-width: 200px;
+  margin: 10px auto;
+}
+
+.fluid .fluid-share-button {
+    cursor: pointer;
+}
+
+.album-header-view>.album-header-content>.album-engagement-view>.create-book-container span, .album-header-view>.album-header-content>.album-engagement-view>.download-album-container span, .album-header-view>.album-header-content>.album-engagement-view>.fluid-share-album-view span {
+    position: absolute;
+    display: block;
+}
+
+.fluid .fluid-share-button .fluid-share-icon.share-album-icon, .fluid .fluid-share-button .fluid-share-icon.share-photo-icon {
+    background: url(https://s.yimg.com/uy/build/images/sprites/icons-36c2f8d6.png) -410px -207px no-repeat;
+    width: 28px;
+    height: 28px;
+}
+
+.fluid .fluid-share-button .fluid-share-icon {
+  cursor: pointer;
+}
+
+.album-header-view>.album-header-content>.flex-padding {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  min-height: 20px;
+}
+
+.album-header-view.justified-transitions>.album-header-content>.attribution-view.album-attribution {
+    transition: bottom 500ms,margin-bottom 500ms ease-out;
+}
+.album-header-view.justified>.album-header-content>.attribution-view.album-attribution {
+    bottom: 20px;
+}
+
+// @media (max-height: 780px)
+// .album-header-view>.album-header-content>.attribution-view.album-attribution {
+//     position: static;
+//     margin-bottom: 35px;
+// }
+
+.album-header-view>.album-header-content>.attribution-view.album-attribution {
+    left: 0;
+}
+.album-header-view>.album-header-content>.view {
+    z-index: 400;
+}
+
+.attribution-view.album-attribution {
+  text-align: center;
+  width: 100%;
+}
+
+.attribution-view.album-attribution>.avatar {
+  margin: 0;
+}
+
+.fluid .avatar.medium {
+  width: 60px;
+  height: 60px;
+}
+
+.fluid .avatar.person {
+  border-radius: 100%;
+}
+
+.fluid .avatar {
+  position: relative;
+  background-color: #ddd;
+  background-size: cover;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  vertical-align: bottom;
+}
+
+.attribution-view.album-attribution>.attribution-info {
+    margin: 10px 0 0 0;
+}
+
+.attribution-view.album-attribution>.attribution-info>.owner-name {
+    display: none;
+}
+.fluid a, .dark .light .fluid a, .light .dark .light .fluid a, .fluid a:hover, .dark .light .fluid a:hover, .light .dark .light .fluid a:hover {
+    color: #006dac;
+}
+.fluid a {
+    cursor: pointer;
+    text-decoration: none;
+}
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.view .photo-list-view {
+  height: 705px;
+}
+
+.view .photo-list-photo-view .awake {
+  transform: translate(0px, 4px);
+  width: auto;
+  height: auto;
+  background-image: url("//c1.staticflickr.com/6/5656/20522865512_0645bd05c1_n.jpg");
+}
+
+.photo-list-photo-view.awake {
+  display: block;
+}
+
+.photo-list-photo-view {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #fff;
+  background-size: cover;
+}
+
+.pagination-view {
+  margin: 20px auto;
+  text-align: center;
+  min-height: 20px;
+}
+
+.album-header-image {
+  width: 100%;
+}

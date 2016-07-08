@@ -6,10 +6,21 @@ const PhotoActions = {
   fetchAllPhotos() {
     PhotoApiUtil.fetchAllPhotos(PhotoActions.receiveAllPhotos);
   },
-  fetchPhoto(photoId) {
+  fetchPhoto(id) {
     console.log("in fetchPhoto");
-    PhotoApiUtil.fetchPhoto(photoId, PhotoActions.receivePhoto);
+    // debugger
+    PhotoApiUtil.fetchPhoto(id, PhotoActions.receivePhoto);
   },
+  createPhoto(data) {
+    PhotoApiUtil.createPhoto(data, PhotoActions.receivePhoto);
+  },
+  editPhoto(data) {
+    PhotoApiUtil.editPhoto(data, PhotoActions.receivePhoto);
+  },
+  deletePhoto(id) {
+    PhotoApiUtil.deletePhoto(id, PhotoActions.removePhoto);
+  },
+
   receiveAllPhotos(photos) {
     AppDispatcher.dispatch({
       actionType: "PHOTOS_RECEIVED",
@@ -20,6 +31,12 @@ const PhotoActions = {
     console.log("in receivePhoto");
     AppDispatcher.dispatch({
       actionType: "PHOTO_RECEIVED",
+      photo: photo
+    })
+  },
+  removePhoto(photo) {
+    AppDispatcher.dispatch({
+      actionType: "PHOTO_REMOVED",
       photo: photo
     })
   }

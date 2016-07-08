@@ -9,11 +9,12 @@ const PhotoApiUtil = {
   },
   fetchPhoto(id, callback) {
     console.log("in photoApiUtil");
+    // debugger
     $.ajax({
       url: `api/photos/${id}`,
-      success: function(photo) {
+      success: function(response) {
         console.log("in fetchPhoto success");
-        callback(photo);
+        callback(response.photo);
       }
     })
   },

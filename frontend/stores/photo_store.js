@@ -1,8 +1,9 @@
 const Store = require('flux/utils').Store;
 const AppDispatcher = require('../dispatcher/dispatcher');
 const PhotoConstants = require('../constants/photo_constants');
-let _photos = {};
 const PhotoStore = new Store(AppDispatcher);
+
+let _photos = {};
 
 PhotoStore.all = function() {
   return Object.keys(_photos).map(key => {
@@ -11,7 +12,9 @@ PhotoStore.all = function() {
 };
 
 function resetAllPhotos (photos) {
-  _photos = photos;
+  photos.forEach(photo => {
+    _photos[photo.id] = photo;
+  });
   PhotoStore.__emitChange();
 }
 

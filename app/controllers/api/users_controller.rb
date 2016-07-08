@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   before_filter :find_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_current_user!, except: [:new, :create]
+  before_action :require_signed_in!, except: [:new, :create]
 
   def new
     @user = User.new
@@ -24,6 +24,12 @@ class Api::UsersController < ApplicationController
   end
 
   def update
+    if @user.update(user_params)
+      render :show
+    else
+      @errors = @user.errors.full_messages
+      render 'api/shared/error', status: 422
+    end
   end
 
   def destroy
@@ -38,7 +44,7 @@ class Api::UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:email, :username, :first_name, :last_name, :password)
+      params.require(:user).permit(:email, :username, :first_name, :last_name, :password, :avatar_url)
     end
 
 end
