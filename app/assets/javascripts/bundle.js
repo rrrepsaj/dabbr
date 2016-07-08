@@ -34878,19 +34878,13 @@
 	var AlbumDetail = React.createClass({
 	  displayName: 'AlbumDetail',
 	  getInitialState: function getInitialState() {
-	    var id = parseInt(this.props.params.id);
+	    var id = parseInt(this.props.params.albumId);
 	    var album = AlbumStore.find(id);
-	    //
 	    return { album: album };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    // $(document).ready(() => {
-	    //   $('html').animate({scrollTop: 0}, 1);
-	    //   $('body').animate({scrollTop: 0}, 1);
-	    // });
-	
 	    this.albumListener = AlbumStore.addListener(this._onChange);
-	    AlbumActions.fetchAlbum(parseInt(this.props.params.id));
+	    AlbumActions.fetchAlbum(parseInt(this.props.params.albumId));
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.albumListener.remove();
@@ -34900,7 +34894,7 @@
 	    hashHistory.push('/albums');
 	  },
 	  _onChange: function _onChange() {
-	    var id = parseInt(this.props.params.id);
+	    var id = parseInt(this.props.params.albumId);
 	    var album = AlbumStore.find(id);
 	    this.setState({ album: album });
 	  },
@@ -34908,17 +34902,34 @@
 	    var _this = this;
 	
 	    if (this.state.album) {
-	      var associatedPhotos = this.state.album.photos.map(function (photo, index) {
-	        return React.createElement(PhotoIndexItem, { key: index, photo: photo, __self: _this
-	        });
-	        // return <
+	      var associatedPhotos = this.state.album.photos.map(function (photo) {
+	        var style = {
+	          backgroundImage: 'url(' + photo.photo_url + ')'
+	        };
+	        var photoPath = '/photos/' + photo.id;
+	        return React.createElement(
+	          Link,
+	          { to: photoPath, __self: _this
+	          },
+	          React.createElement('img', { src: photo.photo_url, key: photo.id, __self: _this
+	          })
+	        );
 	      });
+	
+	      var noPhotos = void 0;
+	      if (associatedPhotos.length === 0) {
+	        noPhotos = React.createElement(
+	          'span',
+	          { className: 'no-photos', __self: this
+	          },
+	          'No photos.'
+	        );
+	      }
+	
 	      var coverPhotoUrl = this.state.album.cover_photo_url;
 	      var albumTitle = this.state.album.title;
 	      var albumDescription = this.state.album.description;
 	      var userProfilePath = '/user/' + this.state.album.user_id;
-	
-	      //
 	
 	      var masonryOptions = {
 	        isFitWidth: true
@@ -34927,8 +34938,6 @@
 	      var style = {
 	        backgroundImage: 'url(' + coverPhotoUrl + ')'
 	      };
-	
-	      //
 	
 	      return React.createElement(
 	        'div',
@@ -34983,16 +34992,20 @@
 	                  },
 	                  this.state.album.title
 	                ),
-	                React.createElement('input', { type: 'text', className: 'meta-field edit-meta-field edit-album-title', wrap: 'on', __self: this
+	                React.createElement('br', {
+	                  __self: this
 	                }),
-	                React.createElement('div', { className: 'album-desc description-placeholder', __self: this
+	                React.createElement('hr', {
+	                  __self: this
+	                }),
+	                React.createElement('br', {
+	                  __self: this
 	                }),
 	                React.createElement(
 	                  'div',
-	                  { className: 'description-show-more-hidden', __self: this
+	                  { className: 'album-description', __self: this
 	                  },
-	                  React.createElement('textarea', { className: 'metafield edit-meta-field edit-album-desc', wrap: 'on', __self: this
-	                  })
+	                  this.state.album.description
 	                )
 	              )
 	            ),
@@ -35014,23 +35027,6 @@
 	                ' '
 	              )
 	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'view album-engagement-view justified', __self: this
-	              },
-	              React.createElement(
-	                'div',
-	                { className: 'view fluid-share-album-view', __self: this
-	                },
-	                React.createElement(
-	                  'div',
-	                  { className: 'fluid-share-button', title: 'Share album', __self: this
-	                  },
-	                  React.createElement('span', { title: 'Share album', className: 'fluid-share-icon share-album-icon', __self: this
-	                  })
-	                )
-	              )
-	            ),
 	            React.createElement('div', { className: 'flex-padding', __self: this
 	            }),
 	            React.createElement(
@@ -35050,14 +35046,14 @@
 	          )
 	        ),
 	        React.createElement(
-	          Masonry,
-	          { className: 'associated-photos',
-	            elementType: 'ul',
-	            options: masonryOptions,
-	            disabledImagesLoaded: false, __self: this
+	          'div',
+	          { className: 'album-photo-view', __self: this
 	          },
-	          associatedPhotos
-	        )
+	          associatedPhotos,
+	          noPhotos
+	        ),
+	        React.createElement('div', { className: 'view pagination-view', __self: this
+	        })
 	      );
 	    } else {
 	      return React.createElement(
@@ -39672,10 +39668,10 @@
 	  fetchAlbum: function fetchAlbum(id, callback) {
 	    $.ajax({
 	      url: "api/albums/" + id,
-	      success: function success(album) {
-	        callback(album);
+	      success: function success(response) {
+	        callback(response.album);
 	      },
-	      error: function error(d) {
+	      error: function error() {
 	        console.log("Error in AlbumApiUtil#fetchAlbum");
 	      }
 	    });
@@ -39685,8 +39681,8 @@
 	      url: "api/albums",
 	      method: 'post',
 	      data: { album: data },
-	      success: function success(album) {
-	        callback(album);
+	      success: function success(response) {
+	        callback(response);
 	      },
 	      error: function error() {
 	        console.log("Error in AlbumApiUtil#createAlbum");
@@ -39712,22 +39708,32 @@
 	var _albums = {};
 	
 	AlbumStore.all = function () {
-	  return _albums;
+	  // return _albums;
+	  return Object.keys(_albums).map(function (key) {
+	    return _albums[key];
+	  });
 	};
 	
-	AlbumStore.find = function (id) {
-	  return _albums[id];
-	};
-	
-	function addAlbum(album) {
-	  _albums[album.album.id] = album;
+	function resetAllAlbums(albums) {
+	  albums.forEach(function (album) {
+	    _albums[album.id] = album;
+	  });
 	  AlbumStore.__emitChange();
 	}
+	
+	function resetAlbum(album) {
+	  _albums[album.id] = album;
+	  AlbumStore.__emitChange();
+	}
+	
+	AlbumStore.find = function (albumId) {
+	  return _albums[albumId];
+	};
 	
 	AlbumStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case AlbumConstants.RECEIVE_ALBUM:
-	      addAlbum(payload.album);
+	      resetAlbum(payload.album);
 	      break;
 	  }
 	};
@@ -39861,9 +39867,7 @@
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.photoListener = PhotoStore.addListener(this._updateDetails);
-	    // debugger
 	    PhotoActions.fetchPhoto(this.state.id);
-	    // debugger
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.photoListener.remove();
@@ -39875,7 +39879,6 @@
 	  _updateDetails: function _updateDetails() {
 	    var photo = PhotoStore.find(this.props.params.photoId);
 	    console.log(photo);
-	    debugger;
 	    this.setState({
 	      title: photo.title,
 	      description: photo.description,
@@ -39892,6 +39895,7 @@
 	    console.log(this.state.albumId);
 	
 	    var albumTitle = this.state.album ? this.state.album.title : "";
+	    var userProfile = '/users/' + this.state.userId;
 	
 	    return React.createElement(
 	      'div',
@@ -39901,43 +39905,86 @@
 	        'div',
 	        { className: 'photo-container', __self: this
 	        },
-	        React.createElement('img', { className: 'detail-image', src: this.state.url, width: '600', height: '400', __self: this
+	        React.createElement('img', { className: 'detail-image', src: this.state.url, __self: this
 	        })
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'photo-details', __self: this
+	        { className: 'photo-details-widget', __self: this
 	        },
 	        React.createElement(
-	          'h1',
-	          { className: 'photo-user', __self: this
+	          'ul',
+	          { className: 'photo-details-list', __self: this
 	          },
-	          this.state.user.username
-	        ),
-	        React.createElement(
-	          'h3',
-	          { className: 'photo-title', __self: this
-	          },
-	          this.state.title
-	        ),
-	        ' ',
-	        React.createElement(
-	          'h4',
-	          { className: 'photo-album', __self: this
-	          },
-	          albumTitle
-	        ),
-	        React.createElement(
-	          'p',
-	          { onClick: this.redirectToEdit, __self: this
-	          },
-	          'Edit Photo'
-	        ),
-	        React.createElement(
-	          'p',
-	          { className: 'photo-description', __self: this
-	          },
-	          this.state.description
+	          React.createElement(
+	            'li',
+	            {
+	              __self: this
+	            },
+	            React.createElement(
+	              'h1',
+	              { className: 'photo-title', __self: this
+	              },
+	              this.state.title
+	            ),
+	            React.createElement(
+	              'span',
+	              { className: 'photo-album', __self: this
+	              },
+	              albumTitle
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            {
+	              __self: this
+	            },
+	            React.createElement(
+	              'h3',
+	              { className: 'photo-user', __self: this
+	              },
+	              React.createElement(
+	                'span',
+	                { className: 'by', __self: this
+	                },
+	                'by'
+	              ),
+	              ' ',
+	              React.createElement(
+	                Link,
+	                { className: 'photo-user', to: userProfile, __self: this
+	                },
+	                this.state.user.username
+	              )
+	            )
+	          ),
+	          React.createElement('hr', {
+	            __self: this
+	          }),
+	          React.createElement(
+	            'li',
+	            {
+	              __self: this
+	            },
+	            React.createElement(
+	              'p',
+	              { className: 'photo-description', __self: this
+	              },
+	              this.state.description
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            {
+	              __self: this
+	            },
+	            React.createElement(
+	              'p',
+	              { className: 'photo-edit', onClick: this.redirectToEdit, __self: this
+	              },
+	              'Edit Photo'
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -40332,7 +40379,6 @@
 	  componentDidMount: function componentDidMount() {
 	    this.photoListener = PhotoStore.addListener(this.handleChange);
 	    PhotoActions.fetchPhoto(parseInt(this.props.params.photoId));
-	    debugger;
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.photoListener.remove();
@@ -40373,7 +40419,6 @@
 	    if (this.state.url) {
 	      var url = this.state.url;
 	    }
-	    debugger;
 	
 	    var redirectPhoto = React.createElement(
 	      'a',
@@ -40387,6 +40432,7 @@
 	      },
 	      'RETURN TO EXPLORE'
 	    );
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'signin-form-container upload-form-container', __self: this

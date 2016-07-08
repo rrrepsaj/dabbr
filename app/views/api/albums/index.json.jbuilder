@@ -1,3 +1,3 @@
 json.array!(@albums) do |album|
-  json.partial!('album', album: album, cover: true)
+  json.partial! 'api/albums/album', album: album
 end

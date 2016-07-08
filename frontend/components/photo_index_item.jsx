@@ -15,7 +15,7 @@ const PhotoIndexItem = React.createClass({
 	},
 
   render () {
-		const photo = this.props.photo;
+		let photo = this.props.photo;
 		return (
 			<div className="card clearfix">
 				<div className="photo-container">

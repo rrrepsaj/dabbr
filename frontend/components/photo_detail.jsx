@@ -23,9 +23,7 @@ const PhotoDetail = React.createClass({
 
   componentDidMount() {
     this.photoListener = PhotoStore.addListener(this._updateDetails);
-    // debugger
     PhotoActions.fetchPhoto(this.state.id);
-    // debugger
   },
 
   componentWillUnmount() {
@@ -40,7 +38,6 @@ const PhotoDetail = React.createClass({
   _updateDetails() {
     let photo = PhotoStore.find(this.props.params.photoId);
     console.log(photo);
-    debugger
     this.setState({
       title: photo.title,
       description: photo.description,
@@ -58,17 +55,22 @@ const PhotoDetail = React.createClass({
     console.log(this.state.albumId);
 
     let albumTitle = this.state.album ? this.state.album.title : "";
+    let userProfile = `/users/${this.state.userId}`;
 
     return (
       <div className="photo-detail-main">
         <div className="photo-container">
-          <img className="detail-image" src={this.state.url} width="600" height="400" />
+          <img className="detail-image" src={this.state.url} />
         </div>
-        <div className="photo-details">
-          <h1 className="photo-user">{this.state.user.username}</h1>
-          <h3 className="photo-title">{this.state.title}</h3> <h4 className="photo-album">{albumTitle}</h4>
-          <p onClick={this.redirectToEdit}>Edit Photo</p>
-          <p className="photo-description">{this.state.description}</p>
+        <div className="photo-details-widget">
+          <ul className="photo-details-list">
+            <li><h1 className="photo-title">{this.state.title}</h1><span className="photo-album">{albumTitle}</span></li>
+            <li><h3 className="photo-user"><span className="by">by</span> <Link className="photo-user" to={userProfile}>{this.state.user.username}</Link></h3></li>
+            <hr />
+            <li><p className="photo-description">{this.state.description}</p></li>
+
+            <li><p className="photo-edit" onClick={this.redirectToEdit}>Edit Photo</p></li>
+          </ul>
         </div>
       </div>
     );

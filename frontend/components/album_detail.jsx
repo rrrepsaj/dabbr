@@ -9,20 +9,14 @@ const SessionStore = require('../stores/session_store');
 
 const AlbumDetail = React.createClass({
   getInitialState() {
-    let id = parseInt(this.props.params.id);
+    let id = parseInt(this.props.params.albumId);
     let album = AlbumStore.find(id);
-    // 
     return {album: album};
   },
 
   componentDidMount() {
-    // $(document).ready(() => {
-    //   $('html').animate({scrollTop: 0}, 1);
-    //   $('body').animate({scrollTop: 0}, 1);
-    // });
-
     this.albumListener = AlbumStore.addListener(this._onChange);
-    AlbumActions.fetchAlbum(parseInt(this.props.params.id));
+    AlbumActions.fetchAlbum(parseInt(this.props.params.albumId));
   },
 
   componentWillUnmount() {
@@ -35,23 +29,32 @@ const AlbumDetail = React.createClass({
   },
 
   _onChange() {
-    let id = parseInt(this.props.params.id);
+    let id = parseInt(this.props.params.albumId);
     let album = AlbumStore.find(id);
     this.setState({album: album});
   },
 
   render() {
     if (this.state.album) {
-      let associatedPhotos = this.state.album.photos.map((photo, index) => {
-        return <PhotoIndexItem key={index} photo={photo} />
-        // return <
+      let associatedPhotos = this.state.album.photos.map(photo => {
+        let style = {
+          backgroundImage: 'url(' + photo.photo_url + ')'
+        }
+        let photoPath = `/photos/${photo.id}`;
+        return (
+          <Link to={photoPath}><img src={photo.photo_url} key={photo.id} /></Link>
+        );
       });
+
+      let noPhotos;
+      if (associatedPhotos.length === 0) {
+        noPhotos = <span className="no-photos">No photos.</span>
+      }
+
       let coverPhotoUrl = this.state.album.cover_photo_url;
       let albumTitle = this.state.album.title;
       let albumDescription = this.state.album.description;
       let userProfilePath = `/user/${this.state.album.user_id}`;
-
-      // 
 
       const masonryOptions = {
         isFitWidth: true
@@ -60,8 +63,6 @@ const AlbumDetail = React.createClass({
       const style = {
         backgroundImage: 'url(' + coverPhotoUrl + ')'
       };
-
-      // 
 
       return (
         <div className="album-container fluid-centered">
@@ -80,24 +81,13 @@ const AlbumDetail = React.createClass({
               <div className="flex-padding"></div>
               <div className="view album-title-desc-view">
                 <div className="title-desc-block">
-                  <div className="album-title">{this.state.album.title}</div>
-                  <input type="text" className="meta-field edit-meta-field edit-album-title" wrap="on" />
-                  <div className="album-desc description-placeholder"></div>
-                  <div className="description-show-more-hidden">
-                    <textarea className="metafield edit-meta-field edit-album-desc" wrap="on"></textarea>
-                  </div>
+                  <div className="album-title">{this.state.album.title}</div><br /><hr /><br />
+                  <div className="album-description">{this.state.album.description}</div>
                 </div>
               </div>
               <div className="view album-stats-view justified">
                 <div className="stats-container">
                   <span className="photo-counts">{associatedPhotos.length} photos</span> {/*Need number of photos in here*/}
-                </div>
-              </div>
-              <div className="view album-engagement-view justified">
-                <div className="view fluid-share-album-view">
-                  <div className="fluid-share-button" title="Share album">
-                    <span title="Share album" className="fluid-share-icon share-album-icon"></span>
-                  </div>
                 </div>
               </div>
               <div className="flex-padding"></div>
@@ -110,19 +100,13 @@ const AlbumDetail = React.createClass({
             </div>
           </div>
 
-          <Masonry className="associated-photos"
-                   elementType={'ul'}
-                   options={masonryOptions}
-                   disabledImagesLoaded={false}>
+         <div className="album-photo-view">
            {associatedPhotos}
-         </Masonry>
+           {noPhotos}
+         </div>
 
-          {/*<div className="view photo-list-view">
-            <div className="view photo-list-photo-view awake">{associatedPhotos}</div>
-          </div>
-          <div className="view pagination-view"></div>*/}
+          <div className="view pagination-view"></div>
 
-          {/*<Masonry className="photoList" elementType={'ul'} options={masonryOptions} disableImagesLoaded={false}>{photoList}</Masonry>*/}
         </div>
       );
     } else {

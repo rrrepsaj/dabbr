@@ -77,6 +77,39 @@
   z-index: 400;
 }
 
+div.back-to-albums {
+  margin: 30px 0;
+  // padding: 30px;
+}
+
+.back-to-albums-text {
+  // margin: 30px;
+  cursor: pointer;
+  cursor: pointer;
+}
+
+.album-title {
+  font-size: 69px;
+  color: #fff;
+}
+
+.album-description {
+  font-size: 18px;
+  font-style: italic;
+  color: #fff;
+}
+
+.photo-counts {
+  font-size: 14px;
+  color: #fff;
+}
+
+span.no-photos {
+  color: #212124;
+  font-style: italic;
+  margin-top: 100px;
+}
+
 .album-title-desc-view {
   text-align: center;
   position: relative;
@@ -346,13 +379,25 @@
 
 .view .photo-list-photo-view .awake {
   transform: translate(0px, 4px);
-  width: auto;
-  height: auto;
+  width: 100px;
+  height: 100px;
   background-image: url("//c1.staticflickr.com/6/5656/20522865512_0645bd05c1_n.jpg");
 }
 
-.photo-list-photo-view.awake {
-  display: block;
+.album-photo-view {
+  display: flex;
+  justify-content: center;
+  align-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.album-photo-view img {
+  margin: 3px;
+  height: 200px;
+  transform: translate(0px, 4px);
+  -webkit-transform: translate(0px, 4px);
+  -ms-transform: translate(0px, 4px);
 }
 
 .photo-list-photo-view {
@@ -361,6 +406,69 @@
   background-position: center center;
   background-color: #fff;
   background-size: cover;
+}
+
+.photo-list-photo-view.awake {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: block;
+}
+
+.photo-list-photo-view .interaction-view {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.photo-list-photo-interaction {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.photo-list-photo-interaction a.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.photo-list-photo-interaction .interaction-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 8px 0 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+}
+
+.photo-list-photo-interaction .interaction-bar .text {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.photo-list-photo-interaction .interaction-bar .tool {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
+  margin-left: 8px;
+  padding-top: 9px;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
 }
 
 .pagination-view {

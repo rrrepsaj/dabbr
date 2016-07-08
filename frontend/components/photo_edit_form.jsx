@@ -22,7 +22,6 @@ const PhotoEditForm = React.createClass({
   componentDidMount() {
     this.photoListener = PhotoStore.addListener(this.handleChange);
     PhotoActions.fetchPhoto(parseInt(this.props.params.photoId));
-    debugger
   },
 
   componentWillUnmount() {
@@ -71,10 +70,10 @@ const PhotoEditForm = React.createClass({
     if (this.state.url) {
       let url = this.state.url;
     }
-    debugger
 
     let redirectPhoto = <a className="edit-nav" onClick={this.returnToPhoto}>BACK TO PHOTO</a>;
     let redirectHome = <a className="edit-nav" onClick={this.redirectToPhotos}>RETURN TO EXPLORE</a>;
+    
     return (
       <div className="signin-form-container upload-form-container">
         <form onSubmit={this.handleSubmit} className="signin-form-box">
@@ -87,7 +86,6 @@ const PhotoEditForm = React.createClass({
                   <div className="main-session-photo">
                     <img className="updated-photo" src={this.state.url} onClick={this._uploadPhoto} />
                   </div>
-                  {/*<span className="thin-facade" onClick={this._uploadPhoto} />*/}
                 </div>
               </div>
             </div>

@@ -2,10 +2,10 @@ const AlbumApiUtil = {
   fetchAlbum(id, callback) {
     $.ajax({
       url: `api/albums/${id}`,
-      success: function(album) {
-        callback(album);
+      success: function(response) {
+        callback(response.album);
       },
-      error: function(d) {
+      error: function() {
         console.log("Error in AlbumApiUtil#fetchAlbum");
       }
     })
@@ -15,8 +15,8 @@ const AlbumApiUtil = {
       url: `api/albums`,
       method: 'post',
       data: { album: data },
-      success: function(album) {
-        callback(album);
+      success: function(response) {
+        callback(response);
       },
       error: function() {
         console.log("Error in AlbumApiUtil#createAlbum");
