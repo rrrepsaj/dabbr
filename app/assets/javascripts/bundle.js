@@ -40268,24 +40268,66 @@
 /* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
+	var SignupForm = __webpack_require__(266);
+	var DropModal = __webpack_require__(267);
+	var ErrorActions = __webpack_require__(255);
 	
 	var Splash = React.createClass({
-	  displayName: "Splash",
+	  displayName: 'Splash',
 	  render: function render() {
+	    var modalStyle = {
+	      width: '35%',
+	      top: '55%'
+	    };
 	    return React.createElement(
-	      "div",
-	      { className: "splash", __self: this
+	      'div',
+	      {
+	        __self: this
 	      },
 	      React.createElement(
-	        "video",
-	        { className: "background-video", autoPlay: true, loop: true, __self: this
+	        'div',
+	        { className: 'splash', __self: this
 	        },
-	        React.createElement("source", { src: "http://res.cloudinary.com/deqbn35yx/video/upload/ac_none/v1467886396/VLT_Very_Large_Telescope_HD_Timelapse_Footage_z78wxh.mp4",
-	          type: "video/mp4", __self: this
-	        })
+	        React.createElement(
+	          'video',
+	          { className: 'background-video', autoPlay: true, loop: true, __self: this
+	          },
+	          React.createElement('source', { src: 'http://res.cloudinary.com/deqbn35yx/video/upload/ac_none/v1467886396/VLT_Very_Large_Telescope_HD_Timelapse_Footage_z78wxh.mp4',
+	            type: 'video/mp4', __self: this
+	          })
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'landing', __self: this
+	        },
+	        React.createElement(
+	          'div',
+	          { className: 'center-panel', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'center-text-box', __self: this
+	            },
+	            React.createElement(
+	              'h1',
+	              {
+	                __self: this
+	              },
+	              'A picture is worth a thousand words.'
+	            ),
+	            React.createElement(
+	              'h6',
+	              {
+	                __self: this
+	              },
+	              'Share yours here'
+	            )
+	          )
+	        )
 	      )
 	    );
 	  }
