@@ -33118,18 +33118,18 @@
 	var ErrorConstants = __webpack_require__(256);
 	
 	var ErrorActions = {
-	  setErrors: function setErrors(form, errors) {
-	    AppDispatcher.dispatch({
-	      actionType: ErrorConstants.SET_ERRORS,
-	      form: form,
-	      errors: errors
-	    });
-	  },
-	  clearErrors: function clearErrors() {
-	    AppDispatcher.dispatch({
-	      actionType: ErrorConstants.CLEAR_ERRORS
-	    });
-	  }
+	    setErrors: function setErrors(form, errors) {
+	        AppDispatcher.dispatch({
+	            actionType: ErrorConstants.SET_ERRORS,
+	            form: form,
+	            errors: errors
+	        });
+	    },
+	    clearErrors: function clearErrors() {
+	        AppDispatcher.dispatch({
+	            actionType: ErrorConstants.CLEAR_ERRORS
+	        });
+	    }
 	};
 	
 	module.exports = ErrorActions;
@@ -40206,14 +40206,12 @@
 	
 	var UserActions = {
 	  fetchUserProfile: function fetchUserProfile(id) {
-	    //
 	    UserApiUtil.fetchUserProfile(id, UserActions.receiveUserProfile);
 	  },
 	  editUserProfile: function editUserProfile(data) {
 	    UserApiUtil.editUserProfile(data, UserActions.receiveUserProfile);
 	  },
 	  receiveUserProfile: function receiveUserProfile(user) {
-	    //
 	    AppDispatcher.dispatch({
 	      actionType: UserConstants.RECEIVE_USER,
 	      user: user
@@ -40626,24 +40624,24 @@
 	  getInitialState: function getInitialState() {
 	    return {
 	      currentUser: SessionStore.currentUser(),
-	      userProfile: UserStore.userProfile()
+	      user: UserStore.userProfile()
+	      // userProfile: UserStore.userProfile()
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.userProfileListener = UserStore.addListener(this._onUserChange);
+	    this.userListener = UserStore.addListener(this._onUserChange);
 	    this.currentUserListener = SessionStore.addListener(this._onSessionChange);
 	    UserActions.fetchUserProfile(parseInt(this.props.params.userId));
-	    // debugger
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
-	    this.userProfileListener.remove();
+	    this.userListener.remove();
 	    this.currentUserListener.remove();
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
 	    UserActions.fetchUserProfile(parseInt(newProps.params.userId));
 	  },
 	  _onUserChange: function _onUserChange() {
-	    this.setState({ userProfile: UserStore.userProfile() });
+	    this.setState({ user: UserStore.userProfile() });
 	  },
 	  _onSessionChange: function _onSessionChange() {
 	    this.setState({ currentUser: SessionStore.currentUser() });
@@ -40651,132 +40649,79 @@
 	  showUserPhotos: function showUserPhotos() {},
 	  showUserAlbums: function showUserAlbums() {},
 	  render: function render() {
+	    var style = {
+	      backgroundImage: 'url(http://res.cloudinary.com/deqbn35yx/image/upload/v1467969503/mnts8v7c5ca6kvv2n3gy.jpg)'
+	    };
 	    return React.createElement(
 	      'div',
-	      {
-	        __self: this
+	      { className: 'profile-splash', style: style, __self: this
 	      },
 	      React.createElement(
 	        'div',
-	        { className: 'view fluid-photostream-coverphoto-view', __self: this
+	        { className: 'album-container fluid-centered', __self: this
 	        },
 	        React.createElement(
 	          'div',
-	          { className: 'coverphoto', __self: this
+	          { className: 'view album-header-view justified-transitions justified', __self: this
 	          },
-	          React.createElement('div', { className: 'editor-controls', __self: this
-	          }),
-	          React.createElement('div', { className: 'coverphoto-gradient', __self: this
-	          }),
 	          React.createElement(
 	            'div',
-	            { className: 'coverphoto-content fluid-centered', __self: this
+	            { className: 'album-header-content-profile', __self: this
 	            },
-	            React.createElement('div', { className: 'cover-photo-edit', __self: this
+	            React.createElement('div', { className: 'dimming-shim-transparent-bg', __self: this
+	            }),
+	            React.createElement('div', { className: 'flex-padding', __self: this
 	            }),
 	            React.createElement(
 	              'div',
-	              { className: 'avatar no-menu person large', __self: this
+	              { className: 'view album-title-desc-view', __self: this
 	              },
 	              React.createElement(
 	                'div',
-	                { className: 'edit', __self: this
+	                { className: 'title-desc-block', __self: this
 	                },
-	                React.createElement('span', { className: 'edit-icon', __self: this
-	                })
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'loading-overlay', __self: this
-	                },
-	                React.createElement('div', { className: 'balls', __self: this
-	                })
+	                React.createElement(
+	                  'div',
+	                  { className: 'album-title', __self: this
+	                  },
+	                  'dabbr™'
+	                ),
+	                React.createElement('br', {
+	                  __self: this
+	                }),
+	                React.createElement('hr', {
+	                  __self: this
+	                }),
+	                React.createElement('br', {
+	                  __self: this
+	                }),
+	                React.createElement(
+	                  'div',
+	                  { className: 'album-description', __self: this
+	                  },
+	                  'by Jasper Chen'
+	                )
 	              )
 	            ),
 	            React.createElement(
 	              'div',
-	              { className: 'title-block-content', __self: this
+	              { className: 'view album-stats-view justified', __self: this
 	              },
 	              React.createElement(
 	                'div',
-	                { className: 'title', __self: this
+	                { className: 'stats-container', __self: this
 	                },
-	                React.createElement('h1', { className: 'truncate', __self: this
-	                }),
-	                React.createElement('div', { className: 'view follow-view', __self: this
-	                }),
-	                React.createElement('div', { className: 'view follow-view', __self: this
-	                })
-	              ),
-	              React.createElement('p', { className: 'subtitle truncate', __self: this
-	              }),
-	              React.createElement('p', { className: 'followers truncate', __self: this
-	              })
+	                React.createElement(
+	                  'span',
+	                  { className: 'photo-counts aa-cred', __self: this
+	                  },
+	                  'App Academy / May 09, 2016 cohort'
+	                ),
+	                ' '
+	              )
 	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'metadata-content', __self: this
-	              },
-	              React.createElement(
-	                'p',
-	                { className: 'photo-count', __self: this
-	                },
-	                '3 photos'
-	              ),
-	              React.createElement(
-	                'p',
-	                {
-	                  __self: this
-	                },
-	                'Joined 2016'
-	              )
-	            )
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'view fluid-magic-subnav-view', __self: this
-	        },
-	        React.createElement(
-	          'div',
-	          { className: 'fluid-subnav-shim', __self: this
-	          },
-	          React.createElement(
-	            'div',
-	            { className: 'fluid-subnav', __self: this
-	            },
-	            React.createElement(
-	              'div',
-	              { className: 'subnav-content fluid-centered', __self: this
-	              },
-	              React.createElement(
-	                'ul',
-	                { className: 'links', __self: this
-	                },
-	                React.createElement('li', { id: 'user-photos', 'class': 'link', onClick: this.showUserPhotos, __self: this
-	                }),
-	                React.createElement('li', { id: 'user-albums', 'class': 'link', onClick: this.showUserAlbums, __self: this
-	                })
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'more-link', __self: this
-	                },
-	                '"More"',
-	                React.createElement('span', {
-	                  __self: this
-	                })
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'fader', __self: this
-	                },
-	                React.createElement('span', {
-	                  __self: this
-	                })
-	              )
-	            )
+	            React.createElement('div', { className: 'flex-padding', __self: this
+	            })
 	          )
 	        )
 	      )

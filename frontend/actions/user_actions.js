@@ -4,7 +4,6 @@ const UserConstants = require('../constants/user_constants');
 
 const UserActions = {
   fetchUserProfile(id) {
-    // 
     UserApiUtil.fetchUserProfile(id, UserActions.receiveUserProfile);
   },
 
@@ -13,7 +12,6 @@ const UserActions = {
   },
 
   receiveUserProfile(user) {
-    // 
     AppDispatcher.dispatch({
       actionType: UserConstants.RECEIVE_USER,
       user: user

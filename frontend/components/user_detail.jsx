@@ -15,19 +15,19 @@ const UserDetail = React.createClass({
   getInitialState() {
     return {
       currentUser: SessionStore.currentUser(),
-      userProfile: UserStore.userProfile()
+      user: UserStore.userProfile()
+      // userProfile: UserStore.userProfile()
     }
   },
 
   componentDidMount() {
-    this.userProfileListener = UserStore.addListener(this._onUserChange);
+    this.userListener = UserStore.addListener(this._onUserChange);
     this.currentUserListener = SessionStore.addListener(this._onSessionChange);
     UserActions.fetchUserProfile(parseInt(this.props.params.userId));
-    // debugger
   },
 
   componentWillUnmount() {
-    this.userProfileListener.remove();
+    this.userListener.remove();
     this.currentUserListener.remove();
   },
 
@@ -36,7 +36,7 @@ const UserDetail = React.createClass({
   },
 
   _onUserChange() {
-    this.setState({ userProfile: UserStore.userProfile() });
+    this.setState({ user: UserStore.userProfile() });
   },
 
   _onSessionChange() {
@@ -52,63 +52,31 @@ const UserDetail = React.createClass({
   },
 
   render() {
-    //
+    let style = {
+      backgroundImage: 'url(http://res.cloudinary.com/deqbn35yx/image/upload/v1467969503/mnts8v7c5ca6kvv2n3gy.jpg)'
+    }
     return (
-      <div>
-        <div className="view fluid-photostream-coverphoto-view">
-          {/*<div>
-            <img src={this.state.currentUser.avatar_url} />
-            <h1>{this.state.currentUser.username}</h1>
-          </div>*/}
-          <div className="coverphoto">
-            <div className="editor-controls"></div>
-            <div className="coverphoto-gradient"></div>
-            <div className="coverphoto-content fluid-centered">
-              <div className="cover-photo-edit"></div>
-              <div className="avatar no-menu person large">
-                <div className="edit">
-                  <span className="edit-icon"></span>
-                </div>
-                <div className="loading-overlay">
-                  <div className="balls"></div>
+      <div className="profile-splash" style={style}>
+        <div className="album-container fluid-centered">
+          <div className="view album-header-view justified-transitions justified">
+            <div className="album-header-content-profile">
+              <div className="dimming-shim-transparent-bg"></div>
+              <div className="flex-padding"></div>
+              <div className="view album-title-desc-view">
+                <div className="title-desc-block">
+                  <div className="album-title">dabbr&trade;</div><br /><hr /><br />
+                  <div className="album-description">by Jasper Chen</div>
                 </div>
               </div>
-              <div className="title-block-content">
-                <div className="title">
-                  <h1 className="truncate"></h1>
-                  <div className="view follow-view"></div>
-                  <div className="view follow-view"></div>
+              <div className="view album-stats-view justified">
+                <div className="stats-container">
+                  <span className="photo-counts aa-cred">App Academy / May 09, 2016 cohort</span> {/*Need number of photos in here*/}
                 </div>
-                <p className="subtitle truncate"></p>
-                <p className="followers truncate"></p>
               </div>
-              <div className="metadata-content">
-                <p className="photo-count">3 photos</p>
-                <p>Joined 2016</p>
-              </div>
+              <div className="flex-padding"></div>
             </div>
           </div>
         </div>
-        <div className="view fluid-magic-subnav-view">
-          <div className="fluid-subnav-shim">
-            <div className="fluid-subnav">
-              <div className="subnav-content fluid-centered">
-                <ul className="links">
-                  <li id="user-photos" class="link" onClick={this.showUserPhotos}></li>
-                  <li id="user-albums" class="link" onClick={this.showUserAlbums}></li>
-                </ul>
-                <div className="more-link">
-                  "More"
-                  <span></span>
-                </div>
-                <div className="fader">
-                  <span></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Insert logic here for whether to show UserPhotoIndex or UserAlbumIndex based on which li element is active*/}
       </div>
     );
   }

@@ -107,6 +107,35 @@ body {
   width: 100%;
 }
 
+.profile-splash{
+  position: fixed;
+  // top: 0px;
+  right: 0px;
+  bottom: 0px;
+  // left: 0px;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1000;
+  overflow: hidden;
+  background-size: cover;
+}
+
+.dimming-shim-transparent-bg {
+  // background-color: rgba(21,21,23,0.10);
+  background-color: transparent;
+}
+
+.album-header-view > .album-header-content-profile {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 300px;
+  background-color: transparent;
+}
+
 .center-panel {
   display: flex;
   flex-direction: column;
