@@ -100,10 +100,119 @@ SPACE_WALLPAPERS = [
   "http://i.imgur.com/Im0JGyU.jpg"
 ]
 
+SCENERY_WALLPAPERS = [
+  "http://i.imgur.com/hRAeIvs.jpg",
+  "http://i.imgur.com/0FR2R5T.jpg",
+  "http://i.imgur.com/v1bE3bs.jpg",
+  "http://i.imgur.com/H2Fap2r.jpg",
+  "http://i.imgur.com/ka8sGYq.jpg",
+  "http://i.imgur.com/cPnM3dD.jpg",
+  "http://i.imgur.com/u2MXZdY.jpg",
+  "http://i.imgur.com/zuxXph2.jpg",
+  "http://i.imgur.com/VDByV3E.jpg",
+  "http://i.imgur.com/YglgPe8.jpg",
+  "http://i.imgur.com/3zYVT0y.jpg",
+  "http://i.imgur.com/2fXdDho.png",
+  "http://i.imgur.com/LjDSzQD.jpg",
+  "http://i.imgur.com/sxpl3y2.png",
+  "http://i.imgur.com/TOHXP4c.jpg",
+  "http://i.imgur.com/TVHZriA.jpg",
+  "http://i.imgur.com/XhvQxfw.jpg",
+  "http://i.imgur.com/RgQ1RbY.jpg",
+  "http://i.imgur.com/4fC3NKD.jpg",
+  "http://i.imgur.com/gCmJEEN.jpg",
+  "http://i.imgur.com/HzRleP9.png",
+  "http://i.imgur.com/tOHWAls.jpg",
+  "http://i.imgur.com/3JzXiRP.jpg",
+  "http://i.imgur.com/D4DpDzz.jpg",
+  "http://i.imgur.com/dyURYWy.jpg",
+  "http://i.imgur.com/DB4QARd.jpg",
+  "http://i.imgur.com/qgYwOky.jpg",
+  "http://i.imgur.com/Y57nxDA.jpg",
+  "http://i.imgur.com/EZsGkvv.jpg",
+  "http://i.imgur.com/G18FbCh.jpg",
+  "http://i.imgur.com/jokTIqS.jpg",
+  "http://i.imgur.com/XlHHVDf.jpg",
+  "http://i.imgur.com/82F7Ka5.jpg",
+  "http://i.imgur.com/jvXzFWP.jpg",
+  "http://i.imgur.com/yGICcdM.png",
+  "http://i.imgur.com/WzOFzdv.jpg",
+  "http://i.imgur.com/lEDanrF.png",
+  "http://i.imgur.com/kpQOqHZ.jpg",
+  "http://i.imgur.com/d1yz7iy.jpg",
+  "http://i.imgur.com/hyv1wjf.jpg",
+  "http://i.imgur.com/Rq1zNMT.jpg",
+  "http://i.imgur.com/JNIgqCK.jpg",
+  "http://i.imgur.com/5radMV4.jpg",
+  "http://i.imgur.com/8tEZTkO.png",
+  "http://i.imgur.com/kLjiwne.jpg",
+  "http://i.imgur.com/1gwT7jX.jpg",
+  "http://i.imgur.com/H80Vz3n.jpg"
+]
+
+DEFAULT_AVATAR_URLS = [
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966873/128_mbmqnw.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966870/128_41_wndxe7.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966870/128_40_cbnznz.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966870/128_39_vpt8ge.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966870/128_38_amsodb.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_33_vho1ta.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_34_azzrnb.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966870/128_35_ucwfp7.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966870/128_36_erqwdh.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966870/128_37_fzcojo.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_32_qquaq4.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_31_igzg8a.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_30_jmntmj.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_29_zhdrl1.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_28_dfjk1e.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_23_lrwsci.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_24_z2neue.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_25_avihwf.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_26_udxytx.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_27_tghicr.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_22_bmi9ok.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_21_gaemhg.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_20_xbz1bm.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_19_gmhrva.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966869/128_18_kmkioc.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_13_mezkqb.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_14_qlfpyl.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_15_ckydew.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_16_eucuda.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_17_ltdcbi.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_12_xcdvve.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_11_ok20al.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_10_jilckg.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_9_fvffpu.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966868/128_8_gbi6ln.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966856/128_3_miwfds.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966858/128_4_pqwauk.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966859/128_5_kjyg36.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966862/128_6_yhkmmk.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966862/128_7_qipl55.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966854/128_2_w9gzen.jpg",
+  "http://res.cloudinary.com/deqbn35yx/image/upload/v1467966850/128_1_tokg1m.jpg"
+]
+
 SPACE_WALLPAPERS.shuffle!
+SCENERY_WALLPAPERS.shuffle!
+DEFAULT_AVATAR_URLS.shuffle!
 
-User.create(email: "demo@example.com", username: "demo", first_name: "Demo", last_name: "User", password_digest: BCrypt::Password.create("password"))
+User.create!(email: "demo@example.com", username: "demo", first_name: "Demo", last_name: "User", password_digest: BCrypt::Password.create("password"), avatar_url: DEFAULT_AVATAR_URLS.sample)
 
-SPACE_WALLPAPERS.count.times do |index|
-  Photo.create(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index], user_id: 1)
+49.times do |index|
+  User.create!(email: Faker::Internet.email, username: Faker::Internet.user_name, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password_digest: BCrypt::Password.create("password"), avatar_url: DEFAULT_AVATAR_URLS.sample)
+end
+
+Album.create!(title: Faker::Company.buzzword, description: Faker::Company.catch_phrase, cover_photo_url: SCENERY_WALLPAPERS.sample, user_id: 1)
+
+Album.create!(title: Faker::Company.buzzword, description: Faker::Company.catch_phrase, cover_photo_url: SCENERY_WALLPAPERS.sample, user_id: 2)
+
+SPACE_WALLPAPERS.take(5).count.times do |index|
+  Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index], user_id: 1, album_id: 1)
+end
+
+SPACE_WALLPAPERS.drop(5).count.times do |index|
+  Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index + 5], user_id: (2..50).to_a.sample, album_id: nil)
 end

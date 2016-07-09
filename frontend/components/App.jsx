@@ -1,10 +1,12 @@
 const React = require('react');
+const hashHistory = require('react-router').hashHistory;
 const FontAwesome = require('react-fontawesome');
 const Link = require('react-router').Link;
 const SessionStore = require('../stores/session_store');
 const ErrorActions = require('../actions/error_actions');
 const SessionActions = require('../actions/session_actions');
 // Components
+const PhotoForm = require('./photo_form');
 const SigninForm = require('./signin_form');
 const SignupForm = require('./signup_form');
 // Modals
@@ -23,6 +25,16 @@ const App = React.createClass({
     this.refs.signupModal.show();
   },
 
+  redirectToPhotos(e) {
+    e.preventDefault();
+    hashHistory.push('/photos');
+  },
+
+  redirectToUpload(e) {
+    e.preventDefault();
+    hashHistory.push('/upload');
+  },
+
   _handleSignout(){
     SessionActions.signOut();
   },
@@ -36,6 +48,10 @@ const App = React.createClass({
     		<hgroup className="header-group">
           <nav className="signin-signup">
             <ul>
+              <li><span className="greeting-text">Hello, {SessionStore.currentUser().username}!</span></li>
+              <li>
+                <i className="fa fa-cloud-upload fa-2x" onClick={this.redirectToUpload} aria-hidden="true"></i>
+              </li>
               <li onClick={this._handleSignout}>Sign out</li>
             </ul>
           </nav>
@@ -46,7 +62,7 @@ const App = React.createClass({
         <nav className="signin-signup">
           <ul>
             <li>
-              <i className="fa fa-cloud-upload fa-2x" aria-hidden="true"></i>
+              <i className="fa fa-cloud-upload fa-2x" onClick={this.showSignin} aria-hidden="true"></i>
             </li>
             <li onClick={this.showSignin}>Sign in</li>
             <ScaleModal ref="signinModal" modalStyle={modalStyle}>
@@ -73,13 +89,6 @@ const App = React.createClass({
             { this.greeting() }
           </header>
         </nav>
-
-        {/*<div className="background-video">
-          <video autoPlay loop>
-            <source src=""
-              type="video/mp4"/>
-          </video>
-        </div>*/}
 
         <div className="main-content">
           {this.props.children}

@@ -2,52 +2,39 @@ const React = require('react');
 const PhotoDetail = require('./photo_detail');
 const FadeModal = require('boron/FadeModal');
 const hashHistory = require('react-router').hashHistory;
-// const cloudinary = require('cloudinary');
 
 const PhotoIndexItem = React.createClass({
-  getInitialState() {
-		return (
-			{
-				photoUrl: this.props.photo.url
-			}
-		);
-  },
-
-  showDetails () {
-		this.refs.detailsModal.show();
-	},
-
 	redirectToShow() {
-		console.log(this);
-		// debugger
 		const photoId = this.props.photo.id;
 		hashHistory.push(`/photos/${photoId}`);
 	},
 
+	redirectToUserProfile() {
+		const userId = this.props.photo.user.id;
+		hashHistory.push(`/users/${userId}`);
+	},
+
   render () {
-		const photo = this.props.photo;
+		let photo = this.props.photo;
 		return (
-
-			// <div><img className="main-session-photo" photo={photo} onClick={this.redirectToShow} src={photo.url} width="750px" /></div>
-
 			<div className="card clearfix">
 				<div className="photo-container">
 					<div className="photo-wrapper">
 						<div className="session-photo-wrapper">
-							<img className="main-session-photo" photo={photo} src={photo.url} width="750px" />
+							<img className="main-session-photo" photo={photo} src={photo.photo_url} width="750px" />
 			      </div>
 						<div className="sub-photo-view">
-							<a className="buddy-icon" href="#">
+							<span className="buddy-icon" onClick={this.redirectToUserProfile}>
 								<img className="defer" src={photo.user.avatar_url} />
-							</a>
+							</span>
 							<span className="photo-details">
 								<div className="name">
-									<a href="#">{photo.user.username}</a>
+									<span onClick={this.redirectToUserProfile}>{photo.user.username}</span>
 									<span className="activity-item-date">
 										{/*· {photo.created_at}*/}
-										· 8 months ago
-										<span className="recommended"> · Recommended </span>
-										<button className="follow-button">♥</button>
+										{/*· 8 months ago*/}
+										<span className="recommended">{/* · Recommended */}</span>
+										{/*<button className="follow-button"> ♥ </button>*/}
 									</span>
 								</div>
 								<div className="title" id={photo.id}>

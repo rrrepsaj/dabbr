@@ -31,16 +31,11 @@ const PhotoIndex = React.createClass({
     let indexItems = [];
 
     if (this.state.photos) {
-      const photoKeys = Object.keys(this.state.photos);
-      photoKeys.forEach( key => {
-        let photo = this.state.photos[key];
+      this.state.photos.forEach(photo => {
         let indexItem = (
           <PhotoIndexItem photo={photo} key={photo.id} size="750" />
         );
         indexItems.push(indexItem);
-        if (indexItems.length > 25) {
-          return;
-        }
       });
     }
 

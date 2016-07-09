@@ -1,3 +1,89 @@
 // Place all the styles related to the photos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.photo-detail-main {
+  width: 500px;
+}
+
+// .photo-container {
+//   display: flex;
+//   justify-content: center;
+//   width: 500px;
+// }
+
+img.detail-image {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1000;
+  overflow: hidden;
+  background-size:cover;
+}
+
+div.photo-details-widget {
+  // display: flex;
+  // align-content: flex-end;
+  // justify-content: flex-end;
+}
+
+.photo-details-widget {
+  border-radius: 3px;
+  margin: 30px;
+  padding: 20px;
+  color: #fff;
+  background-color: rgba(21, 21, 23, 0.75);
+  width: 500px;
+  // display: flex;
+  // justify-content: space-between;
+  // flex-direction: row;
+  h1 {
+    font-size: 30px;
+  }
+}
+
+.photo-details-list {
+  list-style: none;
+  li {
+    margin-bottom: 8px;
+  }
+  .by {
+    font-size: 12px;
+    font-style: italic;
+  }
+  .photo-user {
+    text-align: right;
+    font-style: oblique;
+    color: #fff;
+  }
+  .photo-description {
+    font-style: italic;
+  }
+  .photo-album {
+    font-size: 13px;
+  }
+  .photo-edit {
+    margin-top: 20px;
+  }
+}
+
+.photo-edit {
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  font-size: 16px;
+  color: #fff;
+  margin-right: 30px;
+  padding: 15px 0;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  &:hover {
+    color: #ccc;
+    text-decoration: none;
+  }
+}
