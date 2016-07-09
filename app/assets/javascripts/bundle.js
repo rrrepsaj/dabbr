@@ -59,10 +59,10 @@
 	var hashHistory = ReactRouter.hashHistory;
 	//Components
 	var App = __webpack_require__(230);
-	var PhotoDetail = __webpack_require__(273);
-	var PhotoIndex = __webpack_require__(278);
-	var SigninForm = __webpack_require__(259);
-	var SignupForm = __webpack_require__(261);
+	var PhotoDetail = __webpack_require__(297);
+	var PhotoIndex = __webpack_require__(305);
+	var SigninForm = __webpack_require__(264);
+	var SignupForm = __webpack_require__(266);
 	//Auth
 	var SessionStore = __webpack_require__(232);
 	var SessionActions = __webpack_require__(257);
@@ -25982,12 +25982,12 @@
 	var ErrorActions = __webpack_require__(255);
 	var SessionActions = __webpack_require__(257);
 	// Components
-	var SigninForm = __webpack_require__(259);
-	var SignupForm = __webpack_require__(261);
+	var SigninForm = __webpack_require__(264);
+	var SignupForm = __webpack_require__(266);
 	// Modals
-	var DropModal = __webpack_require__(262);
-	var OutlineModal = __webpack_require__(271);
-	var ScaleModal = __webpack_require__(272);
+	var DropModal = __webpack_require__(267);
+	var OutlineModal = __webpack_require__(276);
+	var ScaleModal = __webpack_require__(277);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -33207,7 +33207,115 @@
 	module.exports = SessionApiUtil;
 
 /***/ },
-/* 259 */
+/* 259 */,
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var AppDispatcher = __webpack_require__(233);
+	var PhotoConstants = __webpack_require__(261);
+	var PhotoApiUtil = __webpack_require__(262);
+	
+	var PhotoActions = {
+	  fetchAllPhotos: function fetchAllPhotos() {
+	    PhotoApiUtil.fetchAllPhotos(PhotoActions.receiveAllPhotos);
+	  },
+	  fetchPhoto: function fetchPhoto(photoId) {
+	    console.log("in fetchPhoto");
+	    PhotoApiUtil.fetchPhoto(photoId, PhotoActions.receivePhoto);
+	  },
+	  receiveAllPhotos: function receiveAllPhotos(photos) {
+	    AppDispatcher.dispatch({
+	      actionType: "PHOTOS_RECEIVED",
+	      photos: photos
+	    });
+	  },
+	  receivePhoto: function receivePhoto(photo) {
+	    console.log("in receivePhoto");
+	    AppDispatcher.dispatch({
+	      actionType: "PHOTO_RECEIVED",
+	      photo: photo
+	    });
+	  }
+	};
+	
+	module.exports = PhotoActions;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var PhotoConstants = {
+	  PHOTOS_RECEIVED: "PHOTOS_RECEIVED",
+	  PHOTO_RECEIVED: "PHOTO_RECEIVED"
+	};
+	
+	module.exports = PhotoConstants;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var PhotoApiUtil = {
+	  fetchAllPhotos: function fetchAllPhotos(callback) {
+	    $.ajax({
+	      url: "api/photos",
+	      success: function success(photos) {
+	        callback(photos);
+	      }
+	    });
+	  },
+	  fetchPhoto: function fetchPhoto(id, callback) {
+	    console.log("in photoApiUtil");
+	    $.ajax({
+	      url: "api/photos/" + id,
+	      success: function success(photo) {
+	        console.log("in fetchPhoto success");
+	        callback(photo);
+	      }
+	    });
+	  },
+	  createPhoto: function createPhoto(data, callback) {
+	    $.ajax({
+	      url: "api/photos",
+	      method: 'post',
+	      data: { photo: data },
+	      success: function success(photo) {
+	        callback(photo);
+	      }
+	    });
+	  },
+	  editPhoto: function editPhoto(data, callback) {
+	    $.ajax({
+	      url: "api/photos/" + data.id,
+	      method: 'patch',
+	      data: { photo: { title: data.title, description: data.description } },
+	      success: function success(photo) {
+	        callback(photo);
+	      }
+	    });
+	  },
+	  deletePhoto: function deletePhoto(id, callback) {
+	    $.ajax({
+	      url: "api/photos/" + id,
+	      method: 'delete',
+	      success: function success(photo) {
+	        callback(photo);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = PhotoApiUtil;
+
+/***/ },
+/* 263 */,
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33220,7 +33328,7 @@
 	var ErrorActions = __webpack_require__(255);
 	var SessionActions = __webpack_require__(257);
 	// Stores
-	var ErrorStore = __webpack_require__(260);
+	var ErrorStore = __webpack_require__(265);
 	var SessionStore = __webpack_require__(232);
 	
 	var hashHistory = __webpack_require__(168).hashHistory;
@@ -33398,7 +33506,7 @@
 	module.exports = SigninForm;
 
 /***/ },
-/* 260 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33459,7 +33567,7 @@
 	module.exports = ErrorStore;
 
 /***/ },
-/* 261 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33472,7 +33580,7 @@
 	var ErrorActions = __webpack_require__(255);
 	var SessionActions = __webpack_require__(257);
 	// Stores
-	var ErrorStore = __webpack_require__(260);
+	var ErrorStore = __webpack_require__(265);
 	var SessionStore = __webpack_require__(232);
 	
 	var hashHistory = __webpack_require__(168).hashHistory;
@@ -33666,12 +33774,12 @@
 	module.exports = SignupForm;
 
 /***/ },
-/* 262 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -33805,12 +33913,12 @@
 
 
 /***/ },
-/* 263 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var transitionEvents = __webpack_require__(264);
-	var appendVendorPrefix = __webpack_require__(265);
+	var transitionEvents = __webpack_require__(269);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	module.exports = function(animation){
 	
@@ -33989,7 +34097,7 @@
 
 
 /***/ },
-/* 264 */
+/* 269 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34090,12 +34198,12 @@
 
 
 /***/ },
-/* 265 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var getVendorPropertyName = __webpack_require__(266);
+	var getVendorPropertyName = __webpack_require__(271);
 	
 	module.exports = function(target, sources) {
 	  var to = Object(target);
@@ -34126,12 +34234,12 @@
 
 
 /***/ },
-/* 266 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var builtinStyle = __webpack_require__(267);
+	var builtinStyle = __webpack_require__(272);
 	var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
 	var domVendorPrefix;
 	
@@ -34169,7 +34277,7 @@
 
 
 /***/ },
-/* 267 */
+/* 272 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34178,13 +34286,13 @@
 
 
 /***/ },
-/* 268 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var insertRule = __webpack_require__(269);
-	var vendorPrefix = __webpack_require__(270)();
+	var insertRule = __webpack_require__(274);
+	var vendorPrefix = __webpack_require__(275)();
 	var index = 0;
 	
 	module.exports = function(keyframes) {
@@ -34214,7 +34322,7 @@
 
 
 /***/ },
-/* 269 */
+/* 274 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34239,7 +34347,7 @@
 
 
 /***/ },
-/* 270 */
+/* 275 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34258,13 +34366,13 @@
 
 
 /***/ },
-/* 271 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -34410,12 +34518,12 @@
 
 
 /***/ },
-/* 272 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -34516,303 +34624,7 @@
 
 
 /***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var hashHistory = __webpack_require__(168).hashHistory;
-	var PhotoActions = __webpack_require__(274);
-	var PhotoStore = __webpack_require__(277);
-	// const cloudinary = require('cloudinary');
-	
-	var PhotoDetail = React.createClass({
-	  displayName: 'PhotoDetail',
-	  getInitialState: function getInitialState() {
-	    return {
-	      id: this.props.params.id,
-	      title: '',
-	      description: '',
-	      userId: null,
-	      url: '',
-	      user: { username: '' }
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.photoListener = PhotoStore.addListener(this._updateDetails);
-	    PhotoActions.fetchPhoto(this.props.params.id);
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.photoListener.remove();
-	  },
-	  _updateDetails: function _updateDetails() {
-	    var photo = PhotoStore.find(this.props.params.id);
-	    console.log(photo);
-	    this.setState({
-	      title: photo.title,
-	      description: photo.description,
-	      userId: photo.user_id,
-	      url: photo.photo_url,
-	      user: photo.user
-	    });
-	  },
-	  render: function render() {
-	    console.log(this.state.user);
-	    return React.createElement(
-	      'div',
-	      { className: 'photo-detail-main', __self: this
-	      },
-	      React.createElement(
-	        'div',
-	        { className: 'photo-container', __self: this
-	        },
-	        React.createElement('img', { className: 'detail-image', src: this.state.url, width: '600', height: '400', __self: this
-	        })
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'photo-details', __self: this
-	        },
-	        React.createElement(
-	          'h1',
-	          { className: 'photo-user', __self: this
-	          },
-	          this.state.user.username
-	        ),
-	        React.createElement(
-	          'h3',
-	          { className: 'photo-title', __self: this
-	          },
-	          this.state.title
-	        ),
-	        React.createElement(
-	          'p',
-	          { className: 'photo-description', __self: this
-	          },
-	          this.state.description
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = PhotoDetail;
-
-/***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var AppDispatcher = __webpack_require__(233);
-	var PhotoConstants = __webpack_require__(275);
-	var PhotoApiUtil = __webpack_require__(276);
-	
-	var PhotoActions = {
-	  fetchAllPhotos: function fetchAllPhotos() {
-	    PhotoApiUtil.fetchAllPhotos(PhotoActions.receiveAllPhotos);
-	  },
-	  fetchPhoto: function fetchPhoto(photoId) {
-	    console.log("in fetchPhoto");
-	    PhotoApiUtil.fetchPhoto(photoId, PhotoActions.receivePhoto);
-	  },
-	  receiveAllPhotos: function receiveAllPhotos(photos) {
-	    AppDispatcher.dispatch({
-	      actionType: "PHOTOS_RECEIVED",
-	      photos: photos
-	    });
-	  },
-	  receivePhoto: function receivePhoto(photo) {
-	    console.log("in receivePhoto");
-	    AppDispatcher.dispatch({
-	      actionType: "PHOTO_RECEIVED",
-	      photo: photo
-	    });
-	  }
-	};
-	
-	module.exports = PhotoActions;
-
-/***/ },
-/* 275 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var PhotoConstants = {
-	  PHOTOS_RECEIVED: "PHOTOS_RECEIVED",
-	  PHOTO_RECEIVED: "PHOTO_RECEIVED"
-	};
-	
-	module.exports = PhotoConstants;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var PhotoApiUtil = {
-	  fetchAllPhotos: function fetchAllPhotos(callback) {
-	    $.ajax({
-	      url: "api/photos",
-	      success: function success(photos) {
-	        callback(photos);
-	      }
-	    });
-	  },
-	  fetchPhoto: function fetchPhoto(id, callback) {
-	    console.log("in photoApiUtil");
-	    $.ajax({
-	      url: "api/photos/" + id,
-	      success: function success(photo) {
-	        console.log("in fetchPhoto success");
-	        callback(photo);
-	      }
-	    });
-	  },
-	  createPhoto: function createPhoto(data, callback) {
-	    $.ajax({
-	      url: "api/photos",
-	      method: 'post',
-	      data: { photo: data },
-	      success: function success(photo) {
-	        callback(photo);
-	      }
-	    });
-	  },
-	  editPhoto: function editPhoto(data, callback) {
-	    $.ajax({
-	      url: "api/photos/" + data.id,
-	      method: 'patch',
-	      data: { photo: { title: data.title, description: data.description } },
-	      success: function success(photo) {
-	        callback(photo);
-	      }
-	    });
-	  },
-	  deletePhoto: function deletePhoto(id, callback) {
-	    $.ajax({
-	      url: "api/photos/" + id,
-	      method: 'delete',
-	      success: function success(photo) {
-	        callback(photo);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = PhotoApiUtil;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Store = __webpack_require__(237).Store;
-	var AppDispatcher = __webpack_require__(233);
-	var PhotoConstants = __webpack_require__(275);
-	var _photos = {};
-	var PhotoStore = new Store(AppDispatcher);
-	
-	PhotoStore.all = function () {
-	  return Object.keys(_photos).map(function (key) {
-	    return _photos[key];
-	  });
-	};
-	
-	function resetAllPhotos(photos) {
-	  _photos = photos;
-	  PhotoStore.__emitChange();
-	}
-	
-	function resetPhoto(photo) {
-	  _photos[photo.id] = photo;
-	  PhotoStore.__emitChange();
-	}
-	
-	PhotoStore.find = function (photoId) {
-	  return _photos[photoId];
-	};
-	
-	PhotoStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case PhotoConstants.PHOTOS_RECEIVED:
-	      resetAllPhotos(payload.photos);
-	      break;
-	    case PhotoConstants.PHOTO_RECEIVED:
-	      console.log("in photoStore");
-	      resetPhoto(payload.photo);
-	      break;
-	  }
-	};
-	
-	module.exports = PhotoStore;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var Masonry = __webpack_require__(279);
-	var PhotoStore = __webpack_require__(277);
-	var PhotoActions = __webpack_require__(274);
-	var PhotoIndexItem = __webpack_require__(292);
-	
-	var masonryOptions = {
-	  isFitWidth: true,
-	  gutter: 10
-	};
-	
-	var PhotoIndex = React.createClass({
-	  displayName: 'PhotoIndex',
-	  getInitialState: function getInitialState() {
-	    return { photos: PhotoStore.all() };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.photoListener = PhotoStore.addListener(this._onChange);
-	    PhotoActions.fetchAllPhotos();
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.photoListener.remove();
-	  },
-	  _onChange: function _onChange() {
-	    this.setState({ photos: PhotoStore.all() });
-	  },
-	  render: function render() {
-	    var _this = this;
-	
-	    var indexItems = [];
-	
-	    if (this.state.photos) {
-	      var photoKeys = Object.keys(this.state.photos);
-	      photoKeys.forEach(function (key) {
-	        var photo = _this.state.photos[key];
-	        var indexItem = React.createElement(PhotoIndexItem, { photo: photo, key: photo.id, size: '750', __self: _this
-	        });
-	        indexItems.push(indexItem);
-	        if (indexItems.length > 25) {
-	          return;
-	        }
-	      });
-	    }
-	
-	    return React.createElement(
-	      Masonry,
-	      { className: 'my-gallery-class', elementType: 'ul', options: masonryOptions, __self: this
-	      },
-	      indexItems
-	    );
-	  }
-	});
-	
-	module.exports = PhotoIndex;
-
-/***/ },
+/* 278 */,
 /* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -39357,14 +39169,18 @@
 
 
 /***/ },
-/* 292 */
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var PhotoDetail = __webpack_require__(273);
-	var FadeModal = __webpack_require__(293);
+	var PhotoDetail = __webpack_require__(297);
+	var FadeModal = __webpack_require__(299);
 	var hashHistory = __webpack_require__(168).hashHistory;
 	// const cloudinary = require('cloudinary');
 	
@@ -39473,12 +39289,142 @@
 	module.exports = PhotoIndexItem;
 
 /***/ },
-/* 293 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var modalFactory = __webpack_require__(263);
-	var insertKeyframesRule = __webpack_require__(268);
-	var appendVendorPrefix = __webpack_require__(265);
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(168).hashHistory;
+	var PhotoActions = __webpack_require__(260);
+	var PhotoStore = __webpack_require__(298);
+	// const cloudinary = require('cloudinary');
+	
+	var PhotoDetail = React.createClass({
+	  displayName: 'PhotoDetail',
+	  getInitialState: function getInitialState() {
+	    return {
+	      id: this.props.params.id,
+	      title: '',
+	      description: '',
+	      userId: null,
+	      url: '',
+	      user: { username: '' }
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.photoListener = PhotoStore.addListener(this._updateDetails);
+	    PhotoActions.fetchPhoto(this.props.params.id);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.photoListener.remove();
+	  },
+	  _updateDetails: function _updateDetails() {
+	    var photo = PhotoStore.find(this.props.params.id);
+	    console.log(photo);
+	    this.setState({
+	      title: photo.title,
+	      description: photo.description,
+	      userId: photo.user_id,
+	      url: photo.photo_url,
+	      user: photo.user
+	    });
+	  },
+	  render: function render() {
+	    console.log(this.state.user);
+	    return React.createElement(
+	      'div',
+	      { className: 'photo-detail-main', __self: this
+	      },
+	      React.createElement(
+	        'div',
+	        { className: 'photo-container', __self: this
+	        },
+	        React.createElement('img', { className: 'detail-image', src: this.state.url, width: '600', height: '400', __self: this
+	        })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'photo-details', __self: this
+	        },
+	        React.createElement(
+	          'h1',
+	          { className: 'photo-user', __self: this
+	          },
+	          this.state.user.username
+	        ),
+	        React.createElement(
+	          'h3',
+	          { className: 'photo-title', __self: this
+	          },
+	          this.state.title
+	        ),
+	        React.createElement(
+	          'p',
+	          { className: 'photo-description', __self: this
+	          },
+	          this.state.description
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = PhotoDetail;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(237).Store;
+	var AppDispatcher = __webpack_require__(233);
+	var PhotoConstants = __webpack_require__(261);
+	var _photos = {};
+	var PhotoStore = new Store(AppDispatcher);
+	
+	PhotoStore.all = function () {
+	  return Object.keys(_photos).map(function (key) {
+	    return _photos[key];
+	  });
+	};
+	
+	function resetAllPhotos(photos) {
+	  _photos = photos;
+	  PhotoStore.__emitChange();
+	}
+	
+	function resetPhoto(photo) {
+	  _photos[photo.id] = photo;
+	  PhotoStore.__emitChange();
+	}
+	
+	PhotoStore.find = function (photoId) {
+	  return _photos[photoId];
+	};
+	
+	PhotoStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case PhotoConstants.PHOTOS_RECEIVED:
+	      resetAllPhotos(payload.photos);
+	      break;
+	    case PhotoConstants.PHOTO_RECEIVED:
+	      console.log("in photoStore");
+	      resetPhoto(payload.photo);
+	      break;
+	  }
+	};
+	
+	module.exports = PhotoStore;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var modalFactory = __webpack_require__(268);
+	var insertKeyframesRule = __webpack_require__(273);
+	var appendVendorPrefix = __webpack_require__(270);
 	
 	var animation = {
 	    show: {
@@ -39574,6 +39520,72 @@
 	    }
 	});
 
+
+/***/ },
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Masonry = __webpack_require__(279);
+	var PhotoStore = __webpack_require__(298);
+	var PhotoActions = __webpack_require__(260);
+	var PhotoIndexItem = __webpack_require__(296);
+	
+	var masonryOptions = {
+	  isFitWidth: true,
+	  gutter: 10
+	};
+	
+	var PhotoIndex = React.createClass({
+	  displayName: 'PhotoIndex',
+	  getInitialState: function getInitialState() {
+	    return { photos: PhotoStore.all() };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.photoListener = PhotoStore.addListener(this._onChange);
+	    PhotoActions.fetchAllPhotos();
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.photoListener.remove();
+	  },
+	  _onChange: function _onChange() {
+	    this.setState({ photos: PhotoStore.all() });
+	  },
+	  render: function render() {
+	    var _this = this;
+	
+	    var indexItems = [];
+	
+	    if (this.state.photos) {
+	      var photoKeys = Object.keys(this.state.photos);
+	      photoKeys.forEach(function (key) {
+	        var photo = _this.state.photos[key];
+	        var indexItem = React.createElement(PhotoIndexItem, { photo: photo, key: photo.id, size: '750', __self: _this
+	        });
+	        indexItems.push(indexItem);
+	        if (indexItems.length > 25) {
+	          return;
+	        }
+	      });
+	    }
+	
+	    return React.createElement(
+	      Masonry,
+	      { className: 'my-gallery-class', elementType: 'ul', options: masonryOptions, __self: this
+	      },
+	      indexItems
+	    );
+	  }
+	});
+	
+	module.exports = PhotoIndex;
 
 /***/ }
 /******/ ]);
