@@ -2,141 +2,46 @@
 
 [Heroku link](https://dabbr.herokuapp.com)
 
-[heroku](http://www.herokuapp.com)
+## Features & Implementation
 
-## Minimum Viable Product
+dabbr is a web application inspired by Flickr that will be built using Ruby on Rails and React.js. It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend. All JavaScript is written in ES6 syntax.
 
-dabbr is a web application inspired by Flickr that will be built using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
+![Landing Page](http://res.cloudinary.com/deqbn35yx/image/upload/v1468232266/Screenshot_2016-07-11_03.16.41_zipj0k.png)
 
-- [ ] Hosting on Heroku
-- [ ] New account creation, login, and guest/demo login
-- [ ] A production README, replacing this README
-- [ ] Photos
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
-- [ ] Albums for organizing photos
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
-- [ ] Comments
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
-- [ ] Tags
-  - [ ] Smooth, bug-free navigation
-  - [ ] Adequate seed data to demonstrate the site's features
-  - [ ] Adequate CSS styling
+Users are able to sign in or sign up
 
-## Design Docs
-* [View Wireframes][views]
-* [React Components][components]
-* [Flux Cycles][flux-cycles]
-* [API endpoints][api-endpoints]
-* [DB schema][schema]
+![Sign In Form](http://res.cloudinary.com/deqbn35yx/image/upload/v1468232621/Screenshot_2016-07-11_03.20.34_tlsrfn.png)
 
-[views]: docs/views.md
-[components]: docs/components.md
-[flux-cycles]: docs/flux-cycles.md
-[api-endpoints]: docs/api-endpoints.md
-[schema]: docs/schema.md
+## Photo Rendering
 
-## Implementation Timeline
+Once signed in, users are brought to the `PhotoIndex` component, which renders all the photos so users can explore.
 
-### Phase 1: Backend setup and Front End User Authentication (1 day, W1 Tu 6pm)
+![PhotoIndex](http://res.cloudinary.com/deqbn35yx/image/upload/v1468232627/Screenshot_2016-07-11_03.20.43_t7qcf2.png)
 
-**Objective:** Functioning Rails project with Authentication
+Each `PhotoIndexItem` brings users to the individual view pages of each photo
 
-- [ ] create new project
-- [ ] create `User` model
-- [ ] authentication
-- [ ] user signup/signin pages
-- [ ] blank landing page after signin
+![PhotoIndexItem](http://res.cloudinary.com/deqbn35yx/image/upload/v1468232629/Screenshot_2016-07-11_03.20.57_lxxjcx.png)
 
-### Phase 2: Photos Model, API, and basic APIUtil (1.5 days, W1 Th 12pm)
+## Photo Uploading & Editing
 
-**Objective:** Photos can be created, read, edited and destroyed through
-the API.
+Signed-in users also are able to upload their own photos using the Cloudinary API
 
-- [ ] create `Photo` model
-- [ ] seed the database with a small amount of test data
-- [ ] CRUD API for photos (`PhotosController`)
-- [ ] jBuilder views for photos
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+![PhotoForm](http://res.cloudinary.com/deqbn35yx/image/upload/v1468232617/Screenshot_2016-07-11_03.21.25_j7enag.png)
 
-### Phase 3: Flux Architecture and Router (1.5 days, W1 F 6pm)
+Another feature available to users is photo editing through the `PhotoEditForm` component
 
-**Objective:** Photos can be created, read, edited and destroyed with the
-user interface.
+![PhotoEditForm](http://res.cloudinary.com/deqbn35yx/image/upload/v1468232623/Screenshot_2016-07-11_03.21.19_c9ksf8.png)
 
-- [ ] setup the flux loop with skeleton files
-- [ ] setup React Router
-- implement each photo component, building out the flux loop as needed.
-  - [ ] `PhotosIndex`
-  - [ ] `PhotoIndexItem`
-  - [ ] `PhotoForm`
-- [ ] save Photos to the DB when the form loses focus or is left idle
-  after editing.
+## Albums
 
-### Phase 4: Start Styling (0.5 days, W2 M 12pm)
+Photos also can belong to `Album`s
 
-**Objective:** Existing pages (including signup/signin) will look good.
+![Album](http://res.cloudinary.com/deqbn35yx/image/upload/v1468232628/Screenshot_2016-07-11_03.21.06_bbc0m6.png)
 
-- [ ] create a basic style guide
-- [ ] position elements on the page
-- [ ] add basic colors & styles
 
-### Phase 5: Albums (1 day, W2 Tu 12pm)
+## Future Directions for the project
 
-**Objective:** Photos belong to Albums, and can be viewed by album.
-
-- [ ] create `Album` model
-- build out API, Flux loop, and components for:
-  - [ ] Album CRUD
-  - [ ] adding photos requires a album
-  - [ ] moving photos to a different album
-  - [ ] viewing photos by album
-- Use CSS to style new views
-
-Phase 3 adds organization to the Photos. Photos belong to an Album,
-which has its own `Index` view.
-
-### Phase 6: Tags (1 days, W2 Th 12pm)
-
-**Objective:** Photos can be tagged with multiple tags, and tags are searchable.
-
-- [ ] create `Tag` model and join table
-- build out API, Flux loop, and components for:
-  - [ ] fetching tags for album
-  - [ ] adding tags to album
-  - [ ] creating tags while adding to albums
-  - [ ] searching albums by tag
-- [ ] Style new elements
-
-### Phase 7: Allow Complex Styling in Photos (0.5 days, W2 Th 6pm)
-
-**objective:** Enable complex styling of photos.
-
-- [ ] Use Rails helpers to sanitize HTML before rendering.
-
-### Phase 8: Styling Cleanup and Seeding (1 day, W2 F 6pm)
-
-**objective:** Make the site feel more cohesive and awesome.
-
-- [ ] Get feedback on my UI from others
-- [ ] Refactor HTML classes & CSS rules
-- [ ] Add modals, transitions, and other styling flourishes.
-
-### Bonus Features (TBD)
-- [ ] Pagination / infinite scroll for Photos Index
-- [ ] Following
-- [ ] Favorites
-- [ ] Multiple sessions
-
-[phase-one]: docs/phases/phase1.md
-[phase-two]: docs/phases/phase2.md
-[phase-three]: docs/phases/phase3.md
-[phase-four]: docs/phases/phase4.md
-[phase-five]: docs/phases/phase5.md
+North
+East
+South
+West
