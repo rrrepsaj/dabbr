@@ -28,13 +28,16 @@ const PhotoApiUtil = {
       }
     })
   },
-  editPhoto(data, callback) {
+  updatePhoto(data, callback) {
     $.ajax({
       url: `api/photos/${data.id}`,
       method: 'patch',
-      data: { photo: { title: data.title, description: data.description } },
+      data: { photo: { title: data.title, description: data.description, url: data.url, user: data.user, album: data.album, id: data.id } },
       success: function(photo) {
         callback(photo);
+      },
+      error: function(d) {
+        console.log(d);
       }
     })
   },

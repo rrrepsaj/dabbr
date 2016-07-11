@@ -2,6 +2,7 @@ const React = require('react');
 const PhotoActions = require('../actions/photo_actions');
 const SessionStore = require('../stores/session_store');
 const UploadButton = require('./upload_button');
+const hashHistory = require('react-router').hashHistory;
 
 const PhotoForm = React.createClass({
   getInitialState() {
@@ -18,7 +19,7 @@ const PhotoForm = React.createClass({
 
   handleSubmit(e) {
     e.preventDefault();
-    // 
+    //
     const photoData = {
       title: this.state.title,
       description: this.state.description,
@@ -27,6 +28,7 @@ const PhotoForm = React.createClass({
       album_id: this.state.album_id
     };
     PhotoActions.createPhoto(photoData);
+    hashHistory.push('/photos');
   },
 
   _uploadPhoto(e) {
@@ -35,7 +37,7 @@ const PhotoForm = React.createClass({
       window.cloudinary_options,
       function(error, images) {
         if (error === null) {
-          // 
+          //
           let url = images[0].url;
           this.setState({ photo_url: url });
         }

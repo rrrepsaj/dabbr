@@ -15,6 +15,20 @@ const OutlineModal = require('boron/OutlineModal');
 const ScaleModal = require('boron/ScaleModal');
 
 const App = React.createClass({
+  getInitialState() {
+    return ({
+      user: false
+    });
+  },
+
+  componentDidMount() {
+    this.sessionListener = SessionStore.addListener(this._onChange);
+  },
+
+  _onChange() {
+    this.setState(this.state);
+  },
+
   showSignin() {
     ErrorActions.clearErrors();
     this.refs.signinModal.show();
@@ -81,6 +95,12 @@ const App = React.createClass({
 
   render() {
     const logoRoute = SessionStore.isUserSignedIn() ? "/photos" : "/";
+
+    // if (SessionStore.isUserSignedIn()) {
+    //   debugger
+    //   this.refs.signinModal.hide();
+    // }
+
     return (
       <div>
         <nav className="fixed-nav-bar">

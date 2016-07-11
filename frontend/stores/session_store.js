@@ -20,6 +20,7 @@ const _signout = function() {
 SessionStore.__onDispatch = payload => {
   switch(payload.actionType) {
     case SessionConstants.SIGNIN:
+      // debugger
       _signin(payload.currentUser);
       SessionStore.__emitChange();
       break;

@@ -29,7 +29,7 @@ class Api::PhotosController < ApplicationController
   end
 
   def update
-    if @image.update(photo_params)
+    if @photo.update(photo_params)
       render :show
     else
       @errors = @photo.errors.full_messages

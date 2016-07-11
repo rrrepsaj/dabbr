@@ -7,6 +7,8 @@ const SessionActions = require('../actions/session_actions');
 const ErrorStore = require('../stores/error_store');
 const SessionStore = require('../stores/session_store');
 
+const App = require('./App');
+
 const hashHistory = require('react-router').hashHistory;
 
 const SigninForm = React.createClass({
@@ -28,12 +30,13 @@ const SigninForm = React.createClass({
   },
 
   redirectIfSignedIn() {
-    if (SessionStore.isUserSignedIn()) {
+    if (SessionStore.currentUserHasBeenFetched()) {
       hashHistory.push("/photos");
     }
   },
 
   handleSubmit(e) {
+    // debugger
     e.preventDefault();
     const formData = {
       email: this.state.email,
@@ -53,6 +56,8 @@ const SigninForm = React.createClass({
     SessionActions.signIn(formData);
     ErrorActions.clearErrors();
     this.redirectIfSignedIn();
+    // hashHistory.push('/photos');
+    this.setState(this.state);
   },
 
   update(property) {

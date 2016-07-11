@@ -29,11 +29,11 @@ const PhotoEditForm = React.createClass({
   },
 
   changeTitle(e) {
-    this.setState({ title: e.target.value });
+    this.setState({ title: e.currentTarget.value });
   },
 
   changeDescription(e) {
-    this.setState({ description: e.target.value });
+    this.setState({ description: e.currentTarget.value });
   },
 
   handleChange() {
@@ -52,8 +52,13 @@ const PhotoEditForm = React.createClass({
     const photoData = {
       title: this.state.title,
       description: this.state.description,
+      url: this.state.url,
+      album: this.state.album,
+      user: this.state.user,
       id: id
     };
+    PhotoActions.editPhoto(photoData);
+    hashHistory.push('/photos');
   },
 
   redirectToPhoto(e) {
@@ -67,13 +72,12 @@ const PhotoEditForm = React.createClass({
   },
 
   render() {
+    let photoUrl;
     if (this.state.url) {
-      let url = this.state.url;
+      photoUrl = this.state.url;
     }
 
-    let redirectPhoto = <a className="edit-nav" onClick={this.returnToPhoto}>BACK TO PHOTO</a>;
-    let redirectHome = <a className="edit-nav" onClick={this.redirectToPhotos}>RETURN TO EXPLORE</a>;
-    
+
     return (
       <div className="signin-form-container upload-form-container">
         <form onSubmit={this.handleSubmit} className="signin-form-box">

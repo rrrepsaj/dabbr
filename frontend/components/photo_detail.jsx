@@ -35,6 +35,11 @@ const PhotoDetail = React.createClass({
     hashHistory.push(`/photos/${this.state.id}/edit`);
   },
 
+  redirectToAlbum(e) {
+    e.preventDefault();
+    hashHistory.push(`/albums/${this.state.albumId}`);
+  },
+
   _updateDetails() {
     let photo = PhotoStore.find(this.props.params.photoId);
     console.log(photo);
@@ -64,7 +69,7 @@ const PhotoDetail = React.createClass({
         </div>
         <div className="photo-details-widget">
           <ul className="photo-details-list">
-            <li><h1 className="photo-title">{this.state.title}</h1><span className="photo-album">{albumTitle}</span></li>
+            <li><h1 className="photo-title">{this.state.title}</h1><span onClick={this.redirectToAlbum} className="photo-album">{albumTitle}</span></li>
             <li><h3 className="photo-user"><span className="by">by</span> <Link className="photo-user" to={userProfile}>{this.state.user.username}</Link></h3></li>
             <hr />
             <li><p className="photo-description">{this.state.description}</p></li>

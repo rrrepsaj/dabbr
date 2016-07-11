@@ -15,7 +15,7 @@ const PhotoActions = {
     PhotoApiUtil.createPhoto(data, PhotoActions.receivePhoto);
   },
   editPhoto(data) {
-    PhotoApiUtil.editPhoto(data, PhotoActions.receivePhoto);
+    PhotoApiUtil.updatePhoto(data, PhotoActions.receivePhoto);
   },
   deletePhoto(id) {
     PhotoApiUtil.deletePhoto(id, PhotoActions.removePhoto);

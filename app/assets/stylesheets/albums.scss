@@ -373,6 +373,10 @@ span.no-photos {
     text-overflow: ellipsis;
 }
 
+.photo-album {
+  cursor: pointer;
+}
+
 .view .photo-list-view {
   height: 705px;
 }

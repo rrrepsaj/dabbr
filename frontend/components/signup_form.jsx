@@ -51,7 +51,7 @@ const SignupForm = React.createClass({
   },
 
   update(property) {
-    return (e) => this.setState({[property]: e.target.value});
+    return (e) => this.setState({[property]: e.currentTarget.value});
   },
 
   render() {

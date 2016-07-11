@@ -13,24 +13,29 @@ const SessionActions = {
   },
 
   signIn(formData) {
+    // debugger
     SessionApiUtil.signIn(
       formData,
       SessionActions.receiveCurrentUser,
       ErrorActions.setErrors);
   },
+
   signOut() {
     SessionApiUtil.signOut(SessionActions.removeCurrentUser);
   },
+
   fetchCurrentUser(complete) {
     SessionApiUtil.fetchCurrentUser(
       SessionActions.receiveCurrentUser, complete);
   },
+
   receiveCurrentUser(currentUser) {
     AppDispatcher.dispatch({
       actionType: SessionConstants.SIGNIN,
       currentUser: currentUser
     });
   },
+
   removeCurrentUser() {
     AppDispatcher.dispatch({
       actionType: SessionConstants.SIGNOUT

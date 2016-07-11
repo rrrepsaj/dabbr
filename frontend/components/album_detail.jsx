@@ -23,9 +23,9 @@ const AlbumDetail = React.createClass({
     this.albumListener.remove();
   },
 
-  redirectToAlbums(e) {
+  redirectToPhotos(e) {
     e.preventDefault();
-    hashHistory.push('/albums');
+    hashHistory.push('/photos');
   },
 
   _onChange() {
@@ -70,7 +70,7 @@ const AlbumDetail = React.createClass({
             <div className="album-toolbar-content">
               <div className="back-to-albums">
                 <span className="back-to-albums-icon"></span>
-                <span className="back-to-albums-text" onClick={this.redirectToAlbums}>&lt; Back to albums list</span>
+                <span className="back-to-albums-text" onClick={this.redirectToPhotos}>&lt; Back to photos</span>
               </div>
             </div>
           </div>

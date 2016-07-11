@@ -26002,6 +26002,17 @@
 	
 	var App = React.createClass({
 	  displayName: 'App',
+	  getInitialState: function getInitialState() {
+	    return {
+	      user: false
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.sessionListener = SessionStore.addListener(this._onChange);
+	  },
+	  _onChange: function _onChange() {
+	    this.setState(this.state);
+	  },
 	  showSignin: function showSignin() {
 	    ErrorActions.clearErrors();
 	    this.refs.signinModal.show();
@@ -26122,6 +26133,12 @@
 	  },
 	  render: function render() {
 	    var logoRoute = SessionStore.isUserSignedIn() ? "/photos" : "/";
+	
+	    // if (SessionStore.isUserSignedIn()) {
+	    //   debugger
+	    //   this.refs.signinModal.hide();
+	    // }
+	
 	    return React.createElement(
 	      'div',
 	      {
@@ -26311,6 +26328,7 @@
 	SessionStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case SessionConstants.SIGNIN:
+	      // debugger
 	      _signin(payload.currentUser);
 	      SessionStore.__emitChange();
 	      break;
@@ -33164,6 +33182,7 @@
 	    SessionApiUtil.signUp(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors);
 	  },
 	  signIn: function signIn(formData) {
+	    // debugger
 	    SessionApiUtil.signIn(formData, SessionActions.receiveCurrentUser, ErrorActions.setErrors);
 	  },
 	  signOut: function signOut() {
@@ -33196,6 +33215,7 @@
 	
 	var SessionApiUtil = {
 	  signIn: function signIn(user, success, _error) {
+	    // debugger
 	    $.ajax({
 	      url: 'api/session',
 	      type: 'POST',
@@ -33219,7 +33239,7 @@
 	  },
 	  signUp: function signUp(user, success, _error2) {
 	    $.ajax({
-	      url: 'api/user',
+	      url: 'api/users',
 	      type: 'POST',
 	      dataType: 'json',
 	      data: { user: user },
@@ -33257,6 +33277,7 @@
 	var PhotoActions = __webpack_require__(260);
 	var SessionStore = __webpack_require__(232);
 	var UploadButton = __webpack_require__(263);
+	var hashHistory = __webpack_require__(168).hashHistory;
 	
 	var PhotoForm = React.createClass({
 	  displayName: 'PhotoForm',
@@ -33282,6 +33303,7 @@
 	      album_id: this.state.album_id
 	    };
 	    PhotoActions.createPhoto(photoData);
+	    hashHistory.push('/photos');
 	  },
 	  _uploadPhoto: function _uploadPhoto(e) {
 	    e.preventDefault();
@@ -33423,7 +33445,7 @@
 	    PhotoApiUtil.createPhoto(data, PhotoActions.receivePhoto);
 	  },
 	  editPhoto: function editPhoto(data) {
-	    PhotoApiUtil.editPhoto(data, PhotoActions.receivePhoto);
+	    PhotoApiUtil.updatePhoto(data, PhotoActions.receivePhoto);
 	  },
 	  deletePhoto: function deletePhoto(id) {
 	    PhotoApiUtil.deletePhoto(id, PhotoActions.removePhoto);
@@ -33501,13 +33523,16 @@
 	      }
 	    });
 	  },
-	  editPhoto: function editPhoto(data, callback) {
+	  updatePhoto: function updatePhoto(data, callback) {
 	    $.ajax({
 	      url: "api/photos/" + data.id,
 	      method: 'patch',
-	      data: { photo: { title: data.title, description: data.description } },
+	      data: { photo: { title: data.title, description: data.description, url: data.url, user: data.user, album: data.album, id: data.id } },
 	      success: function success(photo) {
 	        callback(photo);
+	      },
+	      error: function error(d) {
+	        console.log(d);
 	      }
 	    });
 	  },
@@ -33568,6 +33593,8 @@
 	var ErrorStore = __webpack_require__(265);
 	var SessionStore = __webpack_require__(232);
 	
+	var App = __webpack_require__(230);
+	
 	var hashHistory = __webpack_require__(168).hashHistory;
 	
 	var SigninForm = React.createClass({
@@ -33587,11 +33614,12 @@
 	    this.sessionListener.remove();
 	  },
 	  redirectIfSignedIn: function redirectIfSignedIn() {
-	    if (SessionStore.isUserSignedIn()) {
+	    if (SessionStore.currentUserHasBeenFetched()) {
 	      hashHistory.push("/photos");
 	    }
 	  },
 	  handleSubmit: function handleSubmit(e) {
+	    // debugger
 	    e.preventDefault();
 	    var formData = {
 	      email: this.state.email,
@@ -33610,6 +33638,8 @@
 	    SessionActions.signIn(formData);
 	    ErrorActions.clearErrors();
 	    this.redirectIfSignedIn();
+	    // hashHistory.push('/photos');
+	    this.setState(this.state);
 	  },
 	  update: function update(property) {
 	    var _this = this;
@@ -33863,7 +33893,7 @@
 	    var _this = this;
 	
 	    return function (e) {
-	      return _this.setState(_defineProperty({}, property, e.target.value));
+	      return _this.setState(_defineProperty({}, property, e.currentTarget.value));
 	    };
 	  },
 	  render: function render() {
@@ -34889,9 +34919,9 @@
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.albumListener.remove();
 	  },
-	  redirectToAlbums: function redirectToAlbums(e) {
+	  redirectToPhotos: function redirectToPhotos(e) {
 	    e.preventDefault();
-	    hashHistory.push('/albums');
+	    hashHistory.push('/photos');
 	  },
 	  _onChange: function _onChange() {
 	    var id = parseInt(this.props.params.albumId);
@@ -34959,9 +34989,9 @@
 	              }),
 	              React.createElement(
 	                'span',
-	                { className: 'back-to-albums-text', onClick: this.redirectToAlbums, __self: this
+	                { className: 'back-to-albums-text', onClick: this.redirectToPhotos, __self: this
 	                },
-	                '< Back to albums list'
+	                '< Back to photos'
 	              )
 	            )
 	          )
@@ -39876,6 +39906,10 @@
 	    e.preventDefault();
 	    hashHistory.push('/photos/' + this.state.id + '/edit');
 	  },
+	  redirectToAlbum: function redirectToAlbum(e) {
+	    e.preventDefault();
+	    hashHistory.push('/albums/' + this.state.albumId);
+	  },
 	  _updateDetails: function _updateDetails() {
 	    var photo = PhotoStore.find(this.props.params.photoId);
 	    console.log(photo);
@@ -39929,7 +39963,7 @@
 	            ),
 	            React.createElement(
 	              'span',
-	              { className: 'photo-album', __self: this
+	              { onClick: this.redirectToAlbum, className: 'photo-album', __self: this
 	              },
 	              albumTitle
 	            )
@@ -40424,10 +40458,10 @@
 	    this.photoListener.remove();
 	  },
 	  changeTitle: function changeTitle(e) {
-	    this.setState({ title: e.target.value });
+	    this.setState({ title: e.currentTarget.value });
 	  },
 	  changeDescription: function changeDescription(e) {
-	    this.setState({ description: e.target.value });
+	    this.setState({ description: e.currentTarget.value });
 	  },
 	  handleChange: function handleChange() {
 	    var potential = PhotoStore.find(this.props.params.photoId);
@@ -40444,8 +40478,13 @@
 	    var photoData = {
 	      title: this.state.title,
 	      description: this.state.description,
+	      url: this.state.url,
+	      album: this.state.album,
+	      user: this.state.user,
 	      id: id
 	    };
+	    PhotoActions.editPhoto(photoData);
+	    hashHistory.push('/photos');
 	  },
 	  redirectToPhoto: function redirectToPhoto(e) {
 	    var id = parseInt(this.props.params.photoId);
@@ -40456,22 +40495,10 @@
 	    hashHistory.push('/photos');
 	  },
 	  render: function render() {
+	    var photoUrl = void 0;
 	    if (this.state.url) {
-	      var url = this.state.url;
+	      photoUrl = this.state.url;
 	    }
-	
-	    var redirectPhoto = React.createElement(
-	      'a',
-	      { className: 'edit-nav', onClick: this.returnToPhoto, __self: this
-	      },
-	      'BACK TO PHOTO'
-	    );
-	    var redirectHome = React.createElement(
-	      'a',
-	      { className: 'edit-nav', onClick: this.redirectToPhotos, __self: this
-	      },
-	      'RETURN TO EXPLORE'
-	    );
 	
 	    return React.createElement(
 	      'div',

@@ -1,5 +1,6 @@
 const SessionApiUtil = {
   signIn(user, success, error) {
+    // debugger
     $.ajax({
       url: 'api/session',
       type: 'POST',
@@ -25,7 +26,7 @@ const SessionApiUtil = {
 
   signUp(user, success, error) {
     $.ajax({
-      url: 'api/user',
+      url: 'api/users',
       type: 'POST',
       dataType: 'json',
       data: { user },
