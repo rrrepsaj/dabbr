@@ -7,8 +7,6 @@ const PhotoActions = {
     PhotoApiUtil.fetchAllPhotos(PhotoActions.receiveAllPhotos);
   },
   fetchPhoto(id) {
-    console.log("in fetchPhoto");
-    // debugger
     PhotoApiUtil.fetchPhoto(id, PhotoActions.receivePhoto);
   },
   createPhoto(data) {
@@ -28,7 +26,6 @@ const PhotoActions = {
     });
   },
   receivePhoto(photo) {
-    console.log("in receivePhoto");
     AppDispatcher.dispatch({
       actionType: "PHOTO_RECEIVED",
       photo: photo

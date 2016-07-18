@@ -17,10 +17,13 @@ const ScaleModal = require('boron/ScaleModal');
 const App = React.createClass({
   getInitialState() {
     return ({
-      user: false
+      user: SessionStore.isUserSignedIn(),
+      greeting: []
     });
   },
+  componentWillMount(){
 
+  },
   componentDidMount() {
     this.sessionListener = SessionStore.addListener(this._onChange);
   },
@@ -57,7 +60,7 @@ const App = React.createClass({
     const modalStyle = {
       "width": "500px"
     };
-    if (SessionStore.isUserSignedIn()) {
+    if (this.state.user) {
     	return (
     		<hgroup className="header-group">
           <nav className="signin-signup">
@@ -91,6 +94,12 @@ const App = React.createClass({
         </nav>
       );
     }
+  },
+  componentWillReceiveProps(prevProps, newProps) {
+
+    this.setState({user: SessionStore.isUserSignedIn()});
+
+
   },
 
   render() {

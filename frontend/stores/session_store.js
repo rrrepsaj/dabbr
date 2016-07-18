@@ -14,7 +14,7 @@ const _signin = function(currentUser) {
 
 const _signout = function() {
   _currentUser = {};
-  _currentUserHasBeenFetched = true;
+  _currentUserHasBeenFetched = false;
 }
 
 SessionStore.__onDispatch = payload => {

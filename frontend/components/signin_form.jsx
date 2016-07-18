@@ -46,6 +46,7 @@ const SigninForm = React.createClass({
     SessionActions.signIn(formData);
     ErrorActions.clearErrors();
     this.redirectIfSignedIn();
+    document.location.reload();
   },
 
   _demoSubmit() {
@@ -57,7 +58,7 @@ const SigninForm = React.createClass({
     ErrorActions.clearErrors();
     this.redirectIfSignedIn();
     // hashHistory.push('/photos');
-    this.setState(this.state);
+    // document.location.reload();
   },
 
   update(property) {

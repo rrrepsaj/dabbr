@@ -8,12 +8,9 @@ const PhotoApiUtil = {
     })
   },
   fetchPhoto(id, callback) {
-    console.log("in photoApiUtil");
-    // debugger
     $.ajax({
       url: `api/photos/${id}`,
       success: function(response) {
-        console.log("in fetchPhoto success");
         callback(response.photo);
       }
     })
@@ -35,9 +32,6 @@ const PhotoApiUtil = {
       data: { photo: { title: data.title, description: data.description, url: data.url, user: data.user, album: data.album, id: data.id } },
       success: function(photo) {
         callback(photo);
-      },
-      error: function(d) {
-        console.log(d);
       }
     })
   },

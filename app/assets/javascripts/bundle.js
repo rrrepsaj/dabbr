@@ -26004,9 +26004,11 @@
 	  displayName: 'App',
 	  getInitialState: function getInitialState() {
 	    return {
-	      user: false
+	      user: SessionStore.isUserSignedIn(),
+	      greeting: []
 	    };
 	  },
+	  componentWillMount: function componentWillMount() {},
 	  componentDidMount: function componentDidMount() {
 	    this.sessionListener = SessionStore.addListener(this._onChange);
 	  },
@@ -26036,7 +26038,7 @@
 	    var modalStyle = {
 	      "width": "500px"
 	    };
-	    if (SessionStore.isUserSignedIn()) {
+	    if (this.state.user) {
 	      return React.createElement(
 	        'hgroup',
 	        { className: 'header-group', __self: this
@@ -26130,6 +26132,10 @@
 	        )
 	      );
 	    }
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(prevProps, newProps) {
+	
+	    this.setState({ user: SessionStore.isUserSignedIn() });
 	  },
 	  render: function render() {
 	    var logoRoute = SessionStore.isUserSignedIn() ? "/photos" : "/";
@@ -26322,7 +26328,7 @@
 	
 	var _signout = function _signout() {
 	  _currentUser = {};
-	  _currentUserHasBeenFetched = true;
+	  _currentUserHasBeenFetched = false;
 	};
 	
 	SessionStore.__onDispatch = function (payload) {
@@ -33437,8 +33443,6 @@
 	    PhotoApiUtil.fetchAllPhotos(PhotoActions.receiveAllPhotos);
 	  },
 	  fetchPhoto: function fetchPhoto(id) {
-	    console.log("in fetchPhoto");
-	    // debugger
 	    PhotoApiUtil.fetchPhoto(id, PhotoActions.receivePhoto);
 	  },
 	  createPhoto: function createPhoto(data) {
@@ -33457,7 +33461,6 @@
 	    });
 	  },
 	  receivePhoto: function receivePhoto(photo) {
-	    console.log("in receivePhoto");
 	    AppDispatcher.dispatch({
 	      actionType: "PHOTO_RECEIVED",
 	      photo: photo
@@ -33491,31 +33494,28 @@
 /* 262 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	var PhotoApiUtil = {
 	  fetchAllPhotos: function fetchAllPhotos(callback) {
 	    $.ajax({
-	      url: "api/photos",
+	      url: 'api/photos',
 	      success: function success(photos) {
 	        callback(photos);
 	      }
 	    });
 	  },
 	  fetchPhoto: function fetchPhoto(id, callback) {
-	    console.log("in photoApiUtil");
-	    // debugger
 	    $.ajax({
-	      url: "api/photos/" + id,
+	      url: 'api/photos/' + id,
 	      success: function success(response) {
-	        console.log("in fetchPhoto success");
 	        callback(response.photo);
 	      }
 	    });
 	  },
 	  createPhoto: function createPhoto(data, callback) {
 	    $.ajax({
-	      url: "api/photos",
+	      url: 'api/photos',
 	      method: 'post',
 	      data: { photo: data },
 	      success: function success(photo) {
@@ -33525,20 +33525,17 @@
 	  },
 	  updatePhoto: function updatePhoto(data, callback) {
 	    $.ajax({
-	      url: "api/photos/" + data.id,
+	      url: 'api/photos/' + data.id,
 	      method: 'patch',
 	      data: { photo: { title: data.title, description: data.description, url: data.url, user: data.user, album: data.album, id: data.id } },
 	      success: function success(photo) {
 	        callback(photo);
-	      },
-	      error: function error(d) {
-	        console.log(d);
 	      }
 	    });
 	  },
 	  deletePhoto: function deletePhoto(id, callback) {
 	    $.ajax({
-	      url: "api/photos/" + id,
+	      url: 'api/photos/' + id,
 	      method: 'delete',
 	      success: function success(photo) {
 	        callback(photo);
@@ -33629,6 +33626,7 @@
 	    SessionActions.signIn(formData);
 	    ErrorActions.clearErrors();
 	    this.redirectIfSignedIn();
+	    document.location.reload();
 	  },
 	  _demoSubmit: function _demoSubmit() {
 	    var formData = {
@@ -33639,7 +33637,7 @@
 	    ErrorActions.clearErrors();
 	    this.redirectIfSignedIn();
 	    // hashHistory.push('/photos');
-	    this.setState(this.state);
+	    // document.location.reload();
 	  },
 	  update: function update(property) {
 	    var _this = this;
@@ -33788,7 +33786,6 @@
 	var _form = "";
 	
 	function setErrors(payload) {
-	  // console.log(payload);
 	  _errors = payload.errors.errors;
 	  _form = payload.form;
 	  ErrorStore.__emitChange();
@@ -39912,7 +39909,6 @@
 	  },
 	  _updateDetails: function _updateDetails() {
 	    var photo = PhotoStore.find(this.props.params.photoId);
-	    console.log(photo);
 	    this.setState({
 	      title: photo.title,
 	      description: photo.description,
@@ -39924,10 +39920,6 @@
 	    });
 	  },
 	  render: function render() {
-	    // debugger
-	    console.log(this.state.user);
-	    console.log(this.state.albumId);
-	
 	    var albumTitle = this.state.album ? this.state.album.title : "";
 	    var userProfile = '/users/' + this.state.userId;
 	
@@ -40068,7 +40060,6 @@
 	      resetAllPhotos(payload.photos);
 	      break;
 	    case PhotoConstants.PHOTO_RECEIVED:
-	      console.log("in photoStore");
 	      resetPhoto(payload.photo);
 	      break;
 	  }

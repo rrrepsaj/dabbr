@@ -42,7 +42,6 @@ const PhotoDetail = React.createClass({
 
   _updateDetails() {
     let photo = PhotoStore.find(this.props.params.photoId);
-    console.log(photo);
     this.setState({
       title: photo.title,
       description: photo.description,
@@ -55,10 +54,6 @@ const PhotoDetail = React.createClass({
   },
 
   render() {
-    // debugger
-    console.log(this.state.user);
-    console.log(this.state.albumId);
-
     let albumTitle = this.state.album ? this.state.album.title : "";
     let userProfile = `/users/${this.state.userId}`;
 

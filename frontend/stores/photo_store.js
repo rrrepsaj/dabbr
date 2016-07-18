@@ -33,7 +33,6 @@ PhotoStore.__onDispatch = function(payload) {
       resetAllPhotos(payload.photos);
       break;
     case PhotoConstants.PHOTO_RECEIVED:
-      console.log("in photoStore");
       resetPhoto(payload.photo);
       break;
   }
