@@ -3,6 +3,7 @@ const Masonry = require('react-masonry-component');
 const PhotoStore = require('../stores/photo_store');
 const PhotoActions = require('../actions/photo_actions');
 const PhotoIndexItem = require('./photo_index_item');
+const ScaleModal = require('boron/ScaleModal');
 
 const masonryOptions = {
   isFitWidth: true,

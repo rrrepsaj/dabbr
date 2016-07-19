@@ -6,6 +6,11 @@
   width: 500px;
 }
 
+.username {
+  color: black;
+  font-weight: bolder;
+}
+
 img.detail-image {
   position: fixed;
   right: 0px;
@@ -71,4 +76,45 @@ img.detail-image {
     color: #ccc;
     text-decoration: none;
   }
+}
+
+.card .sub-photo-view .photo-engagement {
+  float: right;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  li {
+    display: block;
+    float: left;
+    font-size: 14px;
+    line-height: 18px;
+    color: #7f96a3;
+    margin: 20px 16px 0 0;
+    a {
+      color: #7f96a3;
+    }
+    .counter {
+      line-height: 20px;
+      padding-right: 0;
+      display: inline-block;
+      max-width: 24px;
+      text-align: left;
+    }
+    .comments {
+      line-height: 19px;
+    }
+  }
+}
+
+.card .sub-photo-view .photo-engagement li.favorites i {
+  background-image: url('https://s.yimg.com/pw/images/sprites/icons-retina-s51591e68cf.png');
+  background-position: 0 -1988px;
+}
+.card .sub-photo-view .photo-engagement li.comments i {
+  background-image: url('https://s.yimg.com/pw/images/sprites/icons-retina-s51591e68cf.png');
+  background-position: 0 -2309px;
+}
+.card .sub-photo-view .photo-engagement li.comments i {
+  background-image: url('https://s.yimg.com/pw/images/sprites/icons-retina-s51591e68cf.png');
+  background-position: 0 -2345px;
 }

@@ -13,7 +13,6 @@ const SessionActions = {
   },
 
   signIn(formData) {
-    // debugger
     SessionApiUtil.signIn(
       formData,
       SessionActions.receiveCurrentUser,
@@ -24,9 +23,10 @@ const SessionActions = {
     SessionApiUtil.signOut(SessionActions.removeCurrentUser);
   },
 
-  fetchCurrentUser(complete) {
+  fetchCurrentUser() {
+    debugger
     SessionApiUtil.fetchCurrentUser(
-      SessionActions.receiveCurrentUser, complete);
+      SessionActions.receiveCurrentUser);
   },
 
   receiveCurrentUser(currentUser) {

@@ -1,5 +1,7 @@
 const React = require('react');
+const Link = require('react-router').Link;
 const PhotoDetail = require('./photo_detail');
+const FontAwesome = require('react-fontawesome');
 const FadeModal = require('boron/FadeModal');
 const hashHistory = require('react-router').hashHistory;
 
@@ -16,33 +18,14 @@ const PhotoIndexItem = React.createClass({
 		hashHistory.push(`/users/${userId}`);
 	},
 
+	redirectToAlbum() {
+		const albumId = this.props.photo.album ? this.props.photo.album.id : "";
+		hashHistory.push(`/albums/${albumId}`);
+	},
+
   render () {
 		let photo = this.props.photo;
-
-		// function timeSince(date) {
-	  //   var seconds = Math.floor((new Date() - date) / 1000);
-	  //   var interval = Math.floor(seconds / 31536000);
-	  //   if (interval > 1) {
-    //     return interval + " years";
-	  //   }
-	  //   interval = Math.floor(seconds / 2592000);
-	  //   if (interval > 1) {
-    //     return interval + " months";
-	  //   }
-	  //   interval = Math.floor(seconds / 86400);
-	  //   if (interval > 1) {
-    //     return interval + " days";
-	  //   }
-	  //   interval = Math.floor(seconds / 3600);
-	  //   if (interval > 1) {
-    //     return interval + " hours";
-	  //   }
-	  //   interval = Math.floor(seconds / 60);
-	  //   if (interval > 1) {
-    //     return interval + " minutes";
-	  //   }
-	  //   return Math.floor(seconds) + " seconds";
-		// }
+		const albumRoute = this.props.photo.album ? `/albums/${this.props.photo.album.id}` : ``;
 
 		return (
 			<div className="card clearfix">
@@ -57,11 +40,9 @@ const PhotoIndexItem = React.createClass({
 							</span>
 							<span className="photo-details">
 								<div className="name">
-									<span onClick={this.redirectToUserProfile}>{photo.user.username} </span>
+									<span className="username" onClick={this.redirectToUserProfile}>{photo.user.username} </span>
 									<span className="activity-item-date">
 										 · { Moment(photo.created_at).fromNow() }
-										{/*· {photo.created_at}*/}
-										{/*· 8 months ago*/}
 										<span className="recommended">{/* · Recommended */}</span>
 										{/*<button className="follow-button"> ♥ </button>*/}
 									</span>
@@ -70,6 +51,12 @@ const PhotoIndexItem = React.createClass({
 									<span onClick={this.redirectToShow} title={photo.title}>{photo.title}</span>
 								</div>
 							</span>
+							<ul className="photo-engagement">
+								<li className="album-name">
+									{/*<Link to={albumRoute} ><i class="fa fa-book" onClick={this.redirectToAlbum} aria-hidden="true"></i></Link>*/}
+									<Link to={albumRoute} key={this.props.photo.id}>Album</Link>
+				        </li>
+			      	</ul>
 		        </div>
 						<span className="thin-facade" onClick={this.redirectToShow}/>
 			    </div>

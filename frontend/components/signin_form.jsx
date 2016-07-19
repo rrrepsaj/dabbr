@@ -10,6 +10,7 @@ const SessionStore = require('../stores/session_store');
 const App = require('./App');
 
 const hashHistory = require('react-router').hashHistory;
+const ScaleModal = require('boron/ScaleModal');
 
 const SigninForm = React.createClass({
   getInitialState() {
@@ -31,6 +32,7 @@ const SigninForm = React.createClass({
 
   redirectIfSignedIn() {
     if (SessionStore.currentUserHasBeenFetched()) {
+      this.props.hide();
       hashHistory.push("/photos");
     }
   },
@@ -46,7 +48,7 @@ const SigninForm = React.createClass({
     SessionActions.signIn(formData);
     ErrorActions.clearErrors();
     this.redirectIfSignedIn();
-    document.location.reload();
+    this.props.hide();
   },
 
   _demoSubmit() {
@@ -56,16 +58,15 @@ const SigninForm = React.createClass({
     };
     SessionActions.signIn(formData);
     ErrorActions.clearErrors();
-    this.redirectIfSignedIn();
-    // hashHistory.push('/photos');
-    // document.location.reload();
+    // this.redirectIfSignedIn();
+    // this.props.hide();
   },
 
   update(property) {
     return (e) => this.setState({[property]: e.target.value});
   },
 
-  _demoLogin() {
+  _demoLogin(e) {
     this.setState({
       email: "",
       password: ""

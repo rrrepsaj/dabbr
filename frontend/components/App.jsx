@@ -21,15 +21,19 @@ const App = React.createClass({
       greeting: []
     });
   },
-  componentWillMount(){
 
+  componentWillReceiveProps() {
+    this.setState({ user: SessionStore.currentUser() });
   },
+
   componentDidMount() {
+    debugger
+    SessionActions.fetchCurrentUser();
     this.sessionListener = SessionStore.addListener(this._onChange);
   },
 
   _onChange() {
-    this.setState(this.state);
+    this.setState({ user: SessionStore.currentUser() });
   },
 
   showSignin() {
@@ -56,11 +60,15 @@ const App = React.createClass({
     SessionActions.signOut();
   },
 
+  hideSigninModal() {
+    this.refs.signinModal.hide();
+  },
+
   greeting() {
     const modalStyle = {
       "width": "500px"
     };
-    if (this.state.user) {
+    if (SessionStore.isUserSignedIn()) {
     	return (
     		<hgroup className="header-group">
           <nav className="signin-signup">
@@ -83,7 +91,7 @@ const App = React.createClass({
             </li>
             <li onClick={this.showSignin}>Sign in</li>
             <ScaleModal ref="signinModal" modalStyle={modalStyle}>
-              <SigninForm />
+              <SigninForm hide={this.hideSigninModal} />
             </ScaleModal>
 
             <button className="signup-btn" onClick={this.showSignup}>Sign up</button>
@@ -95,20 +103,9 @@ const App = React.createClass({
       );
     }
   },
-  componentWillReceiveProps(prevProps, newProps) {
-
-    this.setState({user: SessionStore.isUserSignedIn()});
-
-
-  },
 
   render() {
     const logoRoute = SessionStore.isUserSignedIn() ? "/photos" : "/";
-
-    // if (SessionStore.isUserSignedIn()) {
-    //   debugger
-    //   this.refs.signinModal.hide();
-    // }
 
     return (
       <div>

@@ -1,6 +1,5 @@
 const SessionApiUtil = {
   signIn(user, success, error) {
-    // debugger
     $.ajax({
       url: 'api/session',
       type: 'POST',
@@ -38,16 +37,14 @@ const SessionApiUtil = {
     });
   },
 
-  fetchCurrentUser(success, complete) {
+  fetchCurrentUser(success) {
     $.ajax({
       url: 'api/session',
       method: 'GET',
       success,
       error: function (xhr) {
         console.log("Error in SessionApiUtil#fetchCurrentUser");
-      },
-      complete: function() {
-        complete();
+        console.log(success);
       }
     });
   }
