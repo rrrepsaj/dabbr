@@ -10,6 +10,7 @@ let _currentUserHasBeenFetched = false;
 const _signin = function(currentUser) {
   _currentUser = currentUser;
   _currentUserHasBeenFetched = true;
+
 };
 
 const _signout = function() {
@@ -21,13 +22,14 @@ SessionStore.__onDispatch = payload => {
   switch(payload.actionType) {
     case SessionConstants.SIGNIN:
       _signin(payload.currentUser);
-      SessionStore.__emitChange();
+      // SessionStore.__emitChange();
       break;
     case SessionConstants.SIGNOUT:
       _signout();
-      SessionStore.__emitChange();
+      // SessionStore.__emitChange();
       break;
   }
+  SessionStore.__emitChange();
 };
 
 SessionStore.currentUser = function() {
@@ -39,6 +41,7 @@ SessionStore.currentUserHasBeenFetched = function () {
 };
 
 SessionStore.isUserSignedIn = function() {
+
   return !!_currentUser.id;
 };
 

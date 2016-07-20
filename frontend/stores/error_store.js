@@ -8,7 +8,8 @@ let _errors = [];
 let _form = "";
 
 function setErrors(payload) {
-  _errors = payload.errors.errors;
+
+  _errors = payload.errors;
   _form = payload.form;
   ErrorStore.__emitChange();
 }
@@ -20,6 +21,7 @@ function clearErrors() {
 }
 
 ErrorStore.__onDispatch = function (payload) {
+
   switch (payload.actionType) {
     case ErrorConstants.SET_ERRORS:
       setErrors(payload);

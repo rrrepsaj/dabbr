@@ -58,7 +58,6 @@
 	//Components
 	var App = __webpack_require__(230);
 	var AlbumDetail = __webpack_require__(278);
-	var Explore = __webpack_require__(404);
 	var PhotoDetail = __webpack_require__(297);
 	var PhotoEditForm = __webpack_require__(410);
 	var PhotoForm = __webpack_require__(259);
@@ -104,6 +103,7 @@
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	  if (window.currentUser) {
+	
 	    SessionActions.receiveCurrentUser(window.currentUser);
 	  }
 	
@@ -26004,7 +26004,7 @@
 	  displayName: 'App',
 	  getInitialState: function getInitialState() {
 	    return {
-	      user: SessionStore.isUserSignedIn(),
+	      user: SessionStore.currentUser(),
 	      greeting: []
 	    };
 	  },
@@ -26012,9 +26012,11 @@
 	    this.setState({ user: SessionStore.currentUser() });
 	  },
 	  componentDidMount: function componentDidMount() {
-	    debugger;
-	    SessionActions.fetchCurrentUser();
+	    // SessionActions.fetchCurrentUser();
 	    this.sessionListener = SessionStore.addListener(this._onChange);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.sessionListener.remove();
 	  },
 	  _onChange: function _onChange() {
 	    this.setState({ user: SessionStore.currentUser() });
@@ -26046,6 +26048,7 @@
 	      "width": "500px"
 	    };
 	    if (SessionStore.isUserSignedIn()) {
+	
 	      return React.createElement(
 	        'hgroup',
 	        { className: 'header-group', __self: this
@@ -26118,7 +26121,7 @@
 	            ScaleModal,
 	            { ref: 'signinModal', modalStyle: modalStyle, __self: this
 	            },
-	            React.createElement(SigninForm, { hide: this.hideSigninModal, __self: this
+	            React.createElement(SigninForm, { hide: this.hideSigninModal, redirect: this.redirectToPhotos, __self: this
 	            })
 	          ),
 	          React.createElement(
@@ -26332,13 +26335,14 @@
 	  switch (payload.actionType) {
 	    case SessionConstants.SIGNIN:
 	      _signin(payload.currentUser);
-	      SessionStore.__emitChange();
+	      // SessionStore.__emitChange();
 	      break;
 	    case SessionConstants.SIGNOUT:
 	      _signout();
-	      SessionStore.__emitChange();
+	      // SessionStore.__emitChange();
 	      break;
 	  }
+	  SessionStore.__emitChange();
 	};
 	
 	SessionStore.currentUser = function () {
@@ -26350,6 +26354,7 @@
 	};
 	
 	SessionStore.isUserSignedIn = function () {
+	
 	  return !!_currentUser.id;
 	};
 	
@@ -33190,14 +33195,14 @@
 	    SessionApiUtil.signOut(SessionActions.removeCurrentUser);
 	  },
 	  fetchCurrentUser: function fetchCurrentUser() {
-	    debugger;
 	    SessionApiUtil.fetchCurrentUser(SessionActions.receiveCurrentUser);
 	  },
-	  receiveCurrentUser: function receiveCurrentUser(currentUser) {
+	  receiveCurrentUser: function receiveCurrentUser(user) {
 	    AppDispatcher.dispatch({
 	      actionType: SessionConstants.SIGNIN,
-	      currentUser: currentUser
+	      currentUser: user
 	    });
+	    hashHistory.push('/photos');
 	  },
 	  removeCurrentUser: function removeCurrentUser() {
 	    AppDispatcher.dispatch({
@@ -33224,6 +33229,7 @@
 	      success: success,
 	      error: function error(xhr) {
 	        var errors = xhr.responseJSON;
+	
 	        _error("signin", errors);
 	      }
 	    });
@@ -33605,13 +33611,13 @@
 	    this.sessionListener.remove();
 	  },
 	  redirectIfSignedIn: function redirectIfSignedIn() {
-	    if (SessionStore.currentUserHasBeenFetched()) {
-	      this.props.hide();
+	    if (SessionStore.isUserSignedIn()) {
 	      hashHistory.push("/photos");
+	      // this.props.hide();
 	    }
 	  },
 	  handleSubmit: function handleSubmit(e) {
-	    // debugger
+	    //
 	    e.preventDefault();
 	    var formData = {
 	      email: this.state.email,
@@ -33620,16 +33626,17 @@
 	
 	    SessionActions.signIn(formData);
 	    ErrorActions.clearErrors();
-	    this.redirectIfSignedIn();
-	    this.props.hide();
+	    // this.redirectIfSignedIn();
+	    // this.props.hide();
 	  },
 	  _demoSubmit: function _demoSubmit() {
 	    var formData = {
 	      email: this.state.email,
 	      password: this.state.password
 	    };
-	    SessionActions.signIn(formData);
-	    ErrorActions.clearErrors();
+	    SessionActions.signIn({ email: 'demo@example.com', password: 'password' });
+	    hashHistory.push('/photos');
+	    // ErrorActions.clearErrors();
 	    // this.redirectIfSignedIn();
 	    // this.props.hide();
 	  },
@@ -33647,7 +33654,7 @@
 	      email: "",
 	      password: ""
 	    });
-	    ErrorActions.clearErrors();
+	    // ErrorActions.clearErrors();
 	    var email = "demo@example.com";
 	    var emailIndex = 0;
 	    var password = "password";
@@ -33780,7 +33787,8 @@
 	var _form = "";
 	
 	function setErrors(payload) {
-	  _errors = payload.errors.errors;
+	
+	  _errors = payload.errors;
 	  _form = payload.form;
 	  ErrorStore.__emitChange();
 	}
@@ -33792,6 +33800,7 @@
 	}
 	
 	ErrorStore.__onDispatch = function (payload) {
+	
 	  switch (payload.actionType) {
 	    case ErrorConstants.SET_ERRORS:
 	      setErrors(payload);
@@ -54242,55 +54251,7 @@
 	}));
 
 /***/ },
-/* 404 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(232);
-	var UserActions = __webpack_require__(405);
-	var Splash = __webpack_require__(408);
-	var PhotoIndex = __webpack_require__(409);
-	
-	var Explore = React.createClass({
-	  displayName: 'Explore',
-	  getInitialState: function getInitialState() {
-	    return { currentUser: SessionStore.currentUser() };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.sessionListener = SessionStore.addListener(this._onChange);
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.sessionListener.remove();
-	  },
-	  _onChange: function _onChange() {
-	    this.setState({ currentUser: SessionStore.currentUser() });
-	  },
-	  render: function render() {
-	    var feed = void 0;
-	    if (this.state.currentUser) {
-	      feed = React.createElement(PhotoIndex, {
-	        __self: this
-	      });
-	    } else {
-	      feed = React.createElement(Splash, {
-	        __self: this
-	      });
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'explore', __self: this
-	      },
-	      feed
-	    );
-	  }
-	});
-	
-	module.exports = Explore;
-
-/***/ },
+/* 404 */,
 /* 405 */
 /***/ function(module, exports, __webpack_require__) {
 

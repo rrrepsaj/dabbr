@@ -31,14 +31,14 @@ const SigninForm = React.createClass({
   },
 
   redirectIfSignedIn() {
-    if (SessionStore.currentUserHasBeenFetched()) {
-      this.props.hide();
+    if (SessionStore.isUserSignedIn()) {
       hashHistory.push("/photos");
+      // this.props.hide();
     }
   },
 
   handleSubmit(e) {
-    // debugger
+    //
     e.preventDefault();
     const formData = {
       email: this.state.email,
@@ -47,8 +47,8 @@ const SigninForm = React.createClass({
 
     SessionActions.signIn(formData);
     ErrorActions.clearErrors();
-    this.redirectIfSignedIn();
-    this.props.hide();
+    // this.redirectIfSignedIn();
+    // this.props.hide();
   },
 
   _demoSubmit() {
@@ -56,8 +56,9 @@ const SigninForm = React.createClass({
       email: this.state.email,
       password: this.state.password
     };
-    SessionActions.signIn(formData);
-    ErrorActions.clearErrors();
+    SessionActions.signIn({ email: 'demo@example.com', password: 'password'});
+    hashHistory.push('/photos');
+    // ErrorActions.clearErrors();
     // this.redirectIfSignedIn();
     // this.props.hide();
   },
@@ -71,7 +72,7 @@ const SigninForm = React.createClass({
       email: "",
       password: ""
     });
-    ErrorActions.clearErrors();
+    // ErrorActions.clearErrors();
     let email = "demo@example.com";
     let emailIndex = 0;
     let password = "password";

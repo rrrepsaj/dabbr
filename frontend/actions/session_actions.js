@@ -24,16 +24,16 @@ const SessionActions = {
   },
 
   fetchCurrentUser() {
-    debugger
     SessionApiUtil.fetchCurrentUser(
       SessionActions.receiveCurrentUser);
   },
 
-  receiveCurrentUser(currentUser) {
+  receiveCurrentUser(user) {
     AppDispatcher.dispatch({
       actionType: SessionConstants.SIGNIN,
-      currentUser: currentUser
+      currentUser: user
     });
+    hashHistory.push('/photos');
   },
 
   removeCurrentUser() {

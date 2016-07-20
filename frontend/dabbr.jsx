@@ -10,7 +10,6 @@ const hashHistory = ReactRouter.hashHistory;
 //Components
 const App = require('./components/App');
 const AlbumDetail = require('./components/album_detail');
-const Explore = require('./components/explore');
 const PhotoDetail = require('./components/photo_detail');
 const PhotoEditForm = require('./components/photo_edit_form');
 const PhotoForm = require('./components/photo_form');
@@ -46,6 +45,7 @@ function _ensureSignedIn(nextState, replace) {
 
 document.addEventListener('DOMContentLoaded', function() {
   if (window.currentUser) {
+
     SessionActions.receiveCurrentUser(window.currentUser);
   }
 
