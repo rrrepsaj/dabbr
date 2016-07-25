@@ -64,8 +64,8 @@
 	var PhotoIndex = __webpack_require__(409);
 	var SigninForm = __webpack_require__(264);
 	var SignupForm = __webpack_require__(275);
-	var Splash = __webpack_require__(411);
-	var UserDetail = __webpack_require__(412);
+	var Splash = __webpack_require__(410);
+	var UserDetail = __webpack_require__(411);
 	//Auth
 	var SessionStore = __webpack_require__(232);
 	var SessionActions = __webpack_require__(257);
@@ -54600,8 +54600,7 @@
 	module.exports = PhotoIndex;
 
 /***/ },
-/* 410 */,
-/* 411 */
+/* 410 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54672,7 +54671,7 @@
 	module.exports = Splash;
 
 /***/ },
-/* 412 */
+/* 411 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54687,8 +54686,8 @@
 	
 	var PhotoIndexItem = __webpack_require__(296);
 	var AlbumDetail = __webpack_require__(278);
-	var UserPhotoIndex = __webpack_require__(413);
-	var UserAlbumIndex = __webpack_require__(414);
+	var UserPhotoIndex = __webpack_require__(412);
+	var UserAlbumIndex = __webpack_require__(413);
 	
 	var UserDetail = React.createClass({
 	  displayName: 'UserDetail',
@@ -54803,7 +54802,7 @@
 	module.exports = UserDetail;
 
 /***/ },
-/* 413 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -54847,7 +54846,7 @@
 	module.exports = UserPhotoIndex;
 
 /***/ },
-/* 414 */
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
