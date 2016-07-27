@@ -41,8 +41,23 @@ const AlbumDetail = React.createClass({
           backgroundImage: 'url(' + photo.photo_url + ')'
         }
         let photoPath = `/photos/${photo.id}`;
+        let userPath = `/users/1`;
         return (
           <Link to={photoPath}><img src={photo.photo_url} key={photo.id} /></Link>
+
+          // TODO: figure out why this doesn't display each item
+          // <div className="view photo-list-photo-view">
+          //   <div className="interaction-view">
+          //     <div className="photo-list-photo-interaction">
+          //       <Link className="overlay" to={photoPath}><img src={photo.photo_url} key={photo.id} /></Link>
+          //       <div className="interation-bar">
+          //         <Link className="title" to={photoPath}>{photo.title}</Link>
+          //
+          //         <Link to={userPath}>by {this.state.album.user.username}</Link>
+          //       </div>
+          //     </div>
+          //   </div>
+          // </div>
         );
       });
 
@@ -100,10 +115,10 @@ const AlbumDetail = React.createClass({
             </div>
           </div>
 
-         <div className="album-photo-view">
+          <div className="album-photo-view">
            {associatedPhotos}
            {noPhotos}
-         </div>
+          </div>
 
           <div className="view pagination-view"></div>
 

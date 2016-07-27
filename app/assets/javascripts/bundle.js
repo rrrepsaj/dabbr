@@ -34937,13 +34937,29 @@
 	          backgroundImage: 'url(' + photo.photo_url + ')'
 	        };
 	        var photoPath = '/photos/' + photo.id;
+	        var userPath = '/users/1';
 	        return React.createElement(
 	          Link,
 	          { to: photoPath, __self: _this
 	          },
 	          React.createElement('img', { src: photo.photo_url, key: photo.id, __self: _this
 	          })
-	        );
+	        )
+	
+	        // TODO: figure out why this doesn't display each item
+	        // <div className="view photo-list-photo-view">
+	        //   <div className="interaction-view">
+	        //     <div className="photo-list-photo-interaction">
+	        //       <Link className="overlay" to={photoPath}><img src={photo.photo_url} key={photo.id} /></Link>
+	        //       <div className="interation-bar">
+	        //         <Link className="title" to={photoPath}>{photo.title}</Link>
+	        //
+	        //         <Link to={userPath}>by {this.state.album.user.username}</Link>
+	        //       </div>
+	        //     </div>
+	        //   </div>
+	        // </div>
+	        ;
 	      });
 	
 	      var noPhotos = void 0;
