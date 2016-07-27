@@ -28,7 +28,7 @@ const Splash = React.createClass({
         <div className="landing">
           <div className="center-panel">
             <div className="center-text-box">
-              <h1>A picture is worth a thousand fucks.</h1>
+              <h1>A picture is worth a thousand words.</h1>
               <h6>Share your photos here</h6>
               <button className="splash-signup-btn signup-btn" onClick={this.showSignup}>Get started</button>
               <ScaleModal ref="signupModal" modalStyle={modalStyle}>

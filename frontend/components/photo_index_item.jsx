@@ -51,12 +51,14 @@ const PhotoIndexItem = React.createClass({
 		const albumRoute = this.props.photo.album ? `/albums/${this.props.photo.album.id}` : `/photos/${photo.id}`;
 		const albumTitle = this.props.photo.album ? `${this.props.photo.album.title} ` : ``;
 
+		console.log(photo);
+
 		return (
 			<div className="card clearfix">
 				<div className="photo-container">
 					<div className="photo-wrapper">
 						<div className="session-photo-wrapper">
-							<img className="main-session-photo" photo={photo} src={photo.photo_url} width="750px" />
+							<img className="main-session-photo" photo={photo} src={photo.thumbnail_url} width="750px" />
 			      </div>
 						<div className="sub-photo-view">
 							<span className="buddy-icon" onClick={this.redirectToUserProfile}>
