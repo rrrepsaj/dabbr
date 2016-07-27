@@ -64,8 +64,8 @@
 	var PhotoIndex = __webpack_require__(418);
 	var SigninForm = __webpack_require__(264);
 	var SignupForm = __webpack_require__(275);
-	var Splash = __webpack_require__(566);
-	var UserDetail = __webpack_require__(567);
+	var Splash = __webpack_require__(420);
+	var UserDetail = __webpack_require__(421);
 	//Auth
 	var SessionStore = __webpack_require__(232);
 	var SessionActions = __webpack_require__(257);
@@ -55878,7 +55878,7 @@
 	
 	var Masonry = __webpack_require__(279);
 	// const InfiniteScroll = require('react-infinite-scroll')(React);
-	var InfiniteScroll = __webpack_require__(570);
+	var InfiniteScroll = __webpack_require__(419);
 	
 	var PhotoStore = __webpack_require__(298);
 	var PhotoActions = __webpack_require__(260);
@@ -55967,537 +55967,7 @@
 	module.exports = PhotoIndex;
 
 /***/ },
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */,
-/* 436 */,
-/* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */,
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */,
-/* 453 */,
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */,
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */,
-/* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */,
-/* 488 */,
-/* 489 */,
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */,
-/* 495 */,
-/* 496 */,
-/* 497 */,
-/* 498 */,
-/* 499 */,
-/* 500 */,
-/* 501 */,
-/* 502 */,
-/* 503 */,
-/* 504 */,
-/* 505 */,
-/* 506 */,
-/* 507 */,
-/* 508 */,
-/* 509 */,
-/* 510 */,
-/* 511 */,
-/* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */,
-/* 521 */,
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */,
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */,
-/* 544 */,
-/* 545 */,
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */,
-/* 553 */,
-/* 554 */,
-/* 555 */,
-/* 556 */,
-/* 557 */,
-/* 558 */,
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var SignupForm = __webpack_require__(275);
-	var DropModal = __webpack_require__(276);
-	var ScaleModal = __webpack_require__(266);
-	
-	var ErrorActions = __webpack_require__(255);
-	
-	var Splash = React.createClass({
-	  displayName: 'Splash',
-	  showSignup: function showSignup() {
-	    ErrorActions.clearErrors();
-	    this.refs.signupModal.show();
-	  },
-	  render: function render() {
-	    var modalStyle = {
-	      width: '35%',
-	      top: '55%'
-	    };
-	    return React.createElement(
-	      'div',
-	      {
-	        __self: this
-	      },
-	      React.createElement(
-	        'div',
-	        { className: 'splash', __self: this
-	        },
-	        React.createElement(
-	          'video',
-	          { className: 'background-video', autoPlay: true, loop: true, __self: this
-	          },
-	          React.createElement('source', { src: 'http://res.cloudinary.com/deqbn35yx/video/upload/ac_none/v1467886396/VLT_Very_Large_Telescope_HD_Timelapse_Footage_z78wxh.mp4',
-	            type: 'video/mp4', __self: this
-	          })
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'landing', __self: this
-	        },
-	        React.createElement(
-	          'div',
-	          { className: 'center-panel', __self: this
-	          },
-	          React.createElement(
-	            'div',
-	            { className: 'center-text-box', __self: this
-	            },
-	            React.createElement(
-	              'h1',
-	              {
-	                __self: this
-	              },
-	              'A picture is worth a thousand words.'
-	            ),
-	            React.createElement(
-	              'h6',
-	              {
-	                __self: this
-	              },
-	              'Share your photos here'
-	            ),
-	            React.createElement(
-	              'button',
-	              { className: 'splash-signup-btn signup-btn', onClick: this.showSignup, __self: this
-	              },
-	              'Get started'
-	            ),
-	            React.createElement(
-	              ScaleModal,
-	              { ref: 'signupModal', modalStyle: modalStyle, __self: this
-	              },
-	              React.createElement(SignupForm, {
-	                __self: this
-	              })
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = Splash;
-
-/***/ },
-/* 567 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var Masonry = __webpack_require__(279);
-	
-	var SessionStore = __webpack_require__(232);
-	var UserStore = __webpack_require__(414);
-	
-	var UserActions = __webpack_require__(416);
-	
-	var PhotoIndexItem = __webpack_require__(296);
-	var AlbumDetail = __webpack_require__(278);
-	var UserPhotoIndex = __webpack_require__(568);
-	var UserAlbumIndex = __webpack_require__(569);
-	
-	var UserDetail = React.createClass({
-	  displayName: 'UserDetail',
-	  getInitialState: function getInitialState() {
-	    return {
-	      currentUser: SessionStore.currentUser(),
-	      user: UserStore.userProfile()
-	      // userProfile: UserStore.userProfile()
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.userListener = UserStore.addListener(this._onUserChange);
-	    this.currentUserListener = SessionStore.addListener(this._onSessionChange);
-	    UserActions.fetchUserProfile(parseInt(this.props.params.userId));
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.userListener.remove();
-	    this.currentUserListener.remove();
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-	    UserActions.fetchUserProfile(parseInt(newProps.params.userId));
-	  },
-	  _onUserChange: function _onUserChange() {
-	    this.setState({ user: UserStore.userProfile() });
-	  },
-	  _onSessionChange: function _onSessionChange() {
-	    this.setState({ currentUser: SessionStore.currentUser() });
-	  },
-	  showUserPhotos: function showUserPhotos() {},
-	  showUserAlbums: function showUserAlbums() {},
-	  render: function render() {
-	    var style = {
-	      backgroundImage: 'url(http://res.cloudinary.com/deqbn35yx/image/upload/v1467969503/mnts8v7c5ca6kvv2n3gy.jpg)'
-	    };
-	    return React.createElement(
-	      'div',
-	      { className: 'profile-splash', style: style, __self: this
-	      },
-	      React.createElement(
-	        'div',
-	        { className: 'album-container fluid-centered', __self: this
-	        },
-	        React.createElement(
-	          'div',
-	          { className: 'view album-header-view justified-transitions justified', __self: this
-	          },
-	          React.createElement(
-	            'div',
-	            { className: 'album-header-content-profile', __self: this
-	            },
-	            React.createElement('div', { className: 'dimming-shim-transparent-bg', __self: this
-	            }),
-	            React.createElement('div', { className: 'flex-padding', __self: this
-	            }),
-	            React.createElement(
-	              'div',
-	              { className: 'view album-title-desc-view', __self: this
-	              },
-	              React.createElement(
-	                'div',
-	                { className: 'title-desc-block', __self: this
-	                },
-	                React.createElement(
-	                  'div',
-	                  { className: 'album-title', __self: this
-	                  },
-	                  'dabbr™'
-	                ),
-	                React.createElement('br', {
-	                  __self: this
-	                }),
-	                React.createElement('hr', {
-	                  __self: this
-	                }),
-	                React.createElement('br', {
-	                  __self: this
-	                }),
-	                React.createElement(
-	                  'div',
-	                  { className: 'album-description', __self: this
-	                  },
-	                  'by Jasper Chen'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'view album-stats-view justified', __self: this
-	              },
-	              React.createElement(
-	                'div',
-	                { className: 'stats-container', __self: this
-	                },
-	                React.createElement(
-	                  'span',
-	                  { className: 'photo-counts aa-cred', __self: this
-	                  },
-	                  'App Academy / May 09, 2016 cohort'
-	                ),
-	                ' '
-	              )
-	            ),
-	            React.createElement('div', { className: 'flex-padding', __self: this
-	            })
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserDetail;
-
-/***/ },
-/* 568 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	var UserPhotoIndex = React.createClass({
-	  displayName: "UserPhotoIndex",
-	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      { className: "photolist-container fluid-centered", __self: this
-	      },
-	      React.createElement(
-	        "div",
-	        { className: "photolist-empty hidden", __self: this
-	        },
-	        React.createElement(
-	          "h4",
-	          {
-	            __self: this
-	          },
-	          "You have no photos"
-	        ),
-	        React.createElement("a", { "class": "butt medium", href: "/photos/upload", __self: this
-	        })
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "view photo-list-view photostream", __self: this
-	        },
-	        React.createElement("div", { className: "view photo-list-photo-view photostream awake", __self: this
-	        })
-	      ),
-	      React.createElement("div", { className: "view pagination-view photostream", __self: this
-	      })
-	    );
-	  }
-	});
-	
-	module.exports = UserPhotoIndex;
-
-/***/ },
-/* 569 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	var UserAlbumIndex = React.createClass({
-	  displayName: "UserAlbumIndex",
-	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      {
-	        __self: this
-	      },
-	      React.createElement(
-	        "div",
-	        { className: "view album-list-toolbar-view fluid-centered", __self: this
-	        },
-	        React.createElement(
-	          "div",
-	          { className: "album-toolbar-content", __self: this
-	          },
-	          React.createElement(
-	            "a",
-	            { "class": "create-album", href: "/albums/new", __self: this
-	            },
-	            React.createElement("i", {
-	              __self: this
-	            }),
-	            React.createElement(
-	              "span",
-	              {
-	                __self: this
-	              },
-	              "Create new album"
-	            )
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "albums-list-container fluid-centered", __self: this
-	        },
-	        React.createElement(
-	          "div",
-	          { className: "view photo-list-view", __self: this
-	          },
-	          React.createElement(
-	            "div",
-	            { className: "view photo-list-album-view awake", __self: this
-	            },
-	            React.createElement(
-	              "a",
-	              { className: "interaction-view avatar photo-list-album album ginormous", href: "#", __self: this
-	              },
-	              React.createElement(
-	                "div",
-	                { className: "photo-list-album-interaction dark has-actions", __self: this
-	                },
-	                React.createElement("a", { className: "overlay", href: "#", __self: this
-	                }),
-	                React.createElement(
-	                  "div",
-	                  { className: "interaction-bar", __self: this
-	                  },
-	                  React.createElement(
-	                    "div",
-	                    { className: "metadata", __self: this
-	                    },
-	                    React.createElement("h4", { "class": "album-title", __self: this
-	                    }),
-	                    React.createElement("span", { "class": "album-photo-count secondary", __self: this
-	                    })
-	                  ),
-	                  React.createElement(
-	                    "div",
-	                    { className: "actions", __self: this
-	                    },
-	                    React.createElement(
-	                      "a",
-	                      { className: "share cta", title: "Share this album", __self: this
-	                      },
-	                      React.createElement("span", {
-	                        __self: this
-	                      })
-	                    ),
-	                    React.createElement(
-	                      "a",
-	                      { className: "download cta", title: "Download", __self: this
-	                      },
-	                      React.createElement("span", {
-	                        __self: this
-	                      })
-	                    ),
-	                    React.createElement(
-	                      "a",
-	                      { className: "trash cta", title: "Delete this album", __self: this
-	                      },
-	                      React.createElement("span", {
-	                        __self: this
-	                      })
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserAlbumIndex;
-
-/***/ },
-/* 570 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -56641,6 +56111,389 @@
 	};
 	module.exports = exports['default'];
 
+
+/***/ },
+/* 420 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SignupForm = __webpack_require__(275);
+	var DropModal = __webpack_require__(276);
+	var ScaleModal = __webpack_require__(266);
+	
+	var ErrorActions = __webpack_require__(255);
+	
+	var Splash = React.createClass({
+	  displayName: 'Splash',
+	  showSignup: function showSignup() {
+	    ErrorActions.clearErrors();
+	    this.refs.signupModal.show();
+	  },
+	  render: function render() {
+	    var modalStyle = {
+	      width: '35%',
+	      top: '55%'
+	    };
+	    return React.createElement(
+	      'div',
+	      {
+	        __self: this
+	      },
+	      React.createElement(
+	        'div',
+	        { className: 'splash', __self: this
+	        },
+	        React.createElement(
+	          'video',
+	          { className: 'background-video', autoPlay: true, loop: true, __self: this
+	          },
+	          React.createElement('source', { src: 'http://res.cloudinary.com/deqbn35yx/video/upload/ac_none/v1467886396/VLT_Very_Large_Telescope_HD_Timelapse_Footage_z78wxh.mp4',
+	            type: 'video/mp4', __self: this
+	          })
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'landing', __self: this
+	        },
+	        React.createElement(
+	          'div',
+	          { className: 'center-panel', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'center-text-box', __self: this
+	            },
+	            React.createElement(
+	              'h1',
+	              {
+	                __self: this
+	              },
+	              'A picture is worth a thousand words.'
+	            ),
+	            React.createElement(
+	              'h6',
+	              {
+	                __self: this
+	              },
+	              'Share your photos here'
+	            ),
+	            React.createElement(
+	              'button',
+	              { className: 'splash-signup-btn signup-btn', onClick: this.showSignup, __self: this
+	              },
+	              'Get started'
+	            ),
+	            React.createElement(
+	              ScaleModal,
+	              { ref: 'signupModal', modalStyle: modalStyle, __self: this
+	              },
+	              React.createElement(SignupForm, {
+	                __self: this
+	              })
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Splash;
+
+/***/ },
+/* 421 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Masonry = __webpack_require__(279);
+	
+	var SessionStore = __webpack_require__(232);
+	var UserStore = __webpack_require__(414);
+	
+	var UserActions = __webpack_require__(416);
+	
+	var PhotoIndexItem = __webpack_require__(296);
+	var AlbumDetail = __webpack_require__(278);
+	var UserPhotoIndex = __webpack_require__(422);
+	var UserAlbumIndex = __webpack_require__(423);
+	
+	var UserDetail = React.createClass({
+	  displayName: 'UserDetail',
+	  getInitialState: function getInitialState() {
+	    return {
+	      currentUser: SessionStore.currentUser(),
+	      user: UserStore.userProfile()
+	      // userProfile: UserStore.userProfile()
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.userListener = UserStore.addListener(this._onUserChange);
+	    this.currentUserListener = SessionStore.addListener(this._onSessionChange);
+	    UserActions.fetchUserProfile(parseInt(this.props.params.userId));
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.userListener.remove();
+	    this.currentUserListener.remove();
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+	    UserActions.fetchUserProfile(parseInt(newProps.params.userId));
+	  },
+	  _onUserChange: function _onUserChange() {
+	    this.setState({ user: UserStore.userProfile() });
+	  },
+	  _onSessionChange: function _onSessionChange() {
+	    this.setState({ currentUser: SessionStore.currentUser() });
+	  },
+	  showUserPhotos: function showUserPhotos() {},
+	  showUserAlbums: function showUserAlbums() {},
+	  render: function render() {
+	    var style = {
+	      backgroundImage: 'url(http://res.cloudinary.com/deqbn35yx/image/upload/v1467969503/mnts8v7c5ca6kvv2n3gy.jpg)'
+	    };
+	    return React.createElement(
+	      'div',
+	      { className: 'profile-splash', style: style, __self: this
+	      },
+	      React.createElement(
+	        'div',
+	        { className: 'album-container fluid-centered', __self: this
+	        },
+	        React.createElement(
+	          'div',
+	          { className: 'view album-header-view justified-transitions justified', __self: this
+	          },
+	          React.createElement(
+	            'div',
+	            { className: 'album-header-content-profile', __self: this
+	            },
+	            React.createElement('div', { className: 'dimming-shim-transparent-bg', __self: this
+	            }),
+	            React.createElement('div', { className: 'flex-padding', __self: this
+	            }),
+	            React.createElement(
+	              'div',
+	              { className: 'view album-title-desc-view', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'title-desc-block', __self: this
+	                },
+	                React.createElement(
+	                  'div',
+	                  { className: 'album-title', __self: this
+	                  },
+	                  'dabbr™'
+	                ),
+	                React.createElement('br', {
+	                  __self: this
+	                }),
+	                React.createElement('hr', {
+	                  __self: this
+	                }),
+	                React.createElement('br', {
+	                  __self: this
+	                }),
+	                React.createElement(
+	                  'div',
+	                  { className: 'album-description', __self: this
+	                  },
+	                  'by Jasper Chen'
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'view album-stats-view justified', __self: this
+	              },
+	              React.createElement(
+	                'div',
+	                { className: 'stats-container', __self: this
+	                },
+	                React.createElement(
+	                  'span',
+	                  { className: 'photo-counts aa-cred', __self: this
+	                  },
+	                  'App Academy / May 09, 2016 cohort'
+	                ),
+	                ' '
+	              )
+	            ),
+	            React.createElement('div', { className: 'flex-padding', __self: this
+	            })
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserDetail;
+
+/***/ },
+/* 422 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var UserPhotoIndex = React.createClass({
+	  displayName: "UserPhotoIndex",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "photolist-container fluid-centered", __self: this
+	      },
+	      React.createElement(
+	        "div",
+	        { className: "photolist-empty hidden", __self: this
+	        },
+	        React.createElement(
+	          "h4",
+	          {
+	            __self: this
+	          },
+	          "You have no photos"
+	        ),
+	        React.createElement("a", { "class": "butt medium", href: "/photos/upload", __self: this
+	        })
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "view photo-list-view photostream", __self: this
+	        },
+	        React.createElement("div", { className: "view photo-list-photo-view photostream awake", __self: this
+	        })
+	      ),
+	      React.createElement("div", { className: "view pagination-view photostream", __self: this
+	      })
+	    );
+	  }
+	});
+	
+	module.exports = UserPhotoIndex;
+
+/***/ },
+/* 423 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var UserAlbumIndex = React.createClass({
+	  displayName: "UserAlbumIndex",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      {
+	        __self: this
+	      },
+	      React.createElement(
+	        "div",
+	        { className: "view album-list-toolbar-view fluid-centered", __self: this
+	        },
+	        React.createElement(
+	          "div",
+	          { className: "album-toolbar-content", __self: this
+	          },
+	          React.createElement(
+	            "a",
+	            { "class": "create-album", href: "/albums/new", __self: this
+	            },
+	            React.createElement("i", {
+	              __self: this
+	            }),
+	            React.createElement(
+	              "span",
+	              {
+	                __self: this
+	              },
+	              "Create new album"
+	            )
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "albums-list-container fluid-centered", __self: this
+	        },
+	        React.createElement(
+	          "div",
+	          { className: "view photo-list-view", __self: this
+	          },
+	          React.createElement(
+	            "div",
+	            { className: "view photo-list-album-view awake", __self: this
+	            },
+	            React.createElement(
+	              "a",
+	              { className: "interaction-view avatar photo-list-album album ginormous", href: "#", __self: this
+	              },
+	              React.createElement(
+	                "div",
+	                { className: "photo-list-album-interaction dark has-actions", __self: this
+	                },
+	                React.createElement("a", { className: "overlay", href: "#", __self: this
+	                }),
+	                React.createElement(
+	                  "div",
+	                  { className: "interaction-bar", __self: this
+	                  },
+	                  React.createElement(
+	                    "div",
+	                    { className: "metadata", __self: this
+	                    },
+	                    React.createElement("h4", { "class": "album-title", __self: this
+	                    }),
+	                    React.createElement("span", { "class": "album-photo-count secondary", __self: this
+	                    })
+	                  ),
+	                  React.createElement(
+	                    "div",
+	                    { className: "actions", __self: this
+	                    },
+	                    React.createElement(
+	                      "a",
+	                      { className: "share cta", title: "Share this album", __self: this
+	                      },
+	                      React.createElement("span", {
+	                        __self: this
+	                      })
+	                    ),
+	                    React.createElement(
+	                      "a",
+	                      { className: "download cta", title: "Download", __self: this
+	                      },
+	                      React.createElement("span", {
+	                        __self: this
+	                      })
+	                    ),
+	                    React.createElement(
+	                      "a",
+	                      { className: "trash cta", title: "Delete this album", __self: this
+	                      },
+	                      React.createElement("span", {
+	                        __self: this
+	                      })
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserAlbumIndex;
 
 /***/ }
 /******/ ]);
