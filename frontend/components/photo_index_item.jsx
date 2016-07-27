@@ -4,6 +4,7 @@ const PhotoDetail = require('./photo_detail');
 const FontAwesome = require('react-fontawesome');
 const FadeModal = require('boron/FadeModal');
 const hashHistory = require('react-router').hashHistory;
+const swal = require('sweetalert');
 
 // const CloudinaryUtil = require('../util/cloudinary_util');
 
@@ -40,13 +41,15 @@ const PhotoIndexItem = React.createClass({
 			hashHistory.push(`/albums/${albumId}`);
 		} else {
 			alert("This photo doesn't belong to an album.");
+			// swal({ title: "Album <small>missing</small>!", text: "<span style='color:#F8BB86'>No album<span> matches this photo. Sorry!", html: true });
+			// swal("No album matches this photo!");
 		}
 	},
 
   render () {
 		let photo = this.props.photo;
 		const albumRoute = this.props.photo.album ? `/albums/${this.props.photo.album.id}` : `/photos/${photo.id}`;
-		const albumTitle = this.props.photo.album ? `${this.props.photo.album.title} ` : `--`;
+		const albumTitle = this.props.photo.album ? `${this.props.photo.album.title} ` : ``;
 
 		return (
 			<div className="card clearfix">

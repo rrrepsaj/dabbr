@@ -478,6 +478,12 @@ button.signup-btn {
   background: url(https://s.yimg.com/pw/images/spaceout.gif);
 }
 
+.photo-wrapper .thin-facade:hover {
+  opacity: 0.4;
+  background: #fff;
+  transition-duration: 1s;
+}
+
 .card .sub-photo-view {
   background-color: white;
   position: absolute;
