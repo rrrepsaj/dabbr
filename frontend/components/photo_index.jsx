@@ -1,12 +1,15 @@
 const React = require('react');
+
 const Masonry = require('react-masonry-component');
 // const InfiniteScroll = require('react-infinite-scroll')(React);
+const InfiniteScroll = require('react-infinite-scroller');
+
 const PhotoStore = require('../stores/photo_store');
 const PhotoActions = require('../actions/photo_actions');
 const PhotoIndexItem = require('./photo_index_item');
 const ScaleModal = require('boron/ScaleModal');
 
-const Paginate = require('react-paginate-component');
+// const Paginate = require('react-paginate-component');
 
 const masonryOptions = {
   isFitWidth: true,
@@ -70,12 +73,11 @@ const PhotoIndex = React.createClass({
     shuffle(indexItems);
 
     return (
-      <Masonry className="my-gallery-class" elementType='ul' options={masonryOptions}>
-        {/*<InfiniteScroll pageStart={0} loadMore={this.loadMore} hasMore={this.hasMore()} loader={<div className="loader">Loading...</div>}>
+      <InfiniteScroll pageStart={0} loadMore={this.loadMore} hasMore={this.hasMore()} loader={<div className="loader">Loading...</div>}>
+        <Masonry className="my-gallery-class" elementType='ul' options={masonryOptions}>
           {indexItems.slice(0, this.state.loaded)}
-        </InfiniteScroll>*/}
-        {indexItems}
-      </Masonry>
+        </Masonry>
+      </InfiniteScroll>
     );
   }
 });
