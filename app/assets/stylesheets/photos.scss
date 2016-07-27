@@ -30,14 +30,31 @@ img.detail-image {
 
 .photo-details-widget {
   border-radius: 3px;
-  margin: 30px;
+  // margin: 30px;
+  opacity: 0.3;
   padding: 20px;
   color: #fff;
   background-color: rgba(21, 21, 23, 0.75);
-  width: 500px;
+  // width: 500px;
+  width: 100%;
   h1 {
     font-size: 30px;
   }
+  -webkit-transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  -ms-transition: all 1s ease-out;
+  transition: all 1s ease-out;
+}
+
+.photo-details-widget:hover {
+  opacity: 0.8;
+  -webkit-transition: all 1s ease-in;
+  -moz-transition: all 1s ease-in;
+  -o-transition: all 1s ease-in;
+  -ms-transition: all 1s ease-in;
+  transition: all 1s ease-in;
+  // transition-duration: 1s;
 }
 
 .photo-details-list {
