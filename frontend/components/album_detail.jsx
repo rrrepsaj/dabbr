@@ -35,6 +35,9 @@ const AlbumDetail = React.createClass({
   },
 
   render() {
+
+    console.log(this.state.album);
+
     if (this.state.album) {
       let associatedPhotos = this.state.album.photos.map(photo => {
         let style = {
@@ -43,7 +46,7 @@ const AlbumDetail = React.createClass({
         let photoPath = `/photos/${photo.id}`;
         let userPath = `/users/1`;
         return (
-          <Link to={photoPath}><img src={photo.photo_url} key={photo.id} /></Link>
+          <Link to={photoPath}><img src={photo.thumbnail_url} key={photo.id} /></Link>
 
           // TODO: figure out why this doesn't display each item
           // <div className="view photo-list-photo-view">

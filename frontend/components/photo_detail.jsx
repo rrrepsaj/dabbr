@@ -17,6 +17,7 @@ const PhotoDetail = React.createClass({
         userId: null,
         albumId: null,
         url: '',
+        thumbnail_url: '',
         user: { username: '' },
         album: { title: '' }
       }

@@ -51,7 +51,7 @@ const PhotoIndexItem = React.createClass({
 		const albumRoute = this.props.photo.album ? `/albums/${this.props.photo.album.id}` : `/photos/${photo.id}`;
 		const albumTitle = this.props.photo.album ? `${this.props.photo.album.title} ` : ``;
 
-		console.log(photo);
+		// console.log(photo);
 
 		return (
 			<div className="card clearfix">

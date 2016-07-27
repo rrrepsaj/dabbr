@@ -34931,6 +34931,8 @@
 	  render: function render() {
 	    var _this = this;
 	
+	    console.log(this.state.album);
+	
 	    if (this.state.album) {
 	      var associatedPhotos = this.state.album.photos.map(function (photo) {
 	        var style = {
@@ -34942,7 +34944,7 @@
 	          Link,
 	          { to: photoPath, __self: _this
 	          },
-	          React.createElement('img', { src: photo.photo_url, key: photo.id, __self: _this
+	          React.createElement('img', { src: photo.thumbnail_url, key: photo.id, __self: _this
 	          })
 	        )
 	
@@ -39844,7 +39846,7 @@
 			var albumRoute = this.props.photo.album ? '/albums/' + this.props.photo.album.id : '/photos/' + photo.id;
 			var albumTitle = this.props.photo.album ? this.props.photo.album.title + ' ' : '';
 	
-			console.log(photo);
+			// console.log(photo);
 	
 			return React.createElement(
 				'div',
@@ -39969,6 +39971,7 @@
 	      userId: null,
 	      albumId: null,
 	      url: '',
+	      thumbnail_url: '',
 	      user: { username: '' },
 	      album: { title: '' }
 	    };
