@@ -5,9 +5,25 @@ const FontAwesome = require('react-fontawesome');
 const FadeModal = require('boron/FadeModal');
 const hashHistory = require('react-router').hashHistory;
 
+// const CloudinaryUtil = require('../util/cloudinary_util');
+
 const Moment = require('moment');
 
 const PhotoIndexItem = React.createClass({
+	// getInitialState() {
+	// 	return (
+	// 		{
+	// 			photoUrl: CloudinaryUtil.image(this.props.photo.url, {
+	// 				width: size[this.props.size],
+	// 				crop: "limit",
+	// 				alt: this.props.photo.title
+	// 			}),
+	// 			user: this.props.photo.user,
+	// 			avatarUrl: this.props.photo.user.avatar_url
+	// 		}
+	// 	);
+	// },
+
 	redirectToShow() {
 		const photoId = this.props.photo.id;
 		hashHistory.push(`/photos/${photoId}`);
@@ -20,12 +36,17 @@ const PhotoIndexItem = React.createClass({
 
 	redirectToAlbum() {
 		const albumId = this.props.photo.album ? this.props.photo.album.id : "";
-		hashHistory.push(`/albums/${albumId}`);
+		if (this.props.photo.album) {
+			hashHistory.push(`/albums/${albumId}`);
+		} else {
+			alert("This photo doesn't belong to an album.");
+		}
 	},
 
   render () {
 		let photo = this.props.photo;
-		const albumRoute = this.props.photo.album ? `/albums/${this.props.photo.album.id}` : ``;
+		const albumRoute = this.props.photo.album ? `/albums/${this.props.photo.album.id}` : `/photos/${photo.id}`;
+		const albumTitle = this.props.photo.album ? `${this.props.photo.album.title} ` : `--`;
 
 		return (
 			<div className="card clearfix">
@@ -40,7 +61,7 @@ const PhotoIndexItem = React.createClass({
 							</span>
 							<span className="photo-details">
 								<div className="name">
-									<span className="username" onClick={this.redirectToUserProfile}>{photo.user.username} </span>
+									<span className="username" onClick={this.redirectToUserProfile}> {photo.user.username} </span>
 									<span className="activity-item-date">
 										 · { Moment(photo.created_at).fromNow() }
 										<span className="recommended">{/* · Recommended */}</span>
@@ -53,8 +74,8 @@ const PhotoIndexItem = React.createClass({
 							</span>
 							<ul className="photo-engagement">
 								<li className="album-name">
-									{/*<Link to={albumRoute} ><i class="fa fa-book" onClick={this.redirectToAlbum} aria-hidden="true"></i></Link>*/}
-									<Link to={albumRoute} key={this.props.photo.id}>Album</Link>
+									{/*<Link to={albumRoute} key={this.props.photo.id}>{albumTitle} <i className="fa fa-book"></i></Link>*/}
+									<span onClick={this.redirectToAlbum}>{albumTitle} <i className="fa fa-book"></i></span>
 				        </li>
 			      	</ul>
 		        </div>

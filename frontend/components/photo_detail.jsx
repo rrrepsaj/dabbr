@@ -5,6 +5,8 @@ const PhotoActions = require('../actions/photo_actions');
 const PhotoStore = require('../stores/photo_store');
 const AlbumStore = require('../stores/album_store');
 
+// const CloudinaryUtil = require('../util/cloudinary_util');
+
 const PhotoDetail = React.createClass({
   getInitialState() {
     return (
