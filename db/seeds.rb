@@ -102,6 +102,100 @@ SPACE_WALLPAPERS = [
   "https://res.cloudinary.com/deqbn35yx/image/upload/v1468904186/space%20wallpapers/zZxwQ9s.jpg"
 ]
 
+SPACE_WALLPAPERS_THUMBNAILS = [
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904172/space%20wallpapers/1H6JYWH.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904175/space%20wallpapers/35Vv9SE.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904171/space%20wallpapers/3uVnDXv.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904171/space%20wallpapers/3yamfwD.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904175/space%20wallpapers/41mUMjv.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904177/space%20wallpapers/4289nyZ.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904176/space%20wallpapers/5lOpD6q.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904174/space%20wallpapers/5oKFC99.png",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904176/space%20wallpapers/65ux6u5.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904174/space%20wallpapers/6SflI8T.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904173/space%20wallpapers/6YNQ8oo.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904174/space%20wallpapers/7UXYO2v.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904174/space%20wallpapers/8VtKX7m.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904177/space%20wallpapers/AcHIxrZ.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904177/space%20wallpapers/aep8iYg.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904177/space%20wallpapers/ASvfaZz.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/bHeua0x.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/bNIjZFI.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904172/space%20wallpapers/BPbV1sI.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904172/space%20wallpapers/C0FxNge.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904172/space%20wallpapers/cplXyB9.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904172/space%20wallpapers/cqQPcwY.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904172/space%20wallpapers/cRJIxQU.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904172/space%20wallpapers/cWa31CI.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904173/space%20wallpapers/d4HTHLn.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904173/space%20wallpapers/DcXdzZD.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904173/space%20wallpapers/dEoVbGM.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904174/space%20wallpapers/DovXsb8.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904174/space%20wallpapers/DrpdDaR.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904175/space%20wallpapers/dws0ouk.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904176/space%20wallpapers/dzBG7Lv.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904176/space%20wallpapers/e22ThLd.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904176/space%20wallpapers/E7xIZhR.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904177/space%20wallpapers/f3EkPYd.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904177/space%20wallpapers/FgnAFbn.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904177/space%20wallpapers/FQg4Smh.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/FWE7lq9.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/gFqQ0wz.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/GgimzYF.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/gHG2SCQ.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/gOV3A9n.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904179/space%20wallpapers/gtQleoO.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904178/space%20wallpapers/gxhZpEQ.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904179/space%20wallpapers/h87CV3E.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904179/space%20wallpapers/HBPMWY2.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904179/space%20wallpapers/HErJnuC.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904180/space%20wallpapers/hLGH5uk.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904179/space%20wallpapers/ho13B5Y.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904179/space%20wallpapers/Im0JGyU.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904180/space%20wallpapers/IQMvO6T.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904180/space%20wallpapers/IZXI25D.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904180/space%20wallpapers/jZd5CmL.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904180/space%20wallpapers/kITTstY.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904180/space%20wallpapers/ky1DeyK.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904181/space%20wallpapers/L3nJtTp.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904180/space%20wallpapers/lNlxSzK.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904181/space%20wallpapers/lsikHS0.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904181/space%20wallpapers/MP84GDv.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904181/space%20wallpapers/My4w4x8.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904181/space%20wallpapers/Mya9kCh.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904181/space%20wallpapers/MZ1WPRP.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904181/space%20wallpapers/NAJk1Ug.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904182/space%20wallpapers/NvQ5Tq4.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904182/space%20wallpapers/NYLVaCL.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904182/space%20wallpapers/Ocb68tB.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904182/space%20wallpapers/oP8qicG.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904182/space%20wallpapers/pUTkBEj.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904182/space%20wallpapers/Q6lvD2i.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904183/space%20wallpapers/qP6UM4H.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904184/space%20wallpapers/r4ien5x.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904183/space%20wallpapers/r7Aw4Qt.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/rP71Q5Q.png",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904183/space%20wallpapers/rxF4HLf.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904183/space%20wallpapers/s5ymPAe.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904184/space%20wallpapers/Sh2MUph.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904184/space%20wallpapers/UiZyRzR.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904184/space%20wallpapers/UjO72L2.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904184/space%20wallpapers/uPP8LVU.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/v3yJIJt.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/vkKo1rz.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/vWIdu7i.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/wDK1jJM.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/wjwVSd6.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/WNaJ9vb.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904186/space%20wallpapers/XebDpgg.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904186/space%20wallpapers/xHRJORX.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904185/space%20wallpapers/ZDRc3nh.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904186/space%20wallpapers/zH38b9F.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904186/space%20wallpapers/zkCf7U7.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904186/space%20wallpapers/zWBvjHo.jpg",
+  "https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_750/v1468904186/space%20wallpapers/zZxwQ9s.jpg"
+]
+
 # 47 Scenery wallpapers
 
 SCENERY_WALLPAPERS = [
@@ -227,8 +321,12 @@ end
 
 ### Photos ###
 
+# SPACE_WALLPAPERS.take(5).count.times do |index|
+#   Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index], user_id: 1, album_id: 1)
+# end
+
 SPACE_WALLPAPERS.take(5).count.times do |index|
-  Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index], user_id: 1, album_id: 1)
+  Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index], thumbnail_url: SPACE_WALLPAPERS_THUMBNAILS[index], user_id: 1, album_id: 1)
 end
 
 # Photos may or may not belong to album
@@ -237,6 +335,10 @@ ten_album_ids = (1..10).to_a
 random_album = Array.new(1, nil)
 random_album += ten_album_ids
 
+# SPACE_WALLPAPERS.drop(5).count.times do |index|
+#   Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index + 5], user_id: (2..49).to_a.sample, album_id: random_album.sample)
+# end
+
 SPACE_WALLPAPERS.drop(5).count.times do |index|
-  Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index + 5], user_id: (2..50).to_a.sample, album_id: random_album.sample)
+  Photo.create!(title: Faker::StarWars.planet, description: Faker::StarWars.quote, photo_url: SPACE_WALLPAPERS[index + 5], thumbnail_url: SPACE_WALLPAPERS_THUMBNAILS[index + 5], user_id: (2..50).to_a.sample, album_id: random_album.sample)
 end
