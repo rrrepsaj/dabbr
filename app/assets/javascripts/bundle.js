@@ -34931,9 +34931,10 @@
 	  render: function render() {
 	    var _this = this;
 	
-	    console.log(this.state.album);
+	    if (
 	
-	    if (this.state.album) {
+	    // console.log(this.state.album);
+	    this.state.album) {
 	      var associatedPhotos = this.state.album.photos.map(function (photo) {
 	        var style = {
 	          backgroundImage: 'url(' + photo.photo_url + ')'
@@ -39964,6 +39965,7 @@
 	var PhotoDetail = React.createClass({
 	  displayName: 'PhotoDetail',
 	  getInitialState: function getInitialState() {
+	    console.log(this.props.params);
 	    return {
 	      id: this.props.params.photoId,
 	      title: '',

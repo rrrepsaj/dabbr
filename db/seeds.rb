@@ -295,7 +295,7 @@ DEFAULT_AVATAR_URLS = [
   "https://res.cloudinary.com/deqbn35yx/image/upload/v1467966850/128_1_tokg1m.jpg"
 ]
 
-SPACE_WALLPAPERS.shuffle!
+# SPACE_WALLPAPERS.shuffle!
 SCENERY_WALLPAPERS.shuffle!
 DEFAULT_AVATAR_URLS.shuffle!
 

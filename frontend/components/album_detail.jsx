@@ -36,7 +36,7 @@ const AlbumDetail = React.createClass({
 
   render() {
 
-    console.log(this.state.album);
+    // console.log(this.state.album);
 
     if (this.state.album) {
       let associatedPhotos = this.state.album.photos.map(photo => {
