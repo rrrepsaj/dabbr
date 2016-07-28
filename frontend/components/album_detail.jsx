@@ -1,16 +1,21 @@
 const React = require('react');
 const hashHistory = require('react-router').hashHistory;
 const Link = require('react-router').Link;
-const Masonry = require('react-masonry-component');
+
+// const Masonry = require('react-masonry-component');
+// const layoutGeometry = require('justified-layout')([1.33, 1, 0.65]);
+
 const AlbumActions = require('../actions/album_actions');
 const AlbumStore = require('../stores/album_store');
-const PhotoIndexItem = require('./photo_index_item');
-const SessionStore = require('../stores/session_store');
+// const PhotoIndexItem = require('./photo_index_item');
+// const SessionStore = require('../stores/session_store');
+
+const JustifiedLayout = require('react-justified-layout');
 
 const AlbumDetail = React.createClass({
   getInitialState() {
     let id = parseInt(this.props.params.albumId);
-    let album = AlbumStore.find(id);
+    let album = AlbumStore.find(id); // Something wrong with AlbumStore.find
     return {album: album};
   },
 
@@ -35,9 +40,6 @@ const AlbumDetail = React.createClass({
   },
 
   render() {
-
-    // console.log(this.state.album);
-
     if (this.state.album) {
       let associatedPhotos = this.state.album.photos.map(photo => {
         let style = {
@@ -123,18 +125,26 @@ const AlbumDetail = React.createClass({
            {noPhotos}
           </div>
 
+          {/*<JustifiedLayout>
+            {associatedPhotos}
+          </JustifiedLayout>*/}
+
           <div className="view pagination-view"></div>
 
         </div>
       );
     } else {
+      console.log(this.state.album);
+      console.log(this.props);
       return (
         <div>
-          <p>Loading</p>
+          {/*<p>Loading</p>*/}
+          <img className="loading" src="https://res.cloudinary.com/deqbn35yx/image/upload/c_scale,w_50/v1469675388/ripple_wlqzyy.gif" alt="Loading ripples" />
         </div>
       );
     }
   }
+
 
 });
 
