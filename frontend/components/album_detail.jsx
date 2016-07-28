@@ -2,7 +2,7 @@ const React = require('react');
 const hashHistory = require('react-router').hashHistory;
 const Link = require('react-router').Link;
 
-// const Masonry = require('react-masonry-component');
+const Masonry = require('react-masonry-component');
 // const layoutGeometry = require('justified-layout')([1.33, 1, 0.65]);
 
 const AlbumActions = require('../actions/album_actions');
@@ -48,7 +48,7 @@ const AlbumDetail = React.createClass({
         let photoPath = `/photos/${photo.id}`;
         let userPath = `/users/1`;
         return (
-          <Link to={photoPath}><img src={photo.thumbnail_url} key={photo.id} /></Link>
+          <Link to={photoPath} key={photo.id}><img src={photo.thumbnail_url} /></Link>
 
           // TODO: figure out why this doesn't display each item
           // <div className="view photo-list-photo-view">
@@ -77,7 +77,9 @@ const AlbumDetail = React.createClass({
       let userProfilePath = `/user/${this.state.album.user_id}`;
 
       const masonryOptions = {
-        isFitWidth: true
+        isFitWidth: true,
+        gutter: 10,
+        transitionDuration: 0
       };
 
       const style = {
@@ -125,8 +127,20 @@ const AlbumDetail = React.createClass({
            {noPhotos}
           </div>
 
-          {/*<JustifiedLayout>
-            {associatedPhotos}
+          {/*<div className="album-photo-view">
+            <Masonry
+              className={'my-gallery-class'}
+              //style={style}
+              elementType={'ul'}
+              options={masonryOptions}
+              diableImagesLoaded={false}
+              updateOnEachImageLoad={false}>
+              {associatedPhotos}
+            </Masonry>
+          </div>*/}
+
+          {/*<JustifiedLayout targetRowHeight={100}>
+            <div style={{ height: 100, width: 100 }}>{associatedPhotos}</div>
           </JustifiedLayout>*/}
 
           <div className="view pagination-view"></div>

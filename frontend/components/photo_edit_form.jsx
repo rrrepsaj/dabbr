@@ -36,6 +36,20 @@ const PhotoEditForm = React.createClass({
     this.setState({ description: e.currentTarget.value });
   },
 
+  // _uploadPhoto(e) {
+  //   e.preventDefault();
+  //   cloudinary.openUploadWidget(
+  //     window.cloudinary_options,
+  //     function(error, images) {
+  //       if (error === null) {
+  //         //
+  //         let url = images[0].url;
+  //         this.setState({ photo_url: url });
+  //       }
+  //     }.bind(this)
+  //   );
+  // },
+
   handleChange() {
     let potential = PhotoStore.find(this.props.params.photoId);
     let photo = potential ? potential : {};

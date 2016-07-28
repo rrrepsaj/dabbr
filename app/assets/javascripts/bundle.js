@@ -34900,7 +34900,7 @@
 	var hashHistory = __webpack_require__(168).hashHistory;
 	var Link = __webpack_require__(168).Link;
 	
-	// const Masonry = require('react-masonry-component');
+	var Masonry = __webpack_require__(413);
 	// const layoutGeometry = require('justified-layout')([1.33, 1, 0.65]);
 	
 	var AlbumActions = __webpack_require__(279);
@@ -34945,9 +34945,9 @@
 	        var userPath = '/users/1';
 	        return React.createElement(
 	          Link,
-	          { to: photoPath, __self: _this
+	          { to: photoPath, key: photo.id, __self: _this
 	          },
-	          React.createElement('img', { src: photo.thumbnail_url, key: photo.id, __self: _this
+	          React.createElement('img', { src: photo.thumbnail_url, __self: _this
 	          })
 	        )
 	
@@ -34983,7 +34983,9 @@
 	      var userProfilePath = '/user/' + this.state.album.user_id;
 	
 	      var masonryOptions = {
-	        isFitWidth: true
+	        isFitWidth: true,
+	        gutter: 10,
+	        transitionDuration: 0
 	      };
 	
 	      var style = {
@@ -40375,6 +40377,22 @@
 	  changeDescription: function changeDescription(e) {
 	    this.setState({ description: e.currentTarget.value });
 	  },
+	
+	
+	  // _uploadPhoto(e) {
+	  //   e.preventDefault();
+	  //   cloudinary.openUploadWidget(
+	  //     window.cloudinary_options,
+	  //     function(error, images) {
+	  //       if (error === null) {
+	  //         //
+	  //         let url = images[0].url;
+	  //         this.setState({ photo_url: url });
+	  //       }
+	  //     }.bind(this)
+	  //   );
+	  // },
+	
 	  handleChange: function handleChange() {
 	    var potential = PhotoStore.find(this.props.params.photoId);
 	    var photo = potential ? potential : {};

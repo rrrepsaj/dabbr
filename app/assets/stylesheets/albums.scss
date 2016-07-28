@@ -394,6 +394,19 @@ span.no-photos {
   align-content: space-around;
   flex-direction: row;
   flex-wrap: wrap;
+
+  // width:100%;
+  // display:flex;
+  // justify-content: center;
+  // align-items: center;
+  // margin-bottom: 109px;
+  // flex-wrap: wrap;
+}
+
+.album-photo-view:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
 .album-photo-view img {
