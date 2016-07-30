@@ -45,7 +45,7 @@ const SessionApiUtil = {
       success,
       error: function (xhr) {
         console.log("Error in SessionApiUtil#fetchCurrentUser");
-        console.log(success);
+        // console.log(success);
       }
     });
   }

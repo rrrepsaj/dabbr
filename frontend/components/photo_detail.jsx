@@ -9,7 +9,7 @@ const AlbumStore = require('../stores/album_store');
 
 const PhotoDetail = React.createClass({
   getInitialState() {
-    console.log(this.props.params);
+    // console.log(this.props.params);
     return (
       {
         id: this.props.params.photoId,
