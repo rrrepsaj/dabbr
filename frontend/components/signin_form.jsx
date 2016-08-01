@@ -104,8 +104,6 @@ const SigninForm = React.createClass({
   },
 
   render() {
-    console.log(ErrorStore.formErrors("signin")["base"]);
-    console.log(this.fieldErrors("base"));
     return (
 			<div className="signin-form-container">
 				<form onSubmit={this.handleSubmit} className="signin-form-box">

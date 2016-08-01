@@ -33699,8 +33699,6 @@
 	    );
 	  },
 	  render: function render() {
-	    console.log(ErrorStore.formErrors("signin")["base"]);
-	    console.log(this.fieldErrors("base"));
 	    return React.createElement(
 	      'div',
 	      { className: 'signin-form-container', __self: this
@@ -34495,7 +34493,7 @@
 	    );
 	  },
 	  render: function render() {
-	    console.log(ErrorStore.formErrors("signup"));
+	    // console.log(ErrorStore.formErrors("signup"));
 	
 	    return React.createElement(
 	      'div',

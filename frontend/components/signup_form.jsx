@@ -67,7 +67,7 @@ const SignupForm = React.createClass({
   },
 
   render() {
-    console.log(ErrorStore.formErrors("signup"));
+    // console.log(ErrorStore.formErrors("signup"));
 
     return (
 			<div className="signup-form-container">
