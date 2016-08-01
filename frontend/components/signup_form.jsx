@@ -54,22 +54,29 @@ const SignupForm = React.createClass({
     return (e) => this.setState({[property]: e.currentTarget.value});
   },
 
+  fieldErrors(field) {
+    const errors = ErrorStore.formErrors("signup");
+    if (!errors[field]) {
+      return;
+    }
+    const messages = errors[field].map((errorMsg, i) => {
+      return <li key={i} className='errors'>{errorMsg}</li>;
+    });
+
+    return <ul> { messages } </ul>
+  },
+
   render() {
+    console.log(ErrorStore.formErrors("signup"));
+
     return (
 			<div className="signup-form-container">
 				<form onSubmit={this.handleSubmit} className="signup-form-box">
 
           <h1>Sign Up</h1>
 
-          {/*Display errors*/}
           <div className="errors">
-            <ul className="errors">
-              {
-                ErrorStore.errors().map(error => {
-                  return <li className="form-errors" key={error}>{error}</li>
-                })
-              }
-            </ul>
+            { this.fieldErrors("base") }
           </div>
 
 					<div className="signup-form">

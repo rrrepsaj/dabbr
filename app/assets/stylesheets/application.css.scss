@@ -213,13 +213,31 @@ body {
   }
 }
 
-.errors {
+// .errors {
+//   display: flex;
+//   justify-content: center;
+// }
+//
+// .errors ul {
+//   padding-left: 0;
+// }
+
+div.errors {
   display: flex;
   justify-content: center;
 }
 
-.errors ul {
+div.errors ul {
   padding-left: 0;
+  margin: 0;
+  padding: auto;
+  text-align: center;
+}
+
+div.errors ul > li {
+  color: #a14545;
+  cursor: text;
+  margin: auto;
 }
 
 .signin-signup ul {
@@ -287,17 +305,17 @@ body {
 //   padding: 30px;
 // }
 
-ul.errors {
-  margin: 0;
-  padding: auto;
-  text-align: center;
-}
+// ul.errors {
+//   margin: 0;
+//   padding: auto;
+//   text-align: center;
+// }
 
-.signin-signup ul li.form-errors {
-  color: #a14545;
-  cursor: text;
-  margin: auto;
-}
+// .signin-signup ul li.form-errors {
+//   color: #a14545;
+//   cursor: text;
+//   margin: auto;
+// }
 
 /* SIGN IN SIGN UP */
 

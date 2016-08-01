@@ -91,14 +91,28 @@ const SigninForm = React.createClass({
     }, 75);
   },
 
+  fieldErrors(field) {
+    const errors = ErrorStore.formErrors("signin");
+    if (!errors[field]) {
+      return;
+    }
+    const messages = errors[field].map((errorMsg, i) => {
+      return <li key={i} className='errors'>{errorMsg}</li>;
+    });
+
+    return <ul> { messages } </ul>
+  },
+
   render() {
+    console.log(ErrorStore.formErrors("signin")["base"]);
+    console.log(this.fieldErrors("base"));
     return (
 			<div className="signin-form-container">
 				<form onSubmit={this.handleSubmit} className="signin-form-box">
           <h1>Sign In</h1>
 
           {/*Display errors*/}
-          <div className="errors">
+          {/*<div className="errors">
             <ul className="errors">
               {
                 ErrorStore.errors().map(error => {
@@ -106,6 +120,10 @@ const SigninForm = React.createClass({
                 })
               }
             </ul>
+          </div>*/}
+
+          <div className="errors">
+            { this.fieldErrors("base") }
           </div>
 
 					<div className="signin-form">
